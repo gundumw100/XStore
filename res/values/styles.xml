@@ -1,0 +1,168 @@
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="Theme_Dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/bg_picker_dialog</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    
+    <!-- 带底色的Radio -->
+    <style name="Theme_Radio">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/bg_rb</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:textColor">@color/grayLight</item>
+        <item name="android:textSize">@dimen/font_small_s</item>
+    </style>
+    
+    <!-- 带底色的Radio -->
+    <style name="Theme_Radio_2">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@drawable/bg_rb</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
+    
+    <!-- 带底色的Button -->
+    <style name="Theme_Button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@drawable/bg_btn_primary</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/font_middle</item>
+   	</style>
+   	<!-- 带边框撑满宽度的EditText -->
+    <style name="Theme_EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_edittext</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/grayDark</item>
+        <item name="android:textSize">@dimen/font_middle</item>
+   	</style>
+   	<!-- 带边框撑满宽度的商品编码EditText -->
+   	<style name="Theme_ProdNum" parent="Theme_EditText">
+   	    <item name="android:layout_gravity">start|center_vertical</item>
+   	    <item name="android:hint">请输入商品编码</item>
+   	    <item name="android:inputType">text</item>
+   	    <item name="android:maxLength">20</item>
+   	</style>
+   	<!-- 带边框平均宽度的TextView -->
+     <style name="Theme_TextView" parent="Theme_EditText">
+         <item name="android:layout_weight">1</item>
+         <item name="android:gravity">center</item>
+     </style>
+     
+     <!-- 带图标的IconTextView -->
+     <style name="Theme_IconTextView">
+         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/grayDark</item>
+        <item name="android:textSize">@dimen/font_4xbig</item>
+     </style>
+     
+     <!-- 普通的TextView -->
+     <style name="Theme_CommTextView">
+         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/grayDark</item>
+        <item name="android:textSize">@dimen/font_middle</item>
+     </style>
+     
+      <style name="radio_main">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">@color/grayDark</item>
+        <item name="android:paddingTop">4dp</item>
+    </style>
+    
+    <style name="text_tip">
+        <item name="android:layout_width">@dimen/text_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">@color/grayDark</item>
+    </style>
+    
+    <style name="text_field_gray">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">@color/grayDark</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/bg_textview_gray_light</item>
+    </style>
+    
+    <style name="text_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/bg_btn</item>
+        <item name="android:gravity">center</item>
+    </style>
+    
+    <style name="SwitchButtonMD">
+		<item name="kswThumbDrawable">@drawable/ksw_md_thumb</item>
+		<item name="kswBackColor">@color/ksw_md_back_color</item>
+		<item name="kswThumbRangeRatio">1.45</item>
+		<item name="kswThumbMarginLeft">-16dp</item>
+		<item name="kswThumbMarginTop">-14dp</item>
+		<item name="kswThumbMarginRight">-16dp</item>
+		<item name="kswThumbMarginBottom">-14dp</item>
+		<item name="kswThumbWidth">@dimen/ksw_md_thumb_ripple_size</item>
+		<item name="kswThumbHeight">@dimen/ksw_md_thumb_ripple_size</item>
+	</style>
+	
+    <style name="SwitchButtonStyle">
+		<item name="android:paddingLeft">10dp</item>
+		<item name="android:paddingRight">10dp</item>
+		<item name="android:paddingTop">4dp</item>
+		<item name="android:paddingBottom">4dp</item>
+	</style>
+	
+</resources>

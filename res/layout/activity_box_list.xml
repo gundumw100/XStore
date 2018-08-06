@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_boxNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:singleLine="true"
+            android:text="箱数：0"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+
+        <TextView
+            android:id="@+id/tv_productNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:singleLine="true"
+            android:text="商品总数：0"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="horizontal"
+        >
+        <EditText
+            android:id="@+id/et_text"
+            style="@style/Theme_ProdNum"
+            android:layout_weight="1"
+            android:maxLength="30"
+            android:hint="请输入货箱编码" />
+
+        <TextView
+            android:id="@+id/btn_ok"
+            style="@style/Theme_Button"
+            android:layout_gravity="end|center_vertical"
+            android:text="@string/ok" />
+        
+        <TextView
+            android:id="@+id/btn_clear"
+            style="@style/Theme_Button"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginLeft="4dp"
+            android:text="@string/clear" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grayLight"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="货箱编码"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/font_middle" />
+
+        <TextView
+            android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+            android:gravity="right"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="商品数量"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent" />
+
+</LinearLayout>

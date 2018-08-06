@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_middle" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp" >
+
+        <EditText
+            android:id="@+id/et_serial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:background="@drawable/bg_edittext"
+            android:hint="请输入货架编号"
+            android:maxLength="10"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textSize="@dimen/font_middle" />
+
+        <ImageView
+            android:id="@+id/iv_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:padding="8dp"
+            android:src="@drawable/ic_scan_small" />
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/et_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_edittext"
+        android:hint="数量"
+        android:inputType="number"
+        android:maxLength="5"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:textSize="@dimen/font_middle" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_left"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_primary"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/ok"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_middle" />
+        <Space 
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            />
+        <Button
+            android:id="@+id/btn_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_gray"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/cancel"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+
+</LinearLayout>

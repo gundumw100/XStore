@@ -1,0 +1,204 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="top|left"
+                android:hint="请输入标题...(20字)"
+                android:maxLength="20"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="top|left"
+                android:hint="请输入内容..."
+                android:lines="5"
+                android:maxLength="500"
+                android:padding="8dp"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <LinearLayout 
+                android:id="@+id/layout_saleNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="horizontal"
+                >
+	            <EditText
+	                android:id="@+id/et_saleNo"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:background="@drawable/bg_edittext"
+	                android:gravity="top|left"
+	                android:hint="请输入小票号(晒单必填)"
+	                android:maxLength="50"
+	                android:padding="8dp"
+	                android:singleLine="true"
+	                android:textColor="@color/grayDark"
+	                android:textSize="@dimen/font_middle" />
+                <TextView 
+                    android:id="@+id/btn_saleNo"
+                    android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:paddingTop="8dp"
+	                android:paddingBottom="8dp"
+	                android:paddingLeft="8dp"
+	                android:paddingRight="8dp"
+	                android:layout_marginLeft="4dp"
+	                android:singleLine="true"
+	                android:textColor="@android:color/white"
+	                android:textSize="@dimen/font_middle"
+	                android:background="@drawable/bg_btn_primary"
+	                android:text="查看小票"
+                    />
+            </LinearLayout>
+            
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:alignmentMode="alignMargins"
+                android:background="@drawable/shape_frame_dash"
+                android:columnCount="3"
+                android:orientation="horizontal"
+                android:padding="4dp" >
+
+                <ImageView
+                    android:id="@+id/btn_0"
+                    android:layout_width="@dimen/match_img_width"
+                    android:layout_height="@dimen/match_img_width"
+                    android:padding="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/upload_image"
+                    android:tag="0" />
+
+                <ImageView
+                    android:id="@+id/btn_1"
+                    android:layout_width="@dimen/match_img_width"
+                    android:layout_height="@dimen/match_img_width"
+                    android:padding="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/upload_image"
+                    android:tag="1" />
+
+                <ImageView
+                    android:id="@+id/btn_2"
+                    android:layout_width="@dimen/match_img_width"
+                    android:layout_height="@dimen/match_img_width"
+                    android:padding="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/upload_image"
+                    android:tag="2" />
+
+                <ImageView
+                    android:id="@+id/btn_3"
+                    android:layout_width="@dimen/match_img_width"
+                    android:layout_height="@dimen/match_img_width"
+                    android:padding="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/upload_image"
+                    android:tag="3" />
+
+                <ImageView
+                    android:id="@+id/btn_4"
+                    android:layout_width="@dimen/match_img_width"
+                    android:layout_height="@dimen/match_img_width"
+                    android:padding="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/upload_image"
+                    android:tag="4" />
+
+                <ImageView
+                    android:id="@+id/btn_5"
+                    android:layout_width="@dimen/match_img_width"
+                    android:layout_height="@dimen/match_img_width"
+                    android:padding="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/upload_image"
+                    android:tag="5" />
+            </GridLayout>
+
+            <GridLayout
+                android:id="@+id/gridLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:alignmentMode="alignMargins"
+                android:background="@drawable/shape_frame_dash"
+                android:columnCount="3"
+                android:orientation="horizontal"
+                android:padding="4dp" >
+
+                <ImageView
+                    android:id="@+id/btn_add_file"
+                    android:layout_width="@dimen/match_img_width"
+                    android:layout_height="@dimen/match_img_width"
+                    android:padding="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/upload_file"
+                    />
+            </GridLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="horizontal" >
+
+                <CheckBox
+                    android:id="@+id/cb_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="在首页展示"
+                    android:textColor="@color/grayDark"
+                    android:textSize="@dimen/font_middle" />
+
+            </LinearLayout>
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="提示信息：\n.上传图片推荐使用png, jpg, jpeg类型;\n.上传文件只支持3gp,mp4,ppt,pptx;\n.文件大小不能超过10MB;"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/font_middle"
+                android:layout_margin="8dp"
+                />
+            
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

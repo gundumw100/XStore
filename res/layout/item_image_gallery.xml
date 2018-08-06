@@ -1,0 +1,7 @@
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_0"
+    android:layout_width="112dp"
+    android:layout_height="112dp"
+    android:scaleType="centerCrop"
+    android:src="@drawable/default_img" 
+    />

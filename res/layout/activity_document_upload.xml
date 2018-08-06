@@ -1,0 +1,162 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp" >
+
+        <TextView
+            android:id="@+id/tv_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="单据："
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+
+        <TextView
+            android:id="@+id/et_locId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:text="货架:"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+
+        <RadioGroup
+            android:id="@+id/rg_floor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <RadioButton
+                android:id="@+id/rb_0_floor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="分楼层(货位)"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <RadioButton
+                android:id="@+id/rb_1_floor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="不分楼层(无货位)"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/btn_floor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext"
+            android:gravity="center"
+            android:hint="选择货位"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:singleLine="true"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle"
+            android:visibility="gone" />
+
+        <RadioGroup
+            android:id="@+id/rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rb_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="分区域盘点"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <RadioButton
+                android:id="@+id/rb_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="不分区域"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/btn_areaCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext"
+            android:gravity="center"
+            android:hint="选择分区"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:singleLine="true"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+
+        <EditText
+            android:id="@+id/et_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_edittext"
+            android:gravity="left|top"
+            android:hint="请添加备注"
+            android:maxLength="200"
+            android:minLines="4"
+            android:padding="8dp"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+
+    <com.widget.flowlayout.TagFlowLayout
+        android:id="@+id/tagLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:multi_suppout="false" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp" >
+
+        <TextView
+            android:id="@+id/btn_upload"
+            style="@style/Theme_Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="确定上传" />
+    </LinearLayout>
+
+</LinearLayout>

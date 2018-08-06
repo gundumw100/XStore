@@ -1,0 +1,189 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="4dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/btn_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
+            android:gravity="center"
+            android:hint="单据状态"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:singleLine="true"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/btn_startDate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center"
+                android:hint="日期"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:singleLine="true"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <com.widget.iconify.IconTextView
+                android:id="@+id/btn_clear_startDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:gravity="center"
+                android:padding="4dp"
+                android:singleLine="true"
+                android:text="{fa-close}"
+                android:textColor="@color/grayLight"
+                android:textSize="@dimen/font_4xbig" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:singleLine="true"
+            android:text="单据数："
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" 
+            android:layout_margin="8dp"
+            />
+        
+        <!--
+        <TextView
+            android:id="@+id/btn_endDate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
+            android:hint="结束日期"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:singleLine="true"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_small" 
+            android:layout_marginLeft="2dp"
+            />
+        -->
+
+<!-- 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/btn_userId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start|center_vertical"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center"
+                android:hint="操作人"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:singleLine="true"
+                android:textSize="@dimen/font_middle" />
+
+            <com.widget.iconify.IconTextView
+                android:id="@+id/btn_clear_userId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:gravity="center"
+                android:padding="4dp"
+                android:singleLine="true"
+                android:text="{fa-close}"
+                android:textColor="@color/grayLight"
+                android:textSize="@dimen/font_4xbig" />
+        </FrameLayout>
+        <TextView
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/bg_btn_primary"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:singleLine="true"
+            android:text="@string/search"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_middle"
+            android:visibility="gone" />
+ -->
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:cacheColorHint="@android:color/transparent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/btn_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_primary"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="添加单据"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_middle" />
+
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="16dp" />
+
+        <TextView
+            android:id="@+id/btn_clear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_gray"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="清空"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+
+</LinearLayout>

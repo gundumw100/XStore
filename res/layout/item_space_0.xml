@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    >
+
+    <!-- 
+    <com.widget.sortlist.RoundImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/item_0"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop" 
+        android:layout_margin="8dp"
+        app:border_thickness="2dp"
+        app:border_outside_color="@color/grayWhite"
+        />
+     -->
+    <ImageView
+        android:id="@+id/item_0"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop" 
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/item_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:textColor="@color/grayDark"
+        android:textSize="@dimen/font_middle" />
+
+    <TextView
+        android:id="@+id/item_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_margin="8dp"
+        android:textColor="@color/grayLight"
+        android:textSize="@dimen/font_middle" />
+    
+</LinearLayout>

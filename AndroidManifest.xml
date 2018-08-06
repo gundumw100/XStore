@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.app.xstore"
+    android:versionCode="2018080302"
+    android:versionName="V1.1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="21" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="false"
+        android:xlargeScreens="true" />
+
+     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Optional for location -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    
+    <application
+        android:name="com.app.xstore.App"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.app.xstore.UserAssistantLoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.app.xstore.MainActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.ThemeChangeActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.HelpActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.ProductActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.UserInfoActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.RegisterActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.SettingActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.SettingPrinterActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.RemoteManagementActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.CustomGoodsInfoActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.GoodsDetailActivity" android:screenOrientation="portrait" />
+        
+        <activity android:name="com.app.xstore.inventory.BoxDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.inventory.BoxListActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.inventory.InventoryActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.inventory.CreateDocumentActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.inventory.DocumentDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.inventory.DocumentListActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.inventory.DocumentListFromServerActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.inventory.DocumentUploadActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.inventory.SummaryERPActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.inventory.OfflineDocumentCreateActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.inventory.OfflineDocumentListActivity" android:screenOrientation="portrait" />
+        
+        <activity android:name="com.app.xstore.fitting.MagicBoxActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.fitting.FittingActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.fitting.FittingDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.fitting.SimpleDocumentListActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.fitting.SimpleCreateDocumentActivity" android:screenOrientation="portrait" />
+        
+        <activity android:name="com.app.xstore.member.MemberActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.member.MemberRegisterActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.member.MemberInfoActivity" android:screenOrientation="portrait" />
+        
+        <activity android:name="com.app.xstore.cashier.ShoppingCartActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.DiscountActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.PaymentTypeActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.PayCrashActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.PayCreditActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.PaymentActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.TradeListActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.TradeLocalListActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.TradeDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.TradeLocalDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.ReceiptActivity" android:screenOrientation="portrait" />
+        
+        <activity android:name="com.app.xstore.space.RefreshListActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.space.SpaceActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.space.SpaceListActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.space.SpacePublishActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.space.SpaceDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.space.SpacePublishResultActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.space.ImageActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.space.ImageGalleryActivity" android:screenOrientation="portrait" />
+        
+        <activity android:name="com.app.xstore.pandian.PanDianListActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.pandian.PanDianActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.pandian.ProductActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.pandian.ProductPanDianActivity" android:screenOrientation="portrait" />
+        
+        <activity android:name="com.app.xstore.pandian.custom.CustomPanDianDanListActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.pandian.custom.CustomPanDianActivity2" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.pandian.custom.CustomPanDianActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.pandian.custom.CustomPanDianUploadActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.pandian.custom.CustomGoodsInfoActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.shangpindangan.ShangPinDangAnActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.shangpindangan.ProductListActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.shangpindangan.ProductQueryBySkuActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.shangpindangan.ProductQueryByParamsActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.shangpindangan.ProductQueryListBySkuActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.shangpindangan.ProductQueryListByParamsActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.shangpindangan.ProductDetailActivity" android:screenOrientation="portrait" />
+        
+        <activity android:name="com.app.xstore.mendiankucun.KuCunQueryBySkuActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiankucun.MyFavoritesActivity" android:screenOrientation="portrait" />
+        
+        <activity android:name="com.app.xstore.mendiancaigouruku.CaiGouRuKuActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiancaigouruku.CaiGouRuKuCreateActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiancaigouruku.CaiGouRuKuCreateSecondActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiancaigouruku.CaiGouRuKuDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiandiaochu.MenDianDiaoChuActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiandiaochu.MenDianDiaoChuCreateActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiandiaochu.MenDianDiaoChuCreateSecondActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiandiaochu.FilterActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiandiaoru.MenDianDiaoRuActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiandiaoru.FilterActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiandiaoru.MenDianDiaoRuDetailActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name="com.widget.imagepicker.ImageSelectorActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" 
+            android:theme="@style/AppTheme"/>
+        <!-- 文件浏览器 -->
+        <activity
+            android:name="com.mb.exfilepicker.ExFilePickerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        
+        <activity
+            android:name="com.zxing.activity.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <!-- ActivityOnCrash 专用界面 -->
+        <activity
+            android:name="com.app.store.crash.DefaultErrorActivity"
+            android:process=":error_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.store.crash.CustomErrorActivity"
+            android:process=":error_activity"
+            android:screenOrientation="portrait" />
+
+        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
+		</service>
+		
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="D6804d8703d8e4578e525111771929ba" />
+            
+    </application>
+
+</manifest>

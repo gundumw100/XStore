@@ -1,0 +1,194 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:singleLine="true"
+                android:text="单据编号："
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <TextView
+                android:id="@+id/tv_locID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:singleLine="true"
+                android:text="货架："
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+
+        <!-- 
+        <LinearLayout
+            android:id="@+id/btn_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_box_t"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_primary"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="货箱录入"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_middle" />
+
+            <TextView
+                android:id="@+id/tv_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="箱数:0"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+ -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_yuNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:singleLine="true"
+                android:text="预点数："
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <TextView
+                android:id="@+id/tv_scanNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:singleLine="true"
+                android:text="扫描数："
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <EditText
+                android:id="@+id/et_prodID"
+                style="@style/Theme_ProdNum" />
+
+            <TextView
+                android:id="@+id/btn_ok"
+                style="@style/Theme_Button"
+                android:layout_gravity="end|center_vertical"
+                android:text="@string/ok" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/btn_summary"
+            style="@style/Theme_Button"
+            android:layout_marginLeft="4dp"
+            android:text="汇总"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/btn_check"
+            style="@style/Theme_Button"
+            android:layout_marginLeft="4dp"
+            android:text="校验" />
+
+        <TextView
+            android:id="@+id/btn_clear"
+            style="@style/Theme_Button"
+            android:layout_marginLeft="4dp"
+            android:text="清空" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grayLight"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="商品编码"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/font_middle" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="名称"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/font_middle" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="数量"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent" />
+
+</LinearLayout>

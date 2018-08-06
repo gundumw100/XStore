@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<com.android.volley.toolbox.NetworkImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/iv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@android:color/black"
+    android:scaleType="centerInside" />
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@android:color/black"
+    >
+
+    <com.widget.photoView.PhotoView
+        android:id="@+id/photoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="centerInside" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#33FFFFFF" >
+
+        <TextView
+            android:id="@+id/btn_replace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:padding="8dp"
+            android:text="替换图片"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_middle" />
+    </FrameLayout>
+
+</FrameLayout>

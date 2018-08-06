@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/tv_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_edittext"
+        android:maxLength="20"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:textSize="@dimen/font_small" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/grayLight"
+        android:dividerHeight="0.5dp"
+        android:listSelector="@android:color/holo_blue_light"
+        android:cacheColorHint="@android:color/transparent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_for_dialog"
+            android:text="取消"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_for_dialog"
+            android:text="添加"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+
+</LinearLayout>

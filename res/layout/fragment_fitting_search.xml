@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/btn_startDate"
+                style="@style/Theme_TextView"
+                android:layout_gravity="center_vertical"
+                android:hint="开始日期" />
+
+            <TextView
+                android:id="@+id/btn_endDate"
+                style="@style/Theme_TextView"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:hint="结束日期" />
+        </LinearLayout>
+
+        <!-- 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/et_num"
+                style="@style/Theme_EditText"
+                android:layout_weight="1"
+                android:hint="按单号查询"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/btn_search"
+                style="@style/Theme_Button"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginLeft="4dp"
+                android:text="@string/search" />
+
+            <TextView
+                android:id="@+id/btn_export"
+                style="@style/Theme_Button"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginLeft="4dp"
+                android:text="导出" />
+        </LinearLayout>
+         -->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grayLight"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/Theme_TextView"
+            android:background="@null"
+            android:text="单号" />
+
+        <TextView
+            style="@style/Theme_TextView"
+            android:background="@null"
+            android:text="时间" />
+
+        <TextView
+            android:layout_width="48dp"
+        	android:layout_height="wrap_content"
+            style="@style/Theme_TextView"
+            android:background="@null"
+            android:layout_weight="0"
+            android:text="数量" />
+
+        <TextView
+            android:layout_width="56dp"
+        	android:layout_height="wrap_content"
+            style="@style/Theme_TextView"
+            android:layout_weight="0"
+            android:background="@null"
+            android:text="店员" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent" />
+
+</LinearLayout>

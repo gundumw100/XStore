@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/item_0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text="国际条码"
+        android:textColor="@color/grayDark"
+        android:textSize="@dimen/font_middle" />
+
+    <TextView
+        android:id="@+id/item_1"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text="商品编码"
+        android:textColor="@color/grayDark"
+        android:textSize="@dimen/font_middle" />
+
+    <TextView
+        android:id="@+id/item_2"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text="数量"
+        android:textColor="@color/grayDark"
+        android:textSize="@dimen/font_middle" />
+
+</LinearLayout>

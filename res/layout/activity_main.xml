@@ -1,0 +1,81 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <include layout="@layout/actionbar_comm" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="64dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_small" />
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_small" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/grayLight" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/grayWhite"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/btn_0"
+            style="@style/radio_main"
+            android:drawableTop="@drawable/ic_menu_0"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/btn_1"
+            style="@style/radio_main"
+            android:drawableTop="@drawable/ic_menu_0"
+            android:text="会员"
+            />
+
+        <RadioButton
+            android:id="@+id/btn_2"
+            style="@style/radio_main"
+            android:drawableTop="@drawable/ic_menu_0"
+            android:text="商品" />
+
+        <RadioButton
+            android:id="@+id/btn_3"
+            style="@style/radio_main"
+            android:drawableTop="@drawable/ic_menu_0"
+            android:text="我的" />
+    </RadioGroup>
+</LinearLayout>

@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/et_productSku"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
+            android:hint="请输入商品款码或编码"
+            android:inputType="number"
+            android:padding="8dp"
+            android:textSize="@dimen/font_middle" />
+
+        <TextView
+            android:id="@+id/btn_ok"
+            style="@style/text_btn"
+            android:text="确定"
+            android:textSize="@dimen/font_middle" />
+
+        <TextView
+            android:id="@+id/btn_more_params"
+            style="@style/text_btn"
+            android:layout_marginLeft="4dp"
+            android:text="更多查询条件"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/rb_0"
+            style="@style/Theme_Radio_2"
+            android:text="最近浏览"
+            android:textSize="@dimen/font_middle" 
+            android:textColor="@color/textcolor_gray_white"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            style="@style/Theme_Radio_2"
+            android:text="最近上架"
+            android:textColor="@color/textcolor_gray_white"
+            android:textSize="@dimen/font_middle" />
+
+        <RadioButton
+            android:id="@+id/rb_2"
+            style="@style/Theme_Radio_2"
+            android:text="我的收藏"
+            android:textColor="@color/textcolor_gray_white"
+            android:textSize="@dimen/font_middle" />
+    </RadioGroup>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:cacheColorHint="@android:color/transparent"
+        android:padding="4dp"
+        android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/btn_clear"
+        style="@style/Theme_CommTextView"
+        android:layout_gravity="center_horizontal"
+        android:padding="8dp"
+        android:textColor="@color/grayMiddle"
+        android:text="清空浏览历史" />
+
+</LinearLayout>

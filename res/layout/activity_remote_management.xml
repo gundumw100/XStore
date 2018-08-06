@@ -1,0 +1,75 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_state"
+            style="@style/Theme_CommTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="网络状态" />
+
+        <ImageView
+            android:id="@+id/tv_rssi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="center"
+            android:src="@drawable/level_list" />
+
+        <TextView
+            android:id="@+id/tv_des"
+            style="@style/Theme_CommTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="打开后可以在计算机上管理本设备上的文件"
+            android:textSize="@dimen/font_small" />
+
+        <EditText
+            android:id="@+id/et_ftp"
+            style="@style/Theme_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="@dimen/font_big" />
+        
+        <TextView
+            style="@style/Theme_CommTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="请确保设备和计算机在同一局域网内"
+            android:textSize="@dimen/font_small" 
+            android:visibility="gone"
+            />
+        
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_ok"
+        style="@style/Theme_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:text="打开" />
+
+</FrameLayout>

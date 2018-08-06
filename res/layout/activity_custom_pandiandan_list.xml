@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm_inventory" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/btn_startDate"
+                style="@style/Theme_TextView"
+                android:layout_gravity="center_vertical"
+                android:hint="开始日期" />
+
+            <TextView
+                android:id="@+id/btn_endDate"
+                style="@style/Theme_TextView"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:gravity="center"
+                android:hint="结束日期" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:orientation="horizontal" >
+
+           
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/tv_userId"
+                    style="@style/Theme_TextView"
+                    android:layout_gravity="start|center_vertical"
+                    android:hint="操作人" />
+
+                <com.widget.iconify.IconTextView
+                    android:id="@+id/btn_clear_userId"
+                    style="@style/Theme_IconTextView"
+                    android:layout_gravity="end|center_vertical"
+                    android:text="{fa-close}" />
+            </FrameLayout>
+
+             <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1" >
+
+                <EditText
+                    android:id="@+id/et_locID"
+                    style="@style/Theme_EditText"
+                    android:layout_gravity="start|center_vertical"
+                    android:hint="货架号"
+                    android:maxLength="15" />
+
+                <com.widget.iconify.IconTextView
+                    android:id="@+id/iv_scan"
+                    style="@style/Theme_IconTextView"
+                    android:layout_gravity="end|center_vertical"
+                    android:text="{fa-qrcode}" />
+            </FrameLayout>
+            <TextView
+                android:id="@+id/btn_search"
+                style="@style/Theme_Button"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginLeft="4dp"
+                android:text="@string/search" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:listSelector="@android:color/transparent"
+            />
+    </LinearLayout>
+
+</LinearLayout>

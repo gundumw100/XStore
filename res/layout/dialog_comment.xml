@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="16dp" >
+
+    <RatingBar
+        android:id="@+id/rb"
+        style="?android:attr/ratingBarStyleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:stepSize="1" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="100"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:lines="4"
+        android:gravity="left|top"
+        android:hint="请添加评论，100字以内！"
+        android:textColor="@color/grayDark"
+        android:padding="8dp"
+        android:background="@drawable/bg_edittext"
+        android:textSize="@dimen/font_middle" />
+
+    <TextView
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn_primary"
+        android:textColor="@android:color/white"
+        android:text="@string/submit"
+        android:padding="16dp"
+        android:gravity="center"
+        android:textSize="@dimen/font_middle" />
+
+</LinearLayout>

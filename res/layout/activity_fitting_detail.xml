@@ -1,0 +1,111 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <RadioGroup
+        android:id="@+id/rg_sex"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            style="@style/Theme_Radio"
+            android:drawableTop="@drawable/icon_0_0"
+            android:enabled="false"
+            android:tag="0" />
+
+        <RadioButton
+            style="@style/Theme_Radio"
+            android:drawableTop="@drawable/icon_0_1"
+            android:enabled="false"
+            android:tag="1" />
+
+        <RadioButton
+            style="@style/Theme_Radio"
+            android:drawableTop="@drawable/icon_0_2"
+            android:enabled="false"
+            android:tag="2" />
+
+        <RadioButton
+            style="@style/Theme_Radio"
+            android:drawableTop="@drawable/icon_0_3"
+            android:enabled="false"
+            android:tag="3" />
+
+        <RadioButton
+            style="@style/Theme_Radio"
+            android:drawableTop="@drawable/icon_0_4"
+            android:enabled="false"
+            android:tag="4" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rg_age"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            style="@style/Theme_Radio"
+            android:drawableTop="@drawable/icon_1_0"
+            android:enabled="false"
+            android:tag="0"
+            android:text="18以下" />
+
+        <RadioButton
+            style="@style/Theme_Radio"
+            android:drawableTop="@drawable/icon_1_1"
+            android:enabled="false"
+            android:tag="1"
+            android:text="18-25" />
+
+        <RadioButton
+            style="@style/Theme_Radio"
+            android:drawableTop="@drawable/icon_1_2"
+            android:enabled="false"
+            android:tag="2"
+            android:text="25-35" />
+
+        <RadioButton
+            style="@style/Theme_Radio"
+            android:drawableTop="@drawable/icon_1_3"
+            android:enabled="false"
+            android:tag="3"
+            android:text="35-45" />
+
+        <RadioButton
+            style="@style/Theme_Radio"
+            android:drawableTop="@drawable/icon_1_4"
+            android:enabled="false"
+            android:tag="4"
+            android:text="45以上" />
+    </RadioGroup>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        >
+        <CheckBox
+            android:id="@+id/cb_foreigner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:text="外宾"
+            android:enabled="false"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+    </FrameLayout>
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent" />
+
+</LinearLayout>

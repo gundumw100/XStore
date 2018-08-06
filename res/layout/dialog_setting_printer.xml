@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="16dp" >
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/tip_printer_name"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:layout_marginTop="16dp"
+        android:textSize="@dimen/font_middle" />
+    <EditText
+        android:id="@+id/et_ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/tip_printer_ip"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:layout_marginTop="16dp"
+        android:textSize="@dimen/font_middle" />
+        <!-- android:digits="0123456789." -->
+
+    <RadioGroup 
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        >
+        <RadioButton 
+            android:id="@+id/rb_0"
+            android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:text="DZ"
+        	android:textColor="@color/grayDark"
+            />
+        <RadioButton 
+            android:id="@+id/rb_1"
+            android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:textColor="@color/grayDark"
+        	android:text="T90"
+            />
+    </RadioGroup>
+    
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_btn_gray"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/confirm"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_big" />
+
+</LinearLayout>

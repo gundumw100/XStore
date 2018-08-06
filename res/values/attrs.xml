@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    
+    <declare-styleable name="SlideLayout">
+        <attr name="slideDirection">
+            <enum name="fromRight" value="0"/>
+            <enum name="fromLeft" value="1"/>
+            <enum name="fromTop" value="2"/>
+            <enum name="fromBottom" value="3"/>
+        </attr>
+
+        <attr name="slideCriticalValue" format="dimension"/>
+    </declare-styleable>
+    
+    <!-- 圆形头像的样式 -->
+    <declare-styleable name="roundedimageview">
+        <attr name="border_thickness" format="dimension" />
+        <attr name="border_inside_color" format="color" />
+        <attr name="border_outside_color" format="color"></attr>
+    </declare-styleable>
+    
+    <declare-styleable name="customAttrs">
+        <attr name="efp__selected_item_background" format="reference" />
+        <attr name="efp__ic_action_cancel" format="reference" />
+        <attr name="efp__ic_action_deselect" format="reference" />
+        <attr name="efp__ic_action_grid" format="reference" />
+        <attr name="efp__ic_action_invert_selection" format="reference" />
+        <attr name="efp__ic_action_list" format="reference" />
+        <attr name="efp__ic_action_new_folder" format="reference" />
+        <attr name="efp__ic_action_ok" format="reference" />
+        <attr name="efp__ic_action_select_all" format="reference" />
+        <attr name="efp__ic_action_sort" format="reference" />
+    </declare-styleable>
+    
+    <declare-styleable name="SwitchButton" >
+        <attr name="kswThumbDrawable" format="reference"/>
+        <attr name="kswThumbColor" format="color|reference"/>
+        <attr name="kswThumbMargin" format="dimension|reference"/>
+        <attr name="kswThumbMarginTop" format="dimension|reference"/>
+        <attr name="kswThumbMarginBottom" format="dimension|reference"/>
+        <attr name="kswThumbMarginLeft" format="dimension|reference"/>
+        <attr name="kswThumbMarginRight" format="dimension|reference"/>
+        <attr name="kswThumbWidth" format="dimension|reference"/>
+        <attr name="kswThumbHeight" format="dimension|reference"/>
+        <attr name="kswThumbRadius" format="dimension|reference"/>
+        <attr name="kswBackRadius" format="dimension|reference"/>
+        <attr name="kswBackDrawable" format="reference"/>
+        <attr name="kswBackColor" format="color|reference"/>
+        <attr name="kswFadeBack" format="boolean"/>
+        <attr name="kswThumbRangeRatio" format="float"/>
+        <attr name="kswAnimationDuration" format="integer"/>
+        <attr name="kswTintColor" format="color|reference"/>
+        <attr name="kswTextOn" format="string"/>
+        <attr name="kswTextOff" format="string"/>
+        <attr name="kswTextThumbInset" format="dimension"/>
+        <attr name="kswTextExtra" format="dimension"/>
+        <attr name="kswTextAdjust" format="dimension"/>
+    </declare-styleable>
+	
+</resources>

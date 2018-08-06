@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+
+    <dbname value="xstore" >
+    </dbname>
+
+    <version value="5" >
+    </version>
+
+    <list>
+        <mapping class="com.app.xstore.shangpindangan.ProductDangAnRecentlyBrowse" ></mapping>
+        <mapping class="com.app.xstore.shangpindangan.ProductDangAn" ></mapping>
+        
+        <mapping class="com.app.model.ProdCheckDataInfo" ></mapping>
+        <mapping class="com.app.model.ProdCheckDtl" ></mapping>
+        <mapping class="com.app.model.ProdPreChcekData" ></mapping>
+        <mapping class="com.app.model.Bill" ></mapping>
+        <mapping class="com.app.model.BillProduct" ></mapping>
+        <mapping class="com.app.model.Box" ></mapping>
+        <mapping class="com.app.xstore.pandian.Product" ></mapping>
+        <mapping class="com.app.xstore.pandian.PanDianDan" ></mapping>
+        <mapping class="com.app.xstore.pandian.PanDianProduct" ></mapping>
+        <mapping class="com.app.xstore.pandian.custom.CustomPanDianDan" ></mapping>
+        <mapping class="com.app.xstore.pandian.custom.CustomPanDianProduct" ></mapping>
+        
+    </list>
+
+</litepal>

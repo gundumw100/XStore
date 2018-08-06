@@ -1,0 +1,157 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/btn_favorites"
+            style="@style/Theme_CommTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_favorites48_checked"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="收藏"
+            android:textSize="@dimen/font_small" />
+
+        <EditText
+            android:id="@+id/et_productSku"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
+            android:hint="请输入商品款码"
+            android:inputType="number"
+            android:padding="8dp"
+            android:textSize="@dimen/font_middle" />
+
+        <TextView
+            android:id="@+id/btn_ok"
+            style="@style/text_btn"
+            android:text="确定"
+            android:textSize="@dimen/font_middle" />
+
+        <Space
+            android:layout_width="4dp"
+            android:layout_height="4dp" />
+
+        <TextView
+            android:id="@+id/btn_more_params"
+            style="@style/text_btn"
+            android:text="更多查询条件"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+            	android:layout_height="wrap_content"
+            	android:layout_weight="1"
+                style="@style/Theme_CommTextView"
+                />
+			<Space 
+			    android:layout_width="8dp"
+            	android:layout_height="8dp"
+			    />
+            <TextView
+                android:id="@+id/tv_kucun"
+                style="@style/Theme_CommTextView"
+                />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_year"
+                style="@style/Theme_CommTextView"
+                android:layout_gravity="left" />
+
+            <TextView
+                android:id="@+id/tv_zaitu"
+                style="@style/Theme_CommTextView"
+                android:layout_gravity="right"
+                />
+        </FrameLayout>
+        
+        <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_textview_gray_light"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/text_field_gray"
+            android:layout_weight="1.5"
+            android:background="@null"
+            android:gravity="center"
+            android:text="商品编码" />
+
+        <TextView
+            style="@style/text_field_gray"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:text="颜色" />
+
+        <TextView
+            style="@style/text_field_gray"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:text="尺码" />
+
+        <TextView
+            style="@style/text_field_gray"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:text="库存" />
+        <TextView
+            style="@style/text_field_gray"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:text="在途" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent" />
+
+</LinearLayout>

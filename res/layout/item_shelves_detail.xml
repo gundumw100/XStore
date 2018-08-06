@@ -1,0 +1,107 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/item_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_gravity="start"
+            android:textSize="@dimen/font_middle" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/item_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/font_middle" />
+
+            <TextView
+                android:id="@+id/item_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:singleLine="true"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/item_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:singleLine="true"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+
+        <TextView
+            android:id="@+id/item_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:singleLine="true"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/font_big" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="货架："
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <TextView
+                android:id="@+id/item_2"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_primary"
+                android:gravity="center"
+                android:padding="4dp"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:singleLine="true"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/font_big" />
+    </FrameLayout>
+
+</LinearLayout>

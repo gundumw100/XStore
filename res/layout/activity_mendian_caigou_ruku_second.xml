@@ -1,0 +1,173 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical" >
+
+        <!-- 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:singleLine="true"
+                android:text="收货门店/仓库："
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+            
+            <TextView
+	            android:id="@+id/tv_store"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:layout_weight="1"
+	            android:hint="&lt;点击选择收货门店>"
+	            android:paddingBottom="4dp"
+	            android:paddingTop="4dp"
+	            android:singleLine="true"
+	            android:textColor="@color/grayDark"
+	            android:textSize="@dimen/font_middle" />
+
+        </LinearLayout>
+         -->
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:singleLine="true"
+                android:text="进货日期："
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+            
+            <TextView
+	            android:id="@+id/tv_date"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:layout_weight="1"
+	            android:hint="&lt;点击选择进货日期>"
+	            android:paddingBottom="4dp"
+	            android:paddingTop="4dp"
+	            android:singleLine="true"
+	            android:textColor="@color/grayDark"
+	            android:textSize="@dimen/font_middle" />
+
+        </LinearLayout>
+        
+            <TextView
+                android:id="@+id/tv_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:singleLine="true"
+                android:text="经手人:"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+        </FrameLayout>
+        
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_jinhuoshuliang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:singleLine="true"
+                android:text="进货数量："
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <TextView
+                android:id="@+id/tv_jinhuochengben"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:singleLine="true"
+                android:text="进货成本:"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+        </FrameLayout>
+        
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_xiaolianggusuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:singleLine="true"
+                android:text="销量估算："
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <TextView
+                android:id="@+id/tv_maoligusuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:singleLine="true"
+                android:text="毛利估算:"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_edittext"
+        android:gravity="top|left"
+        android:hint="添加备注"
+        android:lines="3"
+        android:maxLength="100"
+        android:padding="8dp"
+        android:textSize="@dimen/font_middle" />
+
+    <TextView
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_btn_primary"
+        android:gravity="center"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text="确定上传"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_middle" />
+
+</LinearLayout>

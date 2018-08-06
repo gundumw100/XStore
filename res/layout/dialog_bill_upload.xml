@@ -1,0 +1,83 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="16dp" >
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edittext"
+        android:gravity="center_vertical"
+        android:hint="请输入邮箱"
+        android:inputType="textEmailAddress"
+        android:maxLength="200"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:textSize="@dimen/font_middle" />
+
+    <Space
+        android:layout_width="8dp"
+        android:layout_height="8dp" />
+
+    <EditText
+        android:id="@+id/et_remark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edittext"
+        android:gravity="left|top"
+        android:hint="请输入描述(可选)"
+        android:lines="3"
+        android:maxLength="200"
+        android:padding="8dp"
+        android:textSize="@dimen/font_middle" />
+
+    <Space
+        android:layout_width="16dp"
+        android:layout_height="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/btn_ftp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_primary"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="远程管理"
+            android:textColor="@android:color/white" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="8dp" />
+
+        <TextView
+            android:id="@+id/btn_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_primary"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="上传"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:text="选择‘远程管理’可以在您不登陆的情况下从手机copy文件到电脑。"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/font_small" />
+
+</LinearLayout>
