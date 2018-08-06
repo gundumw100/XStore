@@ -101,8 +101,8 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 				btn_generateCode.setEnabled(s.length()==0);
 				tv_productSku.setText("");
 				tv_productSku.setTag(null);
-				if(!et_productName.isEnabled()){
-					et_productName.setEnabled(true);
+				if(!et_productSku.isEnabled()){
+					et_productSku.setEnabled(true);
 				}
 			}
 			
@@ -120,6 +120,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		});
 		if(!isEmpty(goodsSn)){
 			et_productSku.setText(goodsSn);
+			et_productSku.setSelection(goodsSn.length());
 		}
 		et_productName=$(R.id.et_productName);
 		
