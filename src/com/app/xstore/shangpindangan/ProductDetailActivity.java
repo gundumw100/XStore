@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Response.Listener;
@@ -41,8 +42,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	private int curPosition;
 	private ViewPager viewPager;
 	private ArrayList<View> listViews = new ArrayList<View>();
+	private List<String> imgList=new ArrayList<String>();
+	private TagFlowLayout flowLayout_img;
 	private MyPagerAdapter myPagerAdapter;
-	private ArrayList<String> list = new ArrayList<String>();
 	private CheckBox btn_favorites;
 	private String goods_sn;
 	private List<ProductDangAn> beans=new ArrayList<ProductDangAn>();
@@ -61,14 +63,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			showToast("参数出错");
 			return;
 		}
-		list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531307850102&di=01b7b89e1f33e669c528c45ea384e154&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4e4a20a4462309f71a2b3ee97e0e0cf3d6cad681.jpg");
-		list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531307850104&di=a746b6a4c4bffe22329697fb4e2e021f&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F72f082025aafa40f99d4e82aa764034f78f01932.jpg");
-		list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531307850103&di=14761c22dc5332528d8853031098ceca&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F38dbb6fd5266d016ae9881d19b2bd40734fa3541.jpg");
-		list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531307850902&di=65735007b15bac1a22c08fa401c09f35&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F43a7d933c895d14332bd91df7ff082025baf0706.jpg");
-		list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531307850903&di=71488d9bace4291b28c0177089d0c227&imgtype=0&src=http%3A%2F%2Ff.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F42166d224f4a20a403c7e0319c529822730ed06f.jpg");
 		initViews();
 		doCommandGetGoodsListBySKU(goods_sn);
 		
+		//判断该商品是否收藏了
 		doCommandGetCollectGoodsBySKU(goods_sn);
 	}
 
@@ -76,32 +74,33 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	public void initViews() {
 		// TODO Auto-generated method stub
 		viewPager=(ViewPager)findViewById(R.id.viewPager);
-		for(int i=0;i<list.size();i++){
-			View view=LayoutInflater.from(context).inflate(R.layout.item_product_img, null);
-			listViews.add(view);
-		}
 		
-		
-		if(myPagerAdapter==null){
-			myPagerAdapter=new MyPagerAdapter(listViews);
-			viewPager.setAdapter(myPagerAdapter);
-		}else{
-			myPagerAdapter.setViews(listViews);
-			myPagerAdapter.notifyDataSetChanged();
-		}
-		viewPager.setCurrentItem(curPosition);
+		flowLayout_img=(TagFlowLayout)findViewById(R.id.flowLayout_img);
+		flowLayout_img.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+			
+			@Override
+			public boolean onTagClick(FlowLayout parent, View view, int position) {
+				// TODO Auto-generated method stub
+				curPosition=position;
+				viewPager.setCurrentItem(position);
+				return true;
+			}
+		});
 		
 		tv_name=$(R.id.tv_name);
 		tv_ls_price=$(R.id.tv_ls_price);
 		tv_sn=$(R.id.tv_sn);
 		final TextView btn_save=$(R.id.btn_save);
+		final TextView tv_maidian=$(R.id.tv_maidian);
 		final EditText et_maidian=$(R.id.et_maidian);
 		et_maidian.addTextChangedListener(new TextWatcher() {
 			
 			@Override
 			public void onTextChanged(CharSequence text, int start, int before, int count) {
 				// TODO Auto-generated method stub
-				btn_save.setVisibility(count==0?View.GONE:View.VISIBLE);
+				int length=text.length();
+				btn_save.setVisibility(length==0?View.GONE:View.VISIBLE);
+				tv_maidian.setText(length+"/100");
 			}
 			
 			@Override
@@ -212,8 +211,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		$(R.id.btn_print).setOnClickListener(this);
 		
 	}
-
-	
 	
 	private void doCommandAddCollectGoods(String goods_sn){
 		Commands.doCommandAddCollectGoods(context, goods_sn, new Listener<JSONObject>() {
@@ -265,7 +262,52 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			//保存最近浏览
 			saveProductDangAnRecentlyBrowse(bean);
 		}
+		final LayoutInflater inflater = LayoutInflater.from(context);
 		
+		HashMap<String,ProductDangAn> imgMap=new HashMap<String,ProductDangAn>();
+		imgList.clear();
+		for(ProductDangAn item:beans){
+			String goodsImg=item.getGoods_img();
+			if(!isEmpty(goodsImg)){
+				String[] imgs=goodsImg.split(";");
+				
+				for(String img:imgs){
+					if(imgMap.containsKey(img)){
+						
+					}else{
+						imgMap.put(img, item);
+						imgList.add(img);
+					}
+				}
+				
+			}
+			
+		}
+		flowLayout_img.setAdapter(new TagAdapter<String>(imgList){
+			@Override
+			public View getView(FlowLayout parent, int position, String item){
+				ImageView iv = (ImageView) inflater.inflate(R.layout.item_image_for_product_detail,flowLayout_img, false);
+				loadImageByPicasso(item, iv);
+				iv.setTag(item);
+				return iv;
+			}
+		});
+		
+		//
+		for(int i=0;i<imgList.size();i++){
+			View view=LayoutInflater.from(context).inflate(R.layout.item_product_img, null);
+			listViews.add(view);
+		}
+		
+		if(myPagerAdapter==null){
+			myPagerAdapter=new MyPagerAdapter(listViews);
+			viewPager.setAdapter(myPagerAdapter);
+		}else{
+			myPagerAdapter.setViews(listViews);
+			myPagerAdapter.notifyDataSetChanged();
+		}
+		viewPager.setCurrentItem(curPosition);
+		//
 		
 		HashMap<String,ProductDangAn> colorsMap=new HashMap<String,ProductDangAn>();
 		List<ProductDangAn> colorsList=new ArrayList<ProductDangAn>();
@@ -278,18 +320,23 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			}
 		}
 		
-		final LayoutInflater inflater = LayoutInflater.from(context);
 		flowLayout_color.setAdapter(new TagAdapter<ProductDangAn>(colorsList){
 			@Override
 			public View getView(FlowLayout parent, int position, ProductDangAn item){
-				TextView tv = (TextView) inflater.inflate(R.layout.item_text,flowLayout_color, false);
-				if("00".equals(item.getGoods_color())){
-					tv.setText("均色");
-				}else{
-					tv.setText(item.getGoods_color_desc());
-				}
-				tv.setTag(item.getGoods_color());
-				return tv;
+				View root = inflater.inflate(R.layout.item_image_text,flowLayout_color, false);
+				root.setTag(item.getGoods_color());
+				
+				ImageView item_0=(ImageView)root.findViewById(R.id.item_0);
+				TextView item_1=(TextView)root.findViewById(R.id.item_1);
+				item_1.setText("00".equals(item.getGoods_color())?"均色":item.getGoods_color_desc());
+				loadImageByPicasso(item.getGoods_color_image(), item_0);
+				return root;
+				
+//				TextView tv = (TextView) inflater.inflate(R.layout.item_text,flowLayout_color, false);
+//				tv.setText("00".equals(item.getGoods_color())?"均色":item.getGoods_color_desc());
+//				tv.setTag(item.getGoods_spec());
+//				return tv;
+				
 			}
 		});
 		
@@ -312,7 +359,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		List<ProductDangAn> sizesList=new ArrayList<ProductDangAn>();
 		for(ProductDangAn item:beans){
 			if(sizesMap.containsKey(item.getGoods_spec())){
-				
+				ProductDangAn bean=sizesMap.get(item.getGoods_spec());
+				if(isEmpty(bean.getGoods_color_image())){//如果当前没有颜色图片，则用后面的替代
+					bean.setGoods_color_image(item.getGoods_color_image());
+				}
 			}else{
 				sizesMap.put(item.getGoods_spec(), item);
 				sizesList.add(item);
@@ -322,11 +372,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			@Override
 			public View getView(FlowLayout parent, int position, ProductDangAn item){
 				TextView tv = (TextView) inflater.inflate(R.layout.item_text,flowLayout_size, false);
-				if("00".equals(item.getGoods_spec())){
-					tv.setText("均码");
-				}else{
-					tv.setText(item.getGoods_spec_desc());
-				}
+				tv.setText("00".equals(item.getGoods_spec())?"均码":item.getGoods_spec_desc());
 				tv.setTag(item.getGoods_spec());
 				return tv;
 			}
@@ -346,7 +392,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			flowLayout_size.setCheckedAt(curSizeIndex);
 		}
 		
-		
 	}
 
 	private void updateHeadViews(ProductDangAn bean){
@@ -354,7 +399,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			tv_name.setText("");
 			tv_ls_price.setText("￥");
 			tv_sn.setText("编码：");
-			
 		}else{
 			tv_name.setText(bean.getGoods_name());
 			tv_ls_price.setText("￥"+bean.getGoods_ls_price());
@@ -369,8 +413,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			return;
 		}
 		String goods_sn=sku.substring(0,6);
-//		{"ActionName":"GetGoodsListBySKU","Pars":{"companyCode":"C001","goodsSn":"180018"}}
-
 		Commands.doCommandGetGoodsListBySKU(context, goods_sn, new Listener<JSONObject>() {
 
 			@Override
@@ -390,15 +432,12 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	}
 	
 	private void doCommandGetCollectGoodsBySKU(String goods_sn){
-//		{"ActionName":"GetCollectGoodsBySKU","Pars":{"goodsSn":"1800180101","shopCode":"S001"}}
-
 		Commands.doCommandGetCollectGoodsBySKU(context, goods_sn, new Listener<JSONObject>() {
 
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", "response="+response.toString());
-				//{"ErrMessage":"","Result":true,"Info":[],"ErrSysTrackMessage":"","ErrSysMessage":"","Message":"OK"}
+//				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
 					GetProdColorListResponse obj=mapperToObject(response, GetProdColorListResponse.class);
 					if(obj!=null&&!isEmptyList(obj.getInfo())){
@@ -435,7 +474,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		//存在则更新，不存在则保存
 		ProductDangAnRecentlyBrowse item=DataSupport.where("goods_sn = ?",bean.getGoods_sn()).findFirst(ProductDangAnRecentlyBrowse.class);
 		if(item==null){
-			
 			DataSupport.count(ProductDangAnRecentlyBrowse.class);
 			item=new ProductDangAnRecentlyBrowse();
 			item.setGoods_sn(bean.getGoods_sn());
@@ -443,6 +481,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			item.setBrand_name(bean.getBrand_name());
 			item.setGoods_brand(bean.getGoods_brand());
 			item.setGoods_ls_price(bean.getGoods_ls_price());
+			item.setGoods_img(bean.getGoods_img());
 			item.setTimeMillis(System.currentTimeMillis());
 			item.saveFast();
 		}else{
@@ -490,12 +529,22 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		@Override
 		public Object instantiateItem(View v, int position) {
 			View view = views.get(position);
-			String url=list.get(position);
+			String url=imgList.get(position);
 			PhotoView photoView=(PhotoView)view.findViewById(R.id.item_0);
 			// 禁用图片缩放功能 (默认为禁用，会跟普通的ImageView一样，缩放功能需手动调用enable()启用)
 			photoView.disenable();//photoView.enable();
 //			Log.i("tag", "url="+url);
 			Picasso.with(context).load(url).error(R.drawable.picture_not_found).into(photoView);
+			
+			photoView.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					ArrayList<String> imgUrls=(ArrayList<String>)imgList;
+					context.changeToImageGalleryActivity(imgUrls,curPosition);
+				}
+			});
 			((ViewPager) v).addView(view, 0);
 			return view;
 		}
@@ -520,7 +569,4 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
 	}
 
-
-	
-	
 }

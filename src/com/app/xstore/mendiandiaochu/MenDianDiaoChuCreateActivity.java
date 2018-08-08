@@ -22,6 +22,7 @@ import com.android.volley.Response.Listener;
 import com.app.model.ShopInfo;
 import com.app.net.Commands;
 import com.app.widget.SimpleListPopupWindow;
+import com.app.widget.SimpleNumberDialog;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
@@ -245,7 +246,31 @@ public class MenDianDiaoChuCreateActivity extends BaseActivity implements
 					// TODO Auto-generated method stub
 					helper.setText(R.id.item_0, item.getGoods_sn());
 					helper.setText(R.id.item_1, item.getGoods_name());
-					helper.setText(R.id.item_2, String.valueOf(item.getQty()));
+					
+					TextView item_2=helper.getView(R.id.item_2);
+					item_2.setText(String.valueOf(item.getQty()));
+					if(!isCheckOnly){
+						item_2.setOnClickListener(new OnClickListener() {
+							
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								SimpleNumberDialog d = new SimpleNumberDialog(context, "", "数量");
+								d.setOnClickListener(new SimpleNumberDialog.OnClickListener() {
+									
+									@Override
+									public void onClick(View v, String text) {
+										// TODO Auto-generated method stub
+										item.setQty(Integer.parseInt(text));
+										updateViews(beans);
+									}
+								});
+								d.show();
+							}
+						});
+					}
+					
+					
 //					View container = helper.getView(R.id.container);
 //					if (curPosition == position) {
 //						container.setBackgroundColor(0xFFFFCC99);
@@ -512,6 +537,7 @@ public class MenDianDiaoChuCreateActivity extends BaseActivity implements
 					item.setGoods_name(product.getGoods_name());
 					item.setGoods_jh_price(product.getGoods_jh_price());
 					item.setGoods_ls_price(product.getGoods_ls_price());
+					item.setGoods_img(product.getGoods_img());
 					continue up;
 				}
 			}

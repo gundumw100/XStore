@@ -55,6 +55,7 @@ public class SimpleNumberDialog extends BaseDialog implements View.OnClickListen
 //			tv_scan_result.setSelection(defaultText.length());
 		}
 		tv_scan_result.requestFocus();
+		findViewById(R.id.btn_cancel).setOnClickListener(this);
 		findViewById(R.id.btn_ok).setOnClickListener(this);
 		showKeyboard(tv_scan_result);
 	}
@@ -87,9 +88,18 @@ public class SimpleNumberDialog extends BaseDialog implements View.OnClickListen
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
+		case R.id.btn_cancel:
+			dismiss();
+			break;
 		case R.id.btn_ok:
 			String text=tv_scan_result.getText().toString().trim();
 			if(TextUtils.isEmpty(text)){
+				doShake(tv_scan_result);
+				return;
+			}
+			int qty=Integer.parseInt(text);
+			if(qty<=0){
+				showToast("数量必须大于0");
 				doShake(tv_scan_result);
 				return;
 			}

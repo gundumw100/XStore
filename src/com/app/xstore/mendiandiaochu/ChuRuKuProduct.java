@@ -1,7 +1,5 @@
 package com.app.xstore.mendiandiaochu;
 
-import org.litepal.annotation.Column;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
@@ -24,7 +22,15 @@ public class ChuRuKuProduct implements Parcelable{
 	private String goods_color_desc;
 	private String goods_season_desc;
 	private String goods_sort_desc;
+	private String goods_img; 
+	private String goods_color_image; 
 	
+	public String getGoods_color_image() {
+		return goods_color_image;
+	}
+	public void setGoods_color_image(String goods_color_image) {
+		this.goods_color_image = goods_color_image;
+	}
 	public String getGoods_season_desc() {
 		return goods_season_desc;
 	}
@@ -104,6 +110,12 @@ public class ChuRuKuProduct implements Parcelable{
 		this.qty = qty;
 	}
 	
+	public String getGoods_img() {
+		return goods_img;
+	}
+	public void setGoods_img(String goods_img) {
+		this.goods_img = goods_img;
+	}
 	public static Parcelable.Creator<ChuRuKuProduct> getCreator() {
 		return CREATOR;
 	}
@@ -122,6 +134,7 @@ public class ChuRuKuProduct implements Parcelable{
 		dest.writeFloat(goods_ls_price);
 		dest.writeString(goods_color);
 		dest.writeString(goods_spec);
+		dest.writeString(goods_img);
 	}
 
 	public static final Parcelable.Creator<ChuRuKuProduct> CREATOR = new Creator<ChuRuKuProduct>() {
@@ -134,6 +147,7 @@ public class ChuRuKuProduct implements Parcelable{
 			instance.goods_ls_price = source.readFloat();
 			instance.goods_color = source.readString();
 			instance.goods_spec = source.readString();
+			instance.goods_img = source.readString();
 			return instance;
 		}
 

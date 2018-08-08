@@ -25,6 +25,8 @@ public class ProductDangAn extends DataSupport{
 	@Column(ignore=true)
 	private String goods_color;//": "00",
 	@Column(ignore=true)
+	private String goods_color_image;//颜色对应的图片
+	@Column(ignore=true)
 	private String goods_sort;//": "00",
 	@Column(ignore=true)
 	private String goods_spec;//": "00",
@@ -52,7 +54,6 @@ public class ProductDangAn extends DataSupport{
 	private String goods_style;//": "0000"
 	@Column(ignore=true)
 	private String goods_other;//": 
-	
 	@Column(ignore=true)
 	private String goods_spec_desc;
 	@Column(ignore=true)
@@ -69,10 +70,20 @@ public class ProductDangAn extends DataSupport{
 	private String goods_jldw_desc;
 	@Column(ignore=true)
 	private String goods_cs_desc;
+	@Column(ignore=true)
+	private String goods_img;//主图，之间用;分隔
 	
 	@Override
 	public String toString() {
 		return goods_name;
+	}
+
+	public String getGoods_color_image() {
+		return goods_color_image;
+	}
+
+	public void setGoods_color_image(String goods_color_image) {
+		this.goods_color_image = goods_color_image;
 	}
 
 	public long getId() {
@@ -315,5 +326,12 @@ public class ProductDangAn extends DataSupport{
 		this.goods_cs_desc = goods_cs_desc;
 	}
 
-	
+	public String getGoods_img() {
+		return goods_img;
+	}
+
+	public void setGoods_img(String goods_img) {
+		this.goods_img = goods_img;
+	}
+
 }

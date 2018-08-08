@@ -1,10 +1,13 @@
 package com.app.xstore.shangpindangan;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
@@ -16,7 +19,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-//import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,13 +38,19 @@ import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
 import com.app.xstore.shangpindangan.SimpleTextListDialog.OnCheckedChangeListener;
 import com.base.util.D;
+import com.base.util.L;
 import com.base.util.comm.DisplayUtils;
+import com.base.util.luban.Luban;
+import com.qq.cloud.PicCloud;
+import com.qq.cloud.PornDetectInfo;
+import com.qq.cloud.UploadResult;
 import com.squareup.picasso.Picasso;
 import com.widget.flowlayout.FlowLayout;
 import com.widget.imagepicker.ImageConfig;
 import com.widget.imagepicker.ImageSelector;
 import com.widget.imagepicker.ImageSelectorActivity;
 import com.widget.imagepicker.PicassoLoader;
+//import android.util.Log;
 
 /**
  * 
@@ -55,11 +63,12 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	private AutoCompleteTextView et_productName;
 	private AutoCompleteAdapter<ProductDangAn> adapter;
 	private TextView tv_productSku,tv_year,tv_brand,tv_season,tv_category,tv_color,tv_size,tv_date,tv_other,tv_jldw,tv_cw;
+	private ImageView btn_addColorImg;
 	private TextView tv_cs;
 	private TextView btn_addYear;
 	private int width=100;//每个显示小图片的宽度
 	private EditText et_jh_price,et_ls_price,et_zxs;
-	private  final int MAX_SIZE=2;//
+	private final int MAX_SIZE=10;//
 	private FlowLayout flowLayout;
 	private String goodsSn;
 	
@@ -308,6 +317,15 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				showColorPopupWindow(tv_color);
+			}
+		});
+		btn_addColorImg=$(R.id.btn_addColorImg);
+		btn_addColorImg.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				openImageSelector();
 			}
 		});
 		
@@ -589,7 +607,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	}
 
 	private void initFlowLayout(){
-		width=(App.config.getScreenWidth()-2*DisplayUtils.dip2px(context, 8))/4;
+		width=(App.config.getScreenWidth()-2*DisplayUtils.dip2px(context, 8))/5;
 		flowLayout=$(R.id.flowLayout);
 		final ImageView iv_addImage=$(R.id.iv_addImage);
 		iv_addImage.setLayoutParams(new LinearLayout.LayoutParams(width,width));
@@ -606,51 +624,10 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		judgeAddImageViewVisibleOrNot();
 	}
 	
-	private void openImageSelector(FlowLayout flowLayout){
-		this.flowLayout=flowLayout;
-		ImageConfig imageConfig
-        = new ImageConfig.Builder(new PicassoLoader())
-//        .steepToolBarColor(getResources().getColor(R.color.blue))// 修改状态栏颜色 
-//        .titleBgColor(getResources().getColor(R.color.blue))// 标题的背景颜色 
-//        .titleSubmitTextColor(getResources().getColor(R.color.white))// 提交按钮字体的颜色 
-//        .titleTextColor(getResources().getColor(R.color.white))// 标题颜色
-//        .crop()  // (截图默认配置：关闭    比例 1：1    输出分辨率  500*500)
-//        .singleSelect()// 开启单选   （默认为多选） 
-        .mutiSelect()// 开启多选   （默认为多选） 
-//        .mutiSelectMaxSize(9)// 多选时的最大数量   （默认 9 张）
-        .mutiSelectMaxSize(MAX_SIZE-flowLayout.getChildCount())// 多选时的最大数量   （默认 9 张）
-        .showCamera()// 开启拍照功能 （默认关闭）
-//        .pathList(paths)// 已选择的图片路径,需要及时清空，否则会重复
-        .filePath("/xStore/picture")// 拍照后存放的图片路径（默认 /temp/picture） （会自动创建）
-        .build();
-		
-		ImageSelector.open(this, imageConfig);   // 开启图片选择器
-	}
-	
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == ImageSelector.IMAGE_REQUEST_CODE) {
-			if (data != null && flowLayout != null) {
-				List<String> list = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
-				List<File> files=new ArrayList<File>();
-				
-				for (String path : list) {
-					File file = new File(path);
-					files.add(file);
-					addImageViewToFlowLayout(flowLayout,file);
-				}
-				
-				judgeAddImageViewVisibleOrNot();
-				
-				luban(files);
-			}
-		}
-	}
-	
-	private void addImageViewToFlowLayout(final FlowLayout flowLayout,final File file){
+	private View addImageViewToFlowLayout(final FlowLayout flowLayout,final File file){
 		LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(width,width);
 		params.gravity=Gravity.CENTER_HORIZONTAL;
 		final ImageView child=new ImageView(context);
-		child.setTag(file);
 		child.setLayoutParams(params);
 		child.setPadding(4, 4, 4, 4);
 		child.setOnClickListener(new View.OnClickListener() {
@@ -675,9 +652,14 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 					@Override
 					public void onPositive() {
 						// TODO Auto-generated method stub
-						flowLayout.removeView(child);
-						judgeAddImageViewVisibleOrNot();
-						
+						if(child.getTag()!=null){
+							//debug,不能简单的删除云端图片，否则保存成功的记录将缺少图片url
+							//没有保存之前才可以删除
+//							UploadResult result=(UploadResult)child.getTag();
+//							delete(result.fileId);//删除云图
+							flowLayout.removeView(child);
+							judgeAddImageViewVisibleOrNot();
+						}
 					}
 				});
 				return true;
@@ -685,6 +667,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		});
 		flowLayout.addView(child,flowLayout.getChildCount()-1);
 		loadImageByPicasso(child,width,file);//从本地加载图片
+		return child;
 	}
 	
 	private void judgeAddImageViewVisibleOrNot(){
@@ -703,79 +686,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		.error(R.drawable.default_img)
 		.into(iv);
 	}
-	
-	private void luban(List<File> files) {
-		if(files==null||files.size()==0){
-//			Log.i(tag, "==========No file===========");
-			return;
-		}
-//		Luban.get(context)
-//			.load(files)
-//			.putGear(Luban.THIRD_GEAR)// 传人要压缩的图片
-//			.setOnMultiCompressListener(// 设定压缩档次，默认三挡
-//				new Luban.OnMultiCompressListener() {
-//
-//					@Override
-//					public void onStart(){
-//						context.showProgress();
-//					}
-//					
-//					@Override
-//					public void onSuccess(List<File> files,long timeSpent) {
-//						Log.i("tag", "timeSpent=" + timeSpent);
-//						context.closeProgress();
-//						uploadImages(files);
-//					}
-//
-//					@Override
-//					public void onError(long timeSpent) {
-//						context.closeProgress();
-//					}
-//				}).launch();
-	}
-	
-//	private void uploadImages(final List<File> files) {
-//		TimerTask task=new TimerTask() {
-//			
-//			@Override
-//			public void run() {
-//				// TODO Auto-generated method stub
-//				try {
-//					Looper.prepare();
-//					uploadFilesByVolley(files);
-//					Looper.loop();
-//				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//		};
-//		Timer t=new Timer();
-//		t.schedule(task, 5);
-//	}
-//	
-//	private void uploadFilesByVolley(List<File> files) {
-//		if(isEmptyList(files)){
-//			Log.i("tag", "No file found");
-//			return;
-//		}
-//		String uploadUrl=Cmd.BASE_URL+"asn/uploadImageList";
-//		Map<String, String> map=new HashMap<String, String>();
-//		VolleyHelper.execPostRequest(context, App.user.getAccessToken(),uploadUrl, "files", files, map, new Listener<JSONObject>() {
-//
-//			@Override
-//			public void onResponse(JSONObject response) {
-//				// TODO Auto-generated method stub
-//				Log.i("tag", "response="+response.toString());
-//				context.closeProgress();
-//				if(context.isSuccessful(response)){
-//					UploadImageListResponse obj=context.toObject(response, UploadImageListResponse.class);
-//					
-//				}
-//			}
-//		}, true);
-//		
-//	}
 	
 	private void showYearPopupWindow(final TextView tv){
 		Calendar date = Calendar.getInstance();
@@ -826,9 +736,9 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 									@Override
 									public void onItemClick(int position, ProdColor item) {
 										// TODO Auto-generated method stub
+										resetAddColorImgView(tv,item);
 										tv.setText(item.getDescription());
 										tv.setTag(item);
-										
 										ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
 										updateProductSkuTextView(prodStyle);
 									}
@@ -848,12 +758,22 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 				@Override
 				public void onItemClick(int position, ProdColor item) {
 					// TODO Auto-generated method stub
+					resetAddColorImgView(tv,item);
 					tv.setText(item.getDescription());
 					tv.setTag(item);
 					ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
 					updateProductSkuTextView(prodStyle);
 				}
 			});
+		}
+	}
+	
+	//如果重新选了新颜色，就将之前选择的图片清除掉
+	private void resetAddColorImgView(TextView tv,ProdColor item){
+		ProdColor color=(ProdColor)tv.getTag();
+		if(color!=null&&!item.getColorCode().equals(color.getColorCode())){//改变了颜色
+			btn_addColorImg.setTag(null);
+			btn_addColorImg.setImageResource(R.drawable.default_img);
 		}
 	}
 	
@@ -1424,6 +1344,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			public void onItemClick(ProdColor bean,
 					int position) {
 				// TODO Auto-generated method stub
+				resetAddColorImgView(tv_color,bean);
 				tv_color.setText(bean.getDescription());
 				tv_color.setTag(bean);
 				ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
@@ -1885,7 +1806,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		case R.id.btn_generateCode:
 			String productName=et_productName.getText().toString().trim();
 			if(isEmpty(productName)){
-				showToast("缺少商品名称");
+				showToast("请输入名称");
 				doShake(context, et_productName);
 				return;
 			}
@@ -1902,15 +1823,9 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			startActivity(new Intent(context,ProductQueryBySkuActivity.class));
 			break;
 		case R.id.btn_save:
-			//debug
-//			String productSku=et_productSku.getText().toString().trim();
-//			if(productSku.length()>=10){
-//				
-//			}
-			
-			if(isEmpty(tv_productSku)){
-				showToast("尚未生成款号");
-				doShake(context, tv_productSku);
+			if(isEmpty(et_productName)){
+				showToast("请输入名称");
+				doShake(context, et_productName);
 				return;
 			}
 			
@@ -1945,7 +1860,37 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 //				doShake(context, et_zxs);
 //				return;
 //			}
-			save();
+			int childCount=flowLayout.getChildCount();
+			if(childCount<=1){
+				doShake(context, flowLayout);
+				showToast("缺少主图");
+				return;
+			}
+			
+			
+			UploadResult uploadResult=(UploadResult)btn_addColorImg.getTag();
+			if(btn_addColorImg.getTag()==null){
+				doShake(context, btn_addColorImg);
+				String message="我们建议您在保存前添加一张对应颜色的图片。";
+				D.showDialog(this, message, "马上添加", "不添加,继续保存", new D.OnPositiveListener() {
+					
+					@Override
+					public void onPositive() {
+						// TODO Auto-generated method stub
+						openImageSelector();
+					}
+				},new D.OnNegativeListener() {
+					
+					@Override
+					public void onNegative() {
+						// TODO Auto-generated method stub
+						save();
+					}
+				});
+			}else{
+				save();
+			}
+			
 			break;
 
 		default:
@@ -1954,18 +1899,46 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	}
 	
 	private void save(){
+		int imgViewCount=flowLayout.getChildCount()-1;//-1去除最后一个添加按钮
+		for(int i=0;i<imgViewCount;i++){
+			View child=flowLayout.getChildAt(i);
+			if(child.getTag()==null){
+				showToast("图片上传尚未完成，请稍后...");
+				return;
+			}
+		}
+		
 		List<ProductDangAn> goodsInfo=new ArrayList<ProductDangAn>();
 		ProductDangAn bean=new ProductDangAn();
-		bean.setGoods_sn(tv_productSku.getText().toString());
 		
-		ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
-		if(prodStyle==null){
+		if(isEmpty(tv_productSku)){//扫描已有吊牌
+			bean.setGoods_sn(et_productSku.getText().toString());
+		}else{//生成款号
+			bean.setGoods_sn(tv_productSku.getText().toString());
+		}
+		
+		if(isEmpty(bean.getGoods_sn())){
+			showToast("尚未生成款号");
 			return;
 		}
-//		String dateCode=prodStyle.getDateCode().substring(2);
-		String dateCode=prodStyle.getDateCode();
-		String styleCode=prodStyle.getStyleCode();
-		bean.setGoods_style(dateCode+styleCode);
+		if(bean.getGoods_sn().length()<10){
+			showToast("编码长度不正确");
+			return;
+		}
+		
+		if(isEmpty(tv_productSku)){//扫描已有吊牌
+			String styleCode=bean.getGoods_sn().substring(0, 6);
+			bean.setGoods_style(styleCode);
+		}else{//生成款号
+			ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
+			if(prodStyle==null){
+				return;
+			}
+			String dateCode=prodStyle.getDateCode();
+			String styleCode=prodStyle.getStyleCode();
+			bean.setGoods_style(dateCode+styleCode);
+		}
+		
 		bean.setGoods_name(et_productName.getText().toString().trim());
 		bean.setGoods_desc(et_productName.getText().toString().trim());
 		
@@ -1978,6 +1951,8 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		bean.setGoods_season(tv_season.getTag()==null?"00":((ProdSeason)tv_season.getTag()).getSeasonCode());
 		bean.setGoods_sort(tv_category.getTag()==null?"00":((ProdSort)tv_category.getTag()).getSortCode());
 		bean.setGoods_color(tv_color.getTag()==null?"00":((ProdColor)tv_color.getTag()).getColorCode());
+		bean.setGoods_color_image(btn_addColorImg.getTag()==null?"":((UploadResult)btn_addColorImg.getTag()).downloadUrl);//颜色对应的图片
+		
 		bean.setGoods_spec(tv_size.getTag()==null?"00":((ProdSpec)tv_size.getTag()).getSpecCode());
 		bean.setGoods_other(tv_other.getTag()==null?null:((ProdOther)tv_other.getTag()).getOtherCode());
 		bean.setGoods_cs(tv_cs.getTag()==null?null:((ProdCs)tv_cs.getTag()).getCsCode());
@@ -1988,7 +1963,21 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		bean.setGoods_ls_price(Float.parseFloat(et_ls_price.getText().toString()));
 		bean.setGoods_zxs(et_zxs.getText().toString());
 		
+		StringBuffer sb=new StringBuffer();
+		int childCount=flowLayout.getChildCount()-1;//-1去除最后一个添加按钮
+		for(int i=0;i<childCount;i++){
+			View child=flowLayout.getChildAt(i);
+			if(child.getTag()!=null){
+				UploadResult result=(UploadResult)child.getTag();
+				sb.append(";").append(result.downloadUrl);
+			}
+		}
+		if(sb.length()>0){
+			bean.setGoods_img(sb.substring(1).toString());
+		}
+		
 		goodsInfo.add(bean);
+		
 		doCommandAddGoodsInfo(goodsInfo);
 		//点击保存后，保存一份Product到本地数据库，用于AutoCompleteTextView快显菜单
 		ProductDangAn product=DataSupport.where("goods_name = ?",bean.getGoods_name()).findFirst(ProductDangAn.class);
@@ -1999,7 +1988,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	}
 	
 	private void doCommandAddGoodsInfo(List<ProductDangAn> goodsInfo){
-//		{"ActionName":"AddGoodsInfo","Pars":{"companyCode":"C001","goodsInfo":[{"brand_name":"美特斯邦威","goods_brand":"08","goods_color":"00","goods_cs":"02","goods_cw":"03","goods_zxs":"","goods_desc":"特殊情况","goods_style":"180021","goods_jldw":"02","goods_spec":"04","goods_name":"特殊情况","goods_other":"0002","goods_season":"04","goods_sj_date":"2018-07-20","goods_sn":"1800210004","goods_sort":"07","id":0,"goods_ls_price":30.0,"goods_jh_price":10.0,"goods_discountRate":0.0,"goods_db_price":0.0,"goods_price":0.0,"baseObjId":0}]}}
 		Commands.doCommandAddGoodsInfo(context, goodsInfo, new Listener<JSONObject>() {
 
 			@Override
@@ -2032,5 +2020,290 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		setThemeDrawable(context,R.id.btn_print);
 		setThemeDrawable(context,R.id.btn_save);
 	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//QQ万象优图参数
+	public static int APP_ID_V2 = 10009153;// 10000001
+	public static String SECRET_ID_V2 = "AKIDfSSfovfua0dim2D6lbDo9uFHOQ29q1cO";// AKIDNZwDVhbRtdGkMZQfWgl2Gnn1dhXs95C0
+	public static String SECRET_KEY_V2 = "leHXiJjxZeVYToYyYjKN2UXEKXqYkyfs";// ZDdyyRLCLv1TkeYOl5OCMLbyH4sJ40wp
+	public static String BUCKET = "zstore"; // 空间名 testa
+	public static final boolean NEED_CHECK_PORN = false; // 是否有必要检查porn图片
+	
+		
+	private void uploadToQQcloud(View view,String filePath) throws Exception {
+//		Log.i("tag", "APP_ID_V2="+APP_ID_V2);
+//		Log.i("tag", "SECRET_ID_V2="+SECRET_ID_V2);
+//		Log.i("tag", "SECRET_KEY_V2="+SECRET_KEY_V2);
+//		Log.i("tag", "BUCKET="+BUCKET);
+//		Log.i("tag", "filePath="+filePath);///storage/sdcard0/wandoujia/downloader/openscreen/open_screen_bg_img_1653.png
+		PicCloud pc = new PicCloud(APP_ID_V2, SECRET_ID_V2, SECRET_KEY_V2, BUCKET);
+		picBase(view,pc, filePath);
+	}
+	
+	private void picBase(View view,PicCloud pc, String fileName) throws Exception {
+		UploadResult result = new UploadResult();
+//		UploadResult result2 = new UploadResult();
+//		PicInfo info = new PicInfo();
+		int ret=-1;
+		// 上传一张图片�
+		// 1. 直接指定图片文件名的方式
+//		ret = pc.upload(fileName, result);
+		
+		// 2. 文件流的方式
+		FileInputStream fileStream = new FileInputStream(fileName);
+		ret = pc.upload(fileStream, result);
+//		Log.i("tag",result.downloadUrl);
+//		L.i("url==="+result.url);
+//		L.i("width,height==="+result.width+"*"+result.height);
+//		L.i("fileId==="+result.fileId);
+//		L.i("analyze==="+result.analyze.food+";"+result.analyze.fuzzy);
+		//http://mecity-10009153.image.myqcloud.com/faea3c86-5574-4f24-9a37-7f417ff726fa
+		//http://web.image.myqcloud.com/photos/v2/10009153/mecity/0/faea3c86-5574-4f24-9a37-7f417ff726fa
+		//1800*1200
+		//faea3c86-5574-4f24-9a37-7f417ff726fa
+		//com.qcloud.PicAnalyze@519e0684
+		
+		if(ret==0){
+			if(NEED_CHECK_PORN){
+				if(checkPorn(result.downloadUrl)){
+//					 ret = pc.delete(result.fileId);// 删除一张图片
+//					 return;
+					Log.w("tag","It maybe a porn picture.");
+				}else{
+					
+				}
+			}
+//			http://zstore-10009153.image.myqcloud.com/63cfd067-5fc5-467a-9ce9-186821168aa3
+			view.setTag(result);
+		}else{
+			showToast("上传图片失败");
+		}
+		
+//		// 3. 字节流的方式
+//		// ByteArrayInputStream inputStream = new ByteArrayInputStream(你自己的参数);
+//		// ret = pc.upload(inputStream, result);
+//		// 查询图片的状态��
+//		ret = pc.stat(result.fileId, info);
+//		ret = pc.copy(result.fileId, result2);// 复制一张图片
+//		ret = pc.delete(result.fileId);// 删除一张图片
+	}
+	
+	// 删除一张图片
+	public void delete(final String fileId){
+		TimerTask task=new TimerTask() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				PicCloud pc = new PicCloud(APP_ID_V2, SECRET_ID_V2, SECRET_KEY_V2, BUCKET);
+				pc.delete(fileId);
+			}
+		};
+		Timer t=new Timer();
+		t.schedule(task, 5);
+	}
+	
+	/**
+     * 需要在线程中执行
+     * @param url eg:
+     * public static final String PORN_URL = "http://b.hiphotos.baidu.com/image/pic/item/8ad4b31c8701a18b1efd50a89a2f07082938fec7.jpg";
+     */
+    private boolean checkPorn(String url) {
+		PicCloud pc = new PicCloud(APP_ID_V2, SECRET_ID_V2, SECRET_KEY_V2, BUCKET);
+		PornDetectInfo info = new PornDetectInfo();
+		int ret = pc.pornDetect(url, info);
+		if(ret==0){
+			L.i("信心confidence="+info.confidence);
+			L.i("热分数hotScore="+info.hotScore);
+			L.i("normalScore="+info.normalScore);
+			L.i("pornScore="+info.pornScore);
+			if(info.pornScore>85){//
+				return true;
+			}
+		}
+		return false;
+	}
+    
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+    private int mode=0;
+    private void openImageSelector(){
+    	mode=0;
+		ImageConfig imageConfig
+        = new ImageConfig.Builder(new PicassoLoader())
+//        .steepToolBarColor(getResources().getColor(R.color.blue))// 修改状态栏颜色 
+//        .titleBgColor(getResources().getColor(R.color.blue))// 标题的背景颜色 
+//        .titleSubmitTextColor(getResources().getColor(R.color.white))// 提交按钮字体的颜色 
+//        .titleTextColor(getResources().getColor(R.color.white))// 标题颜色
+        .crop()  // (截图默认配置：关闭    比例 1：1    输出分辨率  500*500)
+        .singleSelect()// 开启单选   （默认为多选） 
+//        .mutiSelect()// 开启多选   （默认为多选） 
+//        .mutiSelectMaxSize(1)// 多选时的最大数量   （默认 9 张）
+        .showCamera()// 开启拍照功能 （默认关闭）
+//        .pathList(paths)// 已选择的图片路径,需要及时清空，否则会重复
+        .filePath("/xStore/picture")// 拍照后存放的图片路径（默认 /temp/picture） （会自动创建）
+        .build();
+		
+		ImageSelector.open(this, imageConfig);   // 开启图片选择器
+	}
+    
+    private void openImageSelector(FlowLayout flowLayout){
+    	mode=1;
+		this.flowLayout=flowLayout;
+		ImageConfig imageConfig
+        = new ImageConfig.Builder(new PicassoLoader())
+//        .steepToolBarColor(getResources().getColor(R.color.blue))// 修改状态栏颜色 
+//        .titleBgColor(getResources().getColor(R.color.blue))// 标题的背景颜色 
+//        .titleSubmitTextColor(getResources().getColor(R.color.white))// 提交按钮字体的颜色 
+//        .titleTextColor(getResources().getColor(R.color.white))// 标题颜色
+//        .crop()  // (截图默认配置：关闭    比例 1：1    输出分辨率  500*500)
+//        .singleSelect()// 开启单选   （默认为多选） 
+        .mutiSelect()// 开启多选   （默认为多选） 
+//        .mutiSelectMaxSize(9)// 多选时的最大数量   （默认 9 张）
+        .mutiSelectMaxSize(MAX_SIZE-flowLayout.getChildCount())// 多选时的最大数量   （默认 9 张）
+        .showCamera()// 开启拍照功能 （默认关闭）
+//        .pathList(paths)// 已选择的图片路径,需要及时清空，否则会重复
+        .filePath("/xStore/picture")// 拍照后存放的图片路径（默认 /temp/picture） （会自动创建）
+        .build();
+		
+		ImageSelector.open(this, imageConfig);   // 开启图片选择器
+	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == ImageSelector.IMAGE_REQUEST_CODE) {
+			if (data != null) {
+				if(mode==0){
+					List<View> views=new ArrayList<View>();
+					List<String> list = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
+					List<File> files=new ArrayList<File>();
+					for (String path : list) {
+						File file = new File(path);
+						files.add(file);
+						loadImageByPicasso(btn_addColorImg,80,file);//从本地加载图片
+						views.add(btn_addColorImg);
+					}
+					luban(views,files);
+				}else if(mode==1){
+					List<View> views=new ArrayList<View>();
+					List<String> list = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
+					List<File> files=new ArrayList<File>();
+					for (String path : list) {
+						File file = new File(path);
+						files.add(file);
+						View view=addImageViewToFlowLayout(flowLayout,file);
+						views.add(view);
+					}
+					judgeAddImageViewVisibleOrNot();
+					luban(views,files);
+				}
+			}
+		}
+	}
+	
+//	private void luban(final View view,final File file) {
+//		Luban.get(context)
+//			.load(file)
+//			.putGear(Luban.THIRD_GEAR)// 传人要压缩的图片
+//			.setOnCompressListener(new Luban.OnCompressListener() {
+//				
+//				@Override
+//				public void onSuccess(File file, long timeSpent) {
+//					// TODO Auto-generated method stub
+//					Log.i("tag", "timeSpent=" + timeSpent);
+////					context.closeProgress();
+//					uploadImages(view,file);
+//				}
+//				
+//				@Override
+//				public void onStart() {
+//					// TODO Auto-generated method stub
+////					context.showProgress();
+//				}
+//				
+//				@Override
+//				public void onError(long timeSpent) {
+//					// TODO Auto-generated method stub
+//					
+//				}
+//			}).launch();
+//	}
+	
+	private void luban(final List<View> views,List<File> files) {
+		Luban.get(context)
+			.load(files)
+			.putGear(Luban.THIRD_GEAR)// 传人要压缩的图片
+			.setOnMultiCompressListener(// 设定压缩档次，默认三挡
+				new Luban.OnMultiCompressListener() {
+
+					@Override
+					public void onStart(){
+						context.showProgress();
+					}
+					
+					@Override
+					public void onSuccess(List<File> files,long timeSpent) {
+						Log.i("tag", "timeSpent=" + timeSpent);
+						context.closeProgress();
+						uploadImages(views,files);
+					}
+
+					@Override
+					public void onError(long timeSpent) {
+						context.closeProgress();
+					}
+				}).launch();
+	}
+	
+//	private void uploadImages(final View view,final File file) {
+//		TimerTask task=new TimerTask() {
+//			
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				try {
+////					Looper.prepare();
+//					String filePath = file.getAbsolutePath();
+//					uploadToQQcloud(view,filePath);
+////					Looper.loop();
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		};
+//		Timer t=new Timer();
+//		t.schedule(task, 5);
+//	}
+	
+	private void uploadImages(final List<View> views,final List<File> files) {
+		TimerTask task=new TimerTask() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+//					Looper.prepare();
+					if(!isEmptyList(files)){
+						if(views.size()!=files.size()){
+							showToast("图片和View长度不一致");
+							return;
+						}
+						int count=files.size();
+						for(int i=0;i<count;i++){
+							uploadToQQcloud(views.get(i),files.get(i).getAbsolutePath());
+							Thread.sleep(25);
+						}
+					}
+//					Looper.loop();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		Timer t=new Timer();
+		t.schedule(task, 5);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 }

@@ -66,6 +66,7 @@ import com.app.xstore.space.ImageGalleryActivity;
 import com.base.app.BaseAppActivity;
 import com.base.util.comm.DisplayUtils;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 import com.zltd.decoder.DecoderManager;
 import com.zxing.activity.CaptureActivity;
 
@@ -533,7 +534,7 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 	 * @param imgUrls 图片地址集合
 	 * @param position 当前选中的图片位置
 	 */
-	protected void changeToImageGalleryActivity(ArrayList<String> imgUrls,int position) {
+	public void changeToImageGalleryActivity(ArrayList<String> imgUrls,int position) {
 		Intent intent=new Intent(context,ImageGalleryActivity.class);
 		intent.putStringArrayListExtra("Imgs", imgUrls);
 		intent.putExtra("Position", position);
@@ -1230,5 +1231,31 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////
+	
+	public void loadImageByPicasso(String imageUrl,ImageView iv){
+		if(isEmpty(imageUrl)){
+			iv.setImageResource(R.drawable.default_img);
+			return;
+		}
+		Picasso.with(context).load(imageUrl).placeholder(R.drawable.default_img).error(R.drawable.default_img).into(iv);
+	}
+	
+	/**
+	 * 加载形如url1;url2;url3;
+	 * @param imageUrls
+	 * @param iv
+	 */
+	public void loadMultImageByPicasso(String imageUrls,ImageView iv){
+		if(!context.isEmpty(imageUrls)){
+			String[] urls=imageUrls.split(";");
+			if(urls!=null&&urls.length>0){
+				loadImageByPicasso(urls[0],iv);
+			}else{
+				iv.setImageResource(R.drawable.default_img);
+			}
+		}else{
+			iv.setImageResource(R.drawable.default_img);
+		}
+	}
 	
 }

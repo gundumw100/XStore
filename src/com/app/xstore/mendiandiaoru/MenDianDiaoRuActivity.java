@@ -134,6 +134,7 @@ public class MenDianDiaoRuActivity extends BaseActivity implements View.OnClickL
 			}
 			badgeViewLeft.setBadgeCount(beans.size());
 		}else if(curIndex==1){
+			btn_1.setText("入库单("+beans.size()+")");
 //			if(badgeViewRight==null){
 //				badgeViewRight = new BadgeView(context);
 //				badgeViewRight.setTargetView(view_1);

@@ -24,7 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *
+ *万象优图
  * @author jusisli
  * @see https://github.com/tencentyun/java-sdk
  */

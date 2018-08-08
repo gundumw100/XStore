@@ -9,7 +9,7 @@
         android:id="@+id/item_0"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.5"
+        android:layout_weight="2"
         android:textColor="@color/grayDark"
         android:textSize="@dimen/font_middle" />
 
@@ -17,7 +17,7 @@
         android:id="@+id/item_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:textColor="@color/grayDark"
         android:textSize="@dimen/font_middle" />
 

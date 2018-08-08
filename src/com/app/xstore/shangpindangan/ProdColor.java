@@ -4,6 +4,7 @@ public class ProdColor extends ProdCommon{
 
     public String colorCode;
     public String description;
+    public String imgUrl;
     
 	public String getColorCode() {
 		return colorCode;
@@ -19,6 +20,14 @@ public class ProdColor extends ProdCommon{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 	@Override

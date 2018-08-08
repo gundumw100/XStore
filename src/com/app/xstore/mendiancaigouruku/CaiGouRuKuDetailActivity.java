@@ -166,6 +166,7 @@ public class CaiGouRuKuDetailActivity extends BaseActivity implements OnClickLis
 									item.setGoods_name(product.getGoods_name());
 									item.setGoods_jh_price(product.getGoods_jh_price());
 									item.setGoods_ls_price(product.getGoods_ls_price());
+									item.setGoods_img(product.getGoods_img());
 									continue up;
 								}
 							}

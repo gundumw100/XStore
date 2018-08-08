@@ -31,11 +31,20 @@ public class ProductDangAnRecentlyBrowse extends DataSupport{
 	private String goods_cw;//": "00",
 	private String goods_style;//": "0000"
 	private String goods_other;//": 
+	private String goods_img;
 	private long timeMillis;
 	
 	@Override
 	public String toString() {
 		return goods_name;
+	}
+
+	public String getGoods_img() {
+		return goods_img;
+	}
+
+	public void setGoods_img(String goods_img) {
+		this.goods_img = goods_img;
 	}
 
 	public long getTimeMillis() {

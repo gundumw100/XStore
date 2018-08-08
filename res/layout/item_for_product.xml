@@ -10,6 +10,7 @@
         android:id="@+id/item_0"
         android:layout_width="64dp"
         android:layout_height="64dp" 
+        android:scaleType="fitXY"
         android:contentDescription="@null"
         />
 

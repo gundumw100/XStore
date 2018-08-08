@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response.Listener;
 import com.app.net.Commands;
+import com.app.widget.SimpleNumberDialog;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
@@ -46,7 +47,6 @@ public class CaiGouRuKuCreateActivity extends BaseActivity implements OnClickLis
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mendian_caigou_ruku);
-		
 		initActionBar("采购入库" ,"下一步", null);
 		initViews();
 		initScanner(new OnScannerResult() {
@@ -182,7 +182,8 @@ public class CaiGouRuKuCreateActivity extends BaseActivity implements OnClickLis
 				public void setValues(ViewHolder helper,
 						final ChuRuKuProduct item, final int position) {
 					// TODO Auto-generated method stub
-					helper.setText(R.id.item_0, item.getGoods_sn()+"\n"+item.getGoods_name());
+					helper.setText(R.id.item_0, item.getGoods_sn());
+					helper.setText(R.id.item_4, item.getGoods_name());
 					if(item.getGoods_jh_price()>0){
 						helper.setText(R.id.item_1, String.valueOf(item.getGoods_jh_price()));
 					}else{
@@ -194,7 +195,28 @@ public class CaiGouRuKuCreateActivity extends BaseActivity implements OnClickLis
 					}else{
 						helper.setText(R.id.item_2, "");
 					}
-					helper.setText(R.id.item_3, String.valueOf(item.getQty()));
+					TextView item_3=helper.getView(R.id.item_3);
+					item_3.setText(String.valueOf(item.getQty()));
+					item_3.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							SimpleNumberDialog d = new SimpleNumberDialog(context, "", "数量");
+							d.setOnClickListener(new SimpleNumberDialog.OnClickListener() {
+								
+								@Override
+								public void onClick(View v, String text) {
+									// TODO Auto-generated method stub
+									item.setQty(Integer.parseInt(text));
+									updateViews(beans);
+								}
+							});
+							d.show();
+						}
+					});
+					
+					
 //					View container = helper.getView(R.id.container);
 //					if (curPosition == position) {
 //						container.setBackgroundColor(0xFFFFCC99);
@@ -220,8 +242,9 @@ public class CaiGouRuKuCreateActivity extends BaseActivity implements OnClickLis
 		switch (v.getId()) {
 		case R.id.btn_ok:
 			String prodID=et_prodID.getText().toString().trim();
-			if(isEmpty(prodID)){
+			if(prodID.length()<10){
 				doShake(context, et_prodID);
+				showToast("至少10位编码");
 				return;
 			}
 			addItemIfNecessary(prodID);

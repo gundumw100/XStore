@@ -35,6 +35,7 @@
                 android:layout_marginRight="4dp"
                 style="@style/text_btn"
                 android:text="查询"
+                android:visibility="gone"
                 />
 
             <TextView
@@ -92,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/bg_edittext"
-                    android:hint="扫描已有吊牌"
+                    android:hint="扫描原条码"
                     android:padding="8dp"
                     android:maxLength="13"
                     android:inputType="number"
@@ -115,6 +116,7 @@
 
                 <TextView
                     style="@style/text_tip"
+                    android:textColor="@color/primary"
                     android:text="名称" />
 
                 <AutoCompleteTextView  
@@ -149,7 +151,9 @@
 
                 <TextView
                     style="@style/text_tip"
-                    android:text="年份" />
+                    android:text="年份" 
+                    android:textColor="@color/primary"
+                    />
 
                 <TextView
                     android:id="@+id/tv_year"
@@ -159,7 +163,7 @@
                     android:id="@+id/btn_addYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
 
@@ -180,7 +184,7 @@
                     android:id="@+id/btn_addBrand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
             </LinearLayout>
@@ -206,7 +210,7 @@
                     android:id="@+id/btn_addSeason"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
 
@@ -226,7 +230,7 @@
                     android:id="@+id/btn_addCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
             </LinearLayout>
@@ -240,24 +244,45 @@
 
                 <TextView
                     style="@style/text_tip"
+                    android:textColor="@color/primary"
                     android:text="颜色" />
 
-                <TextView
-                    android:id="@+id/tv_color"
-                    style="@style/text_field_gray"
-                    android:hint="均色" />
+                <FrameLayout 
+                    android:layout_width="0dp"
+                	android:layout_height="wrap_content"
+                	android:layout_weight="1"
+                    >
+	                <TextView
+	                    android:id="@+id/tv_color"
+	                    android:layout_width="match_parent"
+	                	android:layout_height="wrap_content"
+	                	android:textColor="@color/grayDark"
+	                	android:background="@drawable/bg_textview_gray_light"
+	                	android:textAppearance="?android:attr/textAppearanceSmall"
+	                	android:padding="8dp"
+	                    android:hint="均色" />
+	                <ImageView
+	                    android:id="@+id/btn_addColorImg"
+	                    android:layout_width="32dp"
+	                    android:layout_height="32dp"
+	                    android:src="@drawable/default_img"
+	                    android:layout_gravity="right|center_vertical"
+	                    android:layout_marginRight="2dp"
+	                    />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/btn_addColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
 
                 <TextView
                     style="@style/text_tip"
                     android:layout_width="48dp"
+                    android:textColor="@color/primary"
                     android:gravity="center"
                     android:text="尺码" />
 
@@ -270,7 +295,7 @@
                     android:id="@+id/btn_addSize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
             </LinearLayout>
@@ -296,14 +321,14 @@
                     android:id="@+id/btn_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
 
                 <TextView
                     style="@style/text_tip"
                     android:gravity="center"
-                    android:text="其他" />
+                    android:text="更多" />
 
                 <TextView
                     android:id="@+id/tv_other"
@@ -315,7 +340,7 @@
                     android:id="@+id/btn_other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" 
                     />
@@ -330,7 +355,7 @@
 
                 <TextView
                     style="@style/text_tip"
-                    android:text="进货价" />
+                    android:text="成本价" />
 
                 <EditText
                     android:id="@+id/et_jh_price"
@@ -347,7 +372,7 @@
                 <TextView
                     style="@style/text_tip"
                     android:gravity="center"
-                    android:text="批零价" />
+                    android:text="零售价" />
 
                 <EditText
                     android:id="@+id/et_ls_price"
@@ -366,6 +391,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:padding="4dp" >
 
                 <TextView
@@ -383,7 +409,7 @@
                     android:id="@+id/btn_cs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
                 
@@ -399,7 +425,7 @@
                     android:id="@+id/btn_cw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
                 
@@ -410,6 +436,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:padding="4dp" >
 
                 <TextView
@@ -440,7 +467,7 @@
                     android:id="@+id/btn_jldw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit48"
+                    android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
             </LinearLayout>
@@ -457,7 +484,8 @@
 	                android:layout_height="wrap_content"
                     style="@style/text_tip"
                     android:gravity="center"
-                    android:text="请选择一张对应颜色的图片\n(长按可删除重选)" />
+                    android:textSize="@dimen/font_middle"
+                    android:text="请选择主图\n(长按可删除重选)" />
                 
 	            <com.widget.flowlayout.FlowLayout
 	                android:id="@+id/flowLayout"
@@ -469,9 +497,10 @@
 	
 	                <ImageView
 	                    android:id="@+id/iv_addImage"
-	                    android:layout_width="@dimen/match_img_width"
-	                    android:layout_height="@dimen/match_img_width"
+	                    android:layout_width="40dp"
+	                    android:layout_height="40dp"
 	                    android:padding="2dp"
+	                    android:scaleType="centerCrop"
 	                    android:src="@drawable/add_image" />
 	            </com.widget.flowlayout.FlowLayout>
             </LinearLayout>

@@ -67,7 +67,7 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 			}
 		});
 		createFloatView(16);
-		
+
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 	public void initViews() {
 		// TODO Auto-generated method stub
 		et_productSku=$(R.id.et_productSku);
-		et_productSku.setText("180009");//debug
+		et_productSku.setText("180022");//debug
 		tv_name=$(R.id.tv_name);
 		tv_kucun=$(R.id.tv_kucun);
 		tv_year=$(R.id.tv_year);
@@ -148,10 +148,19 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 			ChuRuKuProduct cur=mergedBeans.get(curPosition);
 			tv_name.setText(cur.getGoods_sn().substring(0, 6)+" "+cur.getGoods_name());
 			tv_year.setText("20"+cur.getGoods_sn().substring(0, 2)+" "+cur.getGoods_season_desc());
-			tv_kucun.setText("库存："+cur.getStock());
-			tv_zaitu.setText("在途："+cur.getOnline_stock());
+//			tv_kucun.setText("库存："+cur.getStock());
+//			tv_zaitu.setText("在途："+cur.getOnline_stock());
 			adapterRecyclerView.notifyDataSetChanged();
 		}
+		int stock=0;
+		int stockOnline=0;
+		for(ChuRuKuProduct item:beans){
+			stock+=item.getStock();
+			stockOnline+=item.getOnline_stock();
+		}
+		tv_kucun.setText("库存："+stock);
+		tv_zaitu.setText("在途："+stockOnline);
+		
 	}
 	
 	private void initListView(){
@@ -188,7 +197,7 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 			public void onBindViewHolder(com.widget.common.recycler.ViewHolder holder,ChuRuKuProduct item, int position) {
 				// TODO Auto-generated method stub
 				ImageView item_0=holder.getView(R.id.item_0);
-				item_0.setImageResource(R.drawable.add_image);
+				loadMultImageByPicasso(item.getGoods_color_image(),item_0);
 				
 				holder.setText(R.id.item_1,item.getGoods_color_desc());
 				holder.setText(R.id.item_2,""+item.getStock());
@@ -207,7 +216,9 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// TODO Auto-generated method stub
 				curPosition=position;
-				updateHeadViews();
+				adapterRecyclerView.notifyDataSetChanged();
+				startProductDetailActivity(mergedBeans.get(position).getGoods_sn());
+//				updateHeadViews();
 			}
 		});
 		
@@ -257,7 +268,7 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 				Log.i("tag", response.toString());
 				if(isSuccess(response)){
 					GetStockBySKUListResponse obj=mapperToObject(response, GetStockBySKUListResponse.class);
-					if(obj!=null&&obj.getInfo()!=null){
+					if(obj!=null&&!isEmptyList(obj.getInfo())){
 						beans.clear();
 						beans.addAll(obj.getInfo());
 						
@@ -269,6 +280,8 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 						}
 						doCommandGetGoodsListBySKUs(goodsSns);
 						
+					}else{
+						showToast("未查询到库存");
 					}
 				}
 			}
@@ -307,6 +320,8 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 					item.setGoods_spec_desc(isEmpty(product.getGoods_spec_desc())?"均码":product.getGoods_spec_desc());
 					item.setGoods_season_desc(isEmpty(product.getGoods_season_desc())?"全年":product.getGoods_season_desc());
 					item.setGoods_sort_desc(product.getGoods_sort_desc());
+					item.setGoods_img(product.getGoods_img());
+					item.setGoods_color_image(product.getGoods_color_image());
 					continue up;
 				}
 			}
@@ -334,7 +349,8 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 			item.setGoods_spec(bean.getGoods_spec());
 			item.setGoods_season_desc(bean.getGoods_season_desc());
 			item.setGoods_sort_desc(bean.getGoods_sort_desc());
-//			item.setImageUrl(bean.getImageUrl());
+//			item.setGoods_img(bean.getGoods_img());
+			item.setGoods_color_image(bean.getGoods_color_image());
 			beansBak.add(item);
 		}
 		
@@ -347,6 +363,9 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 				mergedBeans.add(item);
 			}else{
 				ChuRuKuProduct product=map.get(item.getGoods_color());
+				if(isEmpty(product.getGoods_color_image())){//如果当前没有颜色图片，则用后面的替代
+					product.setGoods_color_image(item.getGoods_color_image());
+				}
 				product.setStock(item.getStock()+product.getStock());
 				product.setOnline_stock(item.getOnline_stock()+product.getOnline_stock());
 			}

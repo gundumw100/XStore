@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.volley.Response.Listener;
@@ -81,7 +82,8 @@ public class MyFavoritesActivity extends BaseActivity {
 					@Override
 					public void setValues(ViewHolder helper, final ProductDangAn item, final int position) {
 						// TODO Auto-generated method stub
-						helper.setImageResource(R.id.item_0, R.drawable.default_img);
+						ImageView item_0=helper.getView(R.id.item_0);
+						loadMultImageByPicasso(item.getGoods_img(),item_0);
 						helper.setText(R.id.item_1,item.getGoods_name());
 						helper.setText(R.id.item_2,"品牌："+item.getBrand_name());
 						helper.setText(R.id.item_4,"编码："+item.getGoods_sn());
