@@ -31,7 +31,7 @@ public class UserInfoActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		tv_content=(TextView)findViewById(R.id.tv_content);
 		UserInfo bean=App.user.getUserInfo();
-		tv_content.setText("门店ID："+bean.getShop_code()+"\n\n门店名称："+"\n\n用户ID："+bean.getUser_code()+"\n\n用户名："+bean.getUser_name());
+		tv_content.setText("门店ID："+bean.getShop_code()+"\n\n门店名称："+App.user.getShopInfo().getShop_name()+"\n\n用户ID："+bean.getUser_code()+"\n\n用户名："+bean.getUser_name());
 	}
 	
 	@Override

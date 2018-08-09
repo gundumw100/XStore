@@ -43,6 +43,8 @@ import java.util.List;
 import com.app.xstore.R;
 
 /**
+ * https://github.com/dkzwm/SmoothRefreshLayout
+ * 
  * Created by dkzwm on 2017/5/18.
  * <p>Part of the code comes from @see <a href="https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh">
  * android-Ultra-Pull-To-Refresh</a><br/>
