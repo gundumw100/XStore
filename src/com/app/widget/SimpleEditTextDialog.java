@@ -46,7 +46,8 @@ public class SimpleEditTextDialog extends BaseDialog implements
 		et = (EditText) findViewById(R.id.et);
 		et.setHint(hint);
 		et.setText(defaultText);
-		findViewById(R.id.btn_ok).setOnClickListener(this);
+		findViewById(R.id.btn_left).setOnClickListener(this);
+		findViewById(R.id.btn_right).setOnClickListener(this);
 	}
 
 	private OnClickListener onClickListener;
@@ -63,7 +64,10 @@ public class SimpleEditTextDialog extends BaseDialog implements
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.btn_ok:
+		case R.id.btn_left:
+			dismiss();
+			break;
+		case R.id.btn_right:
 			String text = et.getText().toString().trim();
 			if (TextUtils.isEmpty(text)) {
 				doShake(et);

@@ -16,7 +16,7 @@ public class ThemeManager {
 	private Context mContext;
 	private ArrayList<IThemeListener> iThemeListeners;
 
-	public static int BACKGROUNDS[] = { Color.rgb(26, 89, 154), Color.rgb(217, 57, 69), Color.rgb(52, 145, 120),
+	public static int BACKGROUNDS[] = { Color.rgb(51, 181, 229), Color.rgb(26, 89, 154), Color.rgb(217, 57, 69), Color.rgb(52, 145, 120),
 			Color.rgb(240, 90, 154), Color.rgb(192, 80, 26), Color.rgb(148, 83, 237), Color.rgb(75, 104, 228),
 			Color.rgb(44, 162, 249), Color.rgb(4, 188, 205), Color.rgb(242, 116, 77), Color.rgb(249, 169, 42),
 			Color.rgb(105, 200, 78), Color.rgb(30, 186, 118), Color.rgb(31, 190, 158), Color.rgb(161, 161, 161),

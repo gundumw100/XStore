@@ -20,6 +20,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center"
             android:text="{fa-qrcode}"
+            android:padding="8dp"
             android:textColor="@color/grayDark"
             android:textSize="@dimen/font_4xbig" />
 
@@ -34,14 +35,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:hint="会员号或手机号"
-                android:paddingBottom="8dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="8dp"
+                android:padding="8dp"
                 android:singleLine="true"
                 android:textColor="@color/grayDark"
                 android:textSize="@dimen/font_middle"
-                tools:text="13524802105;0101000008621" />
+                android:background="@drawable/bg_edittext"
+                tools:text="13524802105;0101000008621" 
+                android:layout_margin="8dp"
+                />
 
             <com.widget.iconify.IconTextView
                 android:id="@+id/iv_ok"
@@ -49,10 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:gravity="center"
-                android:paddingBottom="16dp"
-                android:paddingLeft="0dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
+                android:padding="8dp"
                 android:text="{fa-check}"
                 android:textColor="@color/grayDark"
                 android:textSize="@dimen/font_4xbig" />
@@ -65,7 +63,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="4dp"
             android:background="@drawable/bg_btn_gray"
-            android:padding="4dp"
+            android:padding="8dp"
             android:text="注册"
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_middle" />
@@ -77,7 +75,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="4dp"
             android:background="@drawable/bg_btn_gray"
-            android:padding="4dp"
+            android:padding="8dp"
             android:text="整单折扣"
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_middle" />

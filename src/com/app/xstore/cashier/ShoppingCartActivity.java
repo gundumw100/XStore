@@ -15,6 +15,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,7 +39,6 @@ import com.app.widget.SimpleEditTextDialog;
 import com.app.widget.SimplePairListPopupWindow;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
-import com.app.xstore.GoodsDetailActivity;
 import com.app.xstore.member.MemberRegisterActivity;
 import com.app.xstore.R;
 import com.base.app.CommonAdapter;
@@ -72,8 +72,8 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 		setContentView(R.layout.activity_shoppingcart);
 		context=this;
 		initHandler();
+		initActionBar("收银台",null,getDrawableCompat(R.drawable.icon_order_more));
 		initViews();
-		initActionBar("收银台",null,App.res.getDrawable(R.drawable.icon_order_more));
 		createFloatView(DisplayUtils.dip2px(context, 80));
 	}
 
@@ -90,9 +90,9 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 	
 	private void showSimplePopupWindow(View v){
 		ArrayList<Pair<Integer, String>> menus = new ArrayList<Pair<Integer, String>>();
-		menus.add(new Pair<Integer, String>(3, "添加商品"));
-		menus.add(new Pair<Integer, String>(2, "交易查询"));
-		menus.add(new Pair<Integer, String>(5, "清空"));
+		menus.add(new Pair<Integer, String>(0, "添加商品"));
+		menus.add(new Pair<Integer, String>(1, "交易查询"));
+		menus.add(new Pair<Integer, String>(2, "清空"));
 		
 		View view = LayoutInflater.from(context).inflate(R.layout.popupwindow_simple, null);
 		final SimplePairListPopupWindow<Integer, String> popupWindow = new SimplePairListPopupWindow<Integer, String>(context,view, (int)App.res.getDimension(R.dimen.popupwindow_width), menus);
@@ -104,10 +104,10 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 				// TODO Auto-generated method stub
 				Intent intent=null;
 				switch (pair.first) {
-				case 2://交易查询
+				case 0://交易查询
 					startActivity(new Intent(context,TradeLocalListActivity.class));
 					break;
-				case 3://
+				case 1://
 					ProductIdDialog d=new ProductIdDialog(context,"","请输入商品号或扫描");
 					d.setOnClickListener(new ProductIdDialog.OnClickListener() {
 						@Override
@@ -118,7 +118,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 					});
 					d.show();
 					break;
-				case 5://
+				case 2://
 					D.showDialog(ShoppingCartActivity.this, "确定要清空吗？",  "清空", "取消", new D.OnPositiveListener() {
 						
 						@Override
@@ -144,7 +144,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 		tv_scan_result=(EditText)findViewById(R.id.tv_scan_result);//会员号
 		findViewById(R.id.btn_register).setOnClickListener(this);//注册
 		findViewById(R.id.btn_discount).setOnClickListener(this);//整单折扣
-		findViewById(R.id.btn_memo).setOnClickListener(this);//购物袋
+		findViewById(R.id.btn_memo).setOnClickListener(this);//备注
 		findViewById(R.id.btn_guadan).setOnClickListener(this);//挂单
 		findViewById(R.id.btn_jiedan).setOnClickListener(this);//解单
 		findViewById(R.id.btn_payment).setOnClickListener(this);//结算
@@ -277,9 +277,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
 								curGoods=item;
-								Intent intent =new Intent(context, GoodsDetailActivity.class);
-								intent.putExtra("ProdNum", item.getGoods_sn());
-								startActivity(intent);
+								startProductDetailActivity(item.getGoods_sn());
 							}
 						});
 					}
@@ -405,7 +403,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-//				Log.i("tag", response.toString());
+				Log.i("tag", response.toString());
 				if(isSuccess(response)){
 					GetGoodsInfoReponse obj=mapperToObject(response, GetGoodsInfoReponse.class);
 					if(obj!=null){

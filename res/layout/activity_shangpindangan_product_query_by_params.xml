@@ -163,7 +163,7 @@
         android:layout_height="wrap_content"
         android:text="确定"
         android:gravity="center"
-        android:padding="16dp"
+        android:padding="10dp"
         android:layout_margin="8dp"
         android:textSize="@dimen/font_middle" />
 

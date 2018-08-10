@@ -22,6 +22,13 @@ public class App extends BaseApp implements IWrapperCallBack {
 
 	public static boolean isLog=true;
 	
+	//QQ万象优图参数
+	public static int APP_ID_V2 = 10009153;// 10000001
+	public static String SECRET_ID_V2 = "AKIDfSSfovfua0dim2D6lbDo9uFHOQ29q1cO";// AKIDNZwDVhbRtdGkMZQfWgl2Gnn1dhXs95C0
+	public static String SECRET_KEY_V2 = "leHXiJjxZeVYToYyYjKN2UXEKXqYkyfs";// ZDdyyRLCLv1TkeYOl5OCMLbyH4sJ40wp
+	public static String BUCKET = "zstore"; // 空间名 testa
+	public static final boolean NEED_CHECK_PORN = false; // 是否有必要检查porn图片
+		
 	public static User user = new User();
 	public static ScanUtil scanUtil;
 

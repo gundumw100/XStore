@@ -16,6 +16,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -30,12 +31,16 @@ import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
 import com.app.xstore.mendiancaigouruku.GetGoodsListBySKUsResponse;
 import com.app.xstore.mendiandiaochu.ChuRuKuProduct;
+import com.app.xstore.shangpindangan.GetGoodsColorImageListResponse;
+import com.app.xstore.shangpindangan.ProdColorImage;
 import com.app.xstore.shangpindangan.ProductDangAn;
 import com.app.xstore.shangpindangan.ProductQueryByParamsActivity;
 import com.base.app.CommonAdapter;
 import com.base.app.ViewHolder;
 import com.widget.common.recycler.BaseRecyclerAdapter;
 import com.widget.common.recycler.SpacesItemDecoration;
+import com.widget.flowlayout.FlowLayout;
+import com.widget.flowlayout.TagAdapter;
 
 /**
  * 
@@ -80,7 +85,7 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 	public void initViews() {
 		// TODO Auto-generated method stub
 		et_productSku=$(R.id.et_productSku);
-		et_productSku.setText("180022");//debug
+		et_productSku.setText("180030");//debug
 		tv_name=$(R.id.tv_name);
 		tv_kucun=$(R.id.tv_kucun);
 		tv_year=$(R.id.tv_year);
@@ -265,15 +270,13 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", response.toString());
+//				Log.i("tag", response.toString());
 				if(isSuccess(response)){
 					GetStockBySKUListResponse obj=mapperToObject(response, GetStockBySKUListResponse.class);
 					if(obj!=null&&!isEmptyList(obj.getInfo())){
 						beans.clear();
 						beans.addAll(obj.getInfo());
-						
 //						updateViews(beans);
-						
 						List<String> goodsSns=new ArrayList<String>();
 						for(ChuRuKuProduct item:beans){
 							goodsSns.add(item.getGoods_sn());
@@ -294,7 +297,7 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", response.toString());
+//				Log.i("tag", response.toString());
 				if(isSuccess(response)){
 					GetGoodsListBySKUsResponse obj=mapperToObject(response, GetGoodsListBySKUsResponse.class);
 					if(obj!=null&&obj.getGoodsInfo()!=null){
@@ -350,7 +353,7 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 			item.setGoods_season_desc(bean.getGoods_season_desc());
 			item.setGoods_sort_desc(bean.getGoods_sort_desc());
 //			item.setGoods_img(bean.getGoods_img());
-			item.setGoods_color_image(bean.getGoods_color_image());
+//			item.setGoods_color_image(bean.getGoods_color_image());
 			beansBak.add(item);
 		}
 		
@@ -363,14 +366,48 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 				mergedBeans.add(item);
 			}else{
 				ChuRuKuProduct product=map.get(item.getGoods_color());
-				if(isEmpty(product.getGoods_color_image())){//如果当前没有颜色图片，则用后面的替代
-					product.setGoods_color_image(item.getGoods_color_image());
-				}
+//				if(isEmpty(product.getGoods_color_image())){//如果当前没有颜色图片，则用后面的替代
+//					product.setGoods_color_image(item.getGoods_color_image());
+//				}
 				product.setStock(item.getStock()+product.getStock());
 				product.setOnline_stock(item.getOnline_stock()+product.getOnline_stock());
 			}
 		}
 		
+		//请求颜色图片数据，补全颜色图片数据
+		doCommandGetGoodsColorImageList();
+	}
+	
+	private void doCommandGetGoodsColorImageList(){
+		String productSku=et_productSku.getText().toString().trim();
+		String styleCode=productSku.substring(0,6);
+		String colorCode=null;
+		Commands.doCommandGetGoodsColorImageList(context, styleCode, colorCode, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject response) {
+				// TODO Auto-generated method stub
+//				Log.i("tag", "response="+response.toString());
+				if (isSuccess(response)) {
+					GetGoodsColorImageListResponse obj=mapperToObject(response, GetGoodsColorImageListResponse.class);
+					if(obj!=null&&obj.getInfo()!=null){
+						List<ProdColorImage> colorImageList=obj.getInfo().getImageInfo();
+						if(!isEmptyList(colorImageList)){
+							//匹配数据，补全图片url
+							up:for(ChuRuKuProduct bean:mergedBeans){
+								for(ProdColorImage img:colorImageList){
+									if(!isEmpty(img.getImgUrl())&&bean.getGoods_color().equals(img.getColorCode())){//如果当前没有颜色图片，则用后面的替代
+										bean.setGoods_color_image(img.getImgUrl());
+										continue up;
+									}
+								}
+							}
+							adapterRecyclerView.notifyDataSetChanged();
+						}
+					}
+				}
+			}
+		});
 	}
 	
 }

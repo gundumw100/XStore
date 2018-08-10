@@ -13,7 +13,8 @@ import com.app.xstore.R;
  * @author pythoner
  * 
  */
-public class ProductIdDialog extends ScanerBaseDialog  implements View.OnClickListener {
+public class ProductIdDialog extends ScanerBaseDialog implements
+		View.OnClickListener {
 
 	private String defaultText;
 	private View btn_left;
@@ -26,7 +27,8 @@ public class ProductIdDialog extends ScanerBaseDialog  implements View.OnClickLi
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductIdDialog(Context context, int theme, String defaultText, String tip) {
+	public ProductIdDialog(Context context, int theme, String defaultText,
+			String tip) {
 		super(context, theme);
 		// TODO Auto-generated constructor stub
 		this.defaultText = defaultText;
@@ -47,24 +49,8 @@ public class ProductIdDialog extends ScanerBaseDialog  implements View.OnClickLi
 		tv_scan_result = (EditText) findViewById(R.id.tv_scan_result);
 		tv_scan_result.setText(defaultText);
 		findViewById(R.id.iv_scan).setOnClickListener(this);
-		btn_left=findViewById(R.id.btn_left);
+		btn_left = findViewById(R.id.btn_left);
 		btn_left.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				String text = tv_scan_result.getText().toString().trim();
-				if (text.length() >= 6) {
-					if (onClickListener != null) {
-						onClickListener.onClick(v, text);
-					}
-					dismiss();
-				} else {
-					doShake(tv_scan_result);
-				}
-			}
-		});
-		findViewById(R.id.btn_right).setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -72,6 +58,25 @@ public class ProductIdDialog extends ScanerBaseDialog  implements View.OnClickLi
 				dismiss();
 			}
 		});
+		findViewById(R.id.btn_right).setOnClickListener(
+				new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+
+						String text = tv_scan_result.getText().toString()
+								.trim();
+						if (text.length() >= 6) {
+							if (onClickListener != null) {
+								onClickListener.onClick(v, text);
+							}
+							dismiss();
+						} else {
+							doShake(tv_scan_result);
+						}
+					}
+				});
 	}
 
 	private OnClickListener onClickListener;
@@ -96,11 +101,11 @@ public class ProductIdDialog extends ScanerBaseDialog  implements View.OnClickLi
 			break;
 		}
 	}
-	
+
 	@Override
-	public void onScanProductHandleMessage(String prodID){
+	public void onScanProductHandleMessage(String prodID) {
 		tv_scan_result.setText(prodID);
 		btn_left.performClick();
 	}
-	
+
 }

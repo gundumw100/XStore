@@ -22,6 +22,7 @@ import com.android.volley.Response.Listener;
 import com.app.net.Commands;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
+import com.app.xstore.mendiancaigouruku.GetGoodsListBySKUsResponse;
 import com.base.app.CommonAdapter;
 import com.base.app.ViewHolder;
 
@@ -234,6 +235,8 @@ public class ProductQueryBySkuActivity extends BaseActivity {
 						beans.clear();
 						beans.addAll(obj.getGoodsInfo());
 						updateViews(beans);
+						
+						doCommandGetGoodsListBySKUs();
 					}
 				}
 			}
@@ -271,6 +274,8 @@ public class ProductQueryBySkuActivity extends BaseActivity {
 						beans.clear();
 						beans.addAll(obj.getGoodsInfo());
 						updateViews(beans);
+						
+						doCommandGetGoodsListBySKUs();
 					}
 				}
 			}
@@ -287,6 +292,35 @@ public class ProductQueryBySkuActivity extends BaseActivity {
 				if (isSuccess(response)) {
 					beans.remove(item);
 					updateViews(beans);
+				}
+			}
+		});
+	}
+	private void doCommandGetGoodsListBySKUs(){
+		List<String> goodsSns=new ArrayList<String>();
+		for(ProductDangAn bean:beans){
+			goodsSns.add(bean.getGoods_sn());
+		}
+		
+		Commands.doCommandGetGoodsListBySKUs(context, goodsSns, new Listener<JSONObject>() {
+			
+			@Override
+			public void onResponse(JSONObject response) {
+				// TODO Auto-generated method stub
+//				Log.i("tag", "response="+response.toString());
+				if (isSuccess(response)) {
+					GetGoodsListBySKUsResponse obj=mapperToObject(response, GetGoodsListBySKUsResponse.class);
+					if(obj!=null&&obj.getGoodsInfo()!=null){
+						up:for(ProductDangAn bean:beans){
+							for(ProductDangAn item:obj.getGoodsInfo()){
+								if(!isEmpty(item.getGoods_sn())&&bean.getGoods_sn().equals(item.getGoods_sn())){
+									bean.setGoods_img(item.getGoods_img());
+									continue up;
+								}
+							}
+						}
+						notifyDataSetChanged();
+					}
 				}
 			}
 		});

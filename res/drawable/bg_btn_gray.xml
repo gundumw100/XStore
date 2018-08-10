@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="true" android:state_enabled="true"><shape>
-            <solid android:color="@color/gray" />
+            <solid android:color="@color/grayDarkPressed" />
 
-            <stroke android:width="0dp" android:color="@color/gray" />
+            <stroke android:width="0dp" android:color="@color/grayDarkPressed" />
 
             <corners android:radius="0dp" />
         </shape></item>

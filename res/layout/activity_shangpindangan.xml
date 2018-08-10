@@ -83,7 +83,6 @@
 
                 <TextView
                     android:id="@+id/tv_productSku"
-                    android:layout_marginRight="4dp"
                     style="@style/text_field_gray"
                      />
 
@@ -97,6 +96,7 @@
                     android:padding="8dp"
                     android:maxLength="13"
                     android:inputType="number"
+                    android:layout_marginLeft="4dp"
                     android:textSize="@dimen/font_middle" />
 
                 <TextView
@@ -130,15 +130,28 @@
                     android:hint="如：纯棉舒适短袖男T恤A/B/C"
                     android:textSize="@dimen/font_middle"
                     android:completionThreshold="1"
+                    android:maxLength="30"
 			        />  
         
+                <EditText
+                    android:id="@+id/et_oldSku"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edittext"
+                    android:hint="原货号"
+                    android:padding="8dp"
+                    android:maxLength="13"
+                    android:inputType="number"
+                    android:layout_marginLeft="4dp"
+                    android:textSize="@dimen/font_middle" />
+                
                 <ImageView 
                     android:id="@+id/iv_help_productName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_help24"
                     android:layout_gravity="center_vertical"
-                    android:padding="8dp" 
+                    android:padding="10dp" 
                     />
             </LinearLayout>
 
@@ -480,12 +493,12 @@
                 android:padding="4dp" >
             
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
 	                android:layout_height="wrap_content"
                     style="@style/text_tip"
                     android:gravity="center"
                     android:textSize="@dimen/font_middle"
-                    android:text="请选择主图\n(长按可删除重选)" />
+                    android:text="请选择商品图\n(长按可删除重选,已上传的图片勿重复选择)" />
                 
 	            <com.widget.flowlayout.FlowLayout
 	                android:id="@+id/flowLayout"

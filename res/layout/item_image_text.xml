@@ -15,7 +15,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:contentDescription="@null"
-        android:scaleType="center"
+        android:scaleType="centerInside"
+        android:src="@drawable/default_img"
         />
     <TextView
         android:id="@+id/item_1"

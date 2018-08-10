@@ -26,6 +26,7 @@ import com.app.model.SimpleGoods;
 import com.app.xstore.App;
 import com.app.xstore.mendiandiaochu.ChuRuKuHead;
 import com.app.xstore.mendiandiaochu.ChuRuKuProduct;
+import com.app.xstore.shangpindangan.ProdColorImage;
 import com.app.xstore.shangpindangan.ProductDangAn;
 import com.base.net.VolleyHelper;
 import com.google.gson.Gson;
@@ -55,6 +56,118 @@ public final class Commands {
 	}
 	
 	/**
+	 * 请求一组商品的商品详情（可用于校验，主图，颜色图.....）
+	 * @param context
+	 * @param goodsSns
+	 * @param onSuccessListener
+	 */
+	public static void doCommandGetGoodsListBySKUs(Context context,List<String> goodsSns,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setGoodsSns(goodsSns);
+		doCommand(context, "GetGoodsListBySKUs", pars, onSuccessListener);
+	}
+	
+	/**
+	 * 查询商品款图片
+	 * @param context
+	 * @param styleCode
+	 * @param onSuccessListener
+	 */
+	public static void doCommandGetGoodsStyleImageList(Context context,String styleCode,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setStyleCode(styleCode);
+		doCommand(context, "GetGoodsStyleImageList", pars, onSuccessListener);
+	}
+	/**
+	 * 修改商品款图片
+	 * @param context
+	 * @param imageInfo
+	 * @param onSuccessListener
+	 */
+	public static void doCommandUpdateGoodsStyleImage(Context context,List<ProdColorImage> imageInfo,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setImageInfo(imageInfo);
+		doCommand(context, "UpdateGoodsStyleImage", pars, onSuccessListener,false);
+	}
+	
+	/**
+	 * 添加商品款图片
+	 * @param context
+	 * @param imageInfo
+	 * @param onSuccessListener
+	 */
+	public static void doCommandAddGoodsStyleImage(Context context,List<ProdColorImage> imageInfo,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+//		pars.setCompanyCode(getCompanyCode());
+		pars.setImageInfo(imageInfo);
+		doCommand(context, "AddGoodsStyleImage", pars, onSuccessListener,false);
+	}
+	/**
+	 * 删除商品款图片
+	 * @param context
+	 * @param imageInfo
+	 * @param onSuccessListener
+	 */
+	public static void doCommandDeleteGoodsStyleImage(Context context,List<ProdColorImage> imageInfo,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+//		pars.setCompanyCode(getCompanyCode());
+		pars.setImageInfo(imageInfo);
+		doCommand(context, "DeleteGoodsStyleImage", pars, onSuccessListener,false);
+	}
+	/**
+	 * 添加商品颜色图片
+	 * @param context
+	 * @param Pars
+	 * @param onSuccessListener
+	 */
+	public static void doCommandAddGoodsColorImage(Context context,List<ProdColorImage> imageInfo,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+//		pars.setCompanyCode(getCompanyCode());
+		pars.setImageInfo(imageInfo);
+		doCommand(context, "AddGoodsColorImage", pars, onSuccessListener);
+	}
+	/**
+	 * 查询商品颜色图片
+	 * @param context
+	 * @param styleCode
+	 * @param colorCode 颜色值null表示全部
+	 * @param onSuccessListener
+	 */
+	public static void doCommandGetGoodsColorImageList(Context context,String styleCode,String colorCode,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setStyleCode(styleCode);
+		pars.setColorCode(colorCode);
+		doCommand(context, "GetGoodsColorImageList", pars, onSuccessListener);
+	}
+	/**
+	 * 删除商品颜色图片
+	 * @param context
+	 * @param Pars
+	 * @param onSuccessListener
+	 */
+	public static void doCommandDeleteGoodsColorImage(Context context,List<ProdColorImage> imageInfo,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+//		pars.setCompanyCode(getCompanyCode());
+		pars.setImageInfo(imageInfo);
+		doCommand(context, "DeleteGoodsColorImage", pars, onSuccessListener);
+	}
+	/**
+	 * 修改商品颜色图片
+	 * @param context
+	 * @param Pars
+	 * @param onSuccessListener
+	 */
+	public static void doCommandUpdateGoodsColorImage(Context context,List<ProdColorImage> imageInfo,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+//		pars.setCompanyCode(getCompanyCode());
+		pars.setImageInfo(imageInfo);
+		doCommand(context, "UpdateGoodsColorImage", pars, onSuccessListener,false);
+	}
+	
+	/**
 	 * 获取入库单详情
 	 * @param context
 	 * @param shopCode
@@ -81,18 +194,6 @@ public final class Commands {
 		doCommand(context, "CreateInStorage", pars, onSuccessListener);
 	}
 	
-	/**
-	 * 校验,商品详情
-	 * @param context
-	 * @param goodsSns
-	 * @param onSuccessListener
-	 */
-	public static void doCommandGetGoodsListBySKUs(Context context,List<String> goodsSns,Listener<JSONObject> onSuccessListener) {
-		Pars pars = new Pars();
-		pars.setCompanyCode(getCompanyCode());
-		pars.setGoodsSns(goodsSns);
-		doCommand(context, "GetGoodsListBySKUs", pars, onSuccessListener);
-	}
 	/**
 	 * 获取入库单列表
 	 * @param context
@@ -371,12 +472,14 @@ public final class Commands {
 	 * 添加商品
 	 * @param context
 	 * @param GoodsInfo
+	 * @param goodsImage
 	 * @param onSuccessListener
 	 */
 	public static void doCommandAddGoodsInfo(Context context,List<ProductDangAn> goodsInfo,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
 		pars.setCompanyCode(getCompanyCode());
 		pars.setGoodsInfo(goodsInfo);
+//		pars.setGoodsImage(goodsImage);
 		doCommand(context, "AddGoodsInfo", pars, onSuccessListener);
 	}
 	
@@ -1124,8 +1227,8 @@ public final class Commands {
 	}
 	public static void doCommandGetGoodsInfo(Context context,String shop_code,String goods_sn,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
 		pars.setGoods_sn(goods_sn);
-		pars.setShop_code(shop_code);
 		doCommand(context, "GetGoodsInfo", pars, onSuccessListener);
 	}
 	public static void doCommandGetShopUserList(Context context,String shop_code,Listener<JSONObject> onSuccessListener) {
@@ -1303,20 +1406,6 @@ public final class Commands {
 		doCommand(context, "CheckVersion", pars, onSuccessListener);
 	}
 	
-	// public static void doCommandDownLoadSuccessNotify(Context context,
-	// String version_code,String downloader_id, String downloader_shopid,String
-	// ip_address,String computer,String downloads,Listener<JSONObject>
-	// onSuccessListener) {
-	// Pars pars=new Pars();
-	// pars.setVersion_code(version_code);
-	// pars.setDownloader_id(downloader_id);
-	// pars.setDownloader_shopid(downloader_shopid);
-	// pars.setIp_address(ip_address);
-	// pars.setComputer(computer);
-	// pars.setDownloads(downloads);
-	// doCommand(context,"DownLoadSuccessNotify",pars,onSuccessListener);
-	// }
-
 	//////////////////////////////////////////////
 	// base
 	//////////////////////////////////////////////
@@ -1353,19 +1442,12 @@ public final class Commands {
 	private static String toJSon(Object object) {
 		return new Gson().toJson(object);// 使用Gson
 	}
-	// private static Shop getShop(Context context) {
-	// SharedPreferencesUtils u = new SharedPreferencesUtils(context,
-	// "share_data");
-	// Shop shop = u.getObject("Shop", Shop.class);
-	// return shop;
-	// }
 
 	public static void doCommand(Context context, String actionName, Pars pars,
 			Listener<JSONObject> onSuccessListener,boolean showProgress) {
 		Message message = new Message();
 		message.setPars(pars);
 		message.setActionName(actionName);
-//		 Log.i("tag", toJSon(message));
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("inData", toJSon(message));
 		if(App.isLog){

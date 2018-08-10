@@ -17,9 +17,24 @@ import com.app.model.ProdCheckDataInfo;
 import com.app.model.SimpleGoods;
 import com.app.xstore.mendiandiaochu.ChuRuKuHead;
 import com.app.xstore.mendiandiaochu.ChuRuKuProduct;
+import com.app.xstore.shangpindangan.ProdColorImage;
 import com.app.xstore.shangpindangan.ProductDangAn;
 
 public class Pars {
+
+	List<ProdColorImage> imageInfo;
+	
+	public void setImageInfo(List<ProdColorImage> imageInfo) {
+		this.imageInfo = imageInfo;
+	}
+
+
+	List<ProdColorImage> goodsImage;
+	
+	public void setGoodsImage(List<ProdColorImage> goodsImage) {
+		this.goodsImage = goodsImage;
+	}
+
 
 	ChuRuKuHead inStoHeadInfo;
 	List<ChuRuKuProduct> inStoDetailList;

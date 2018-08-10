@@ -61,6 +61,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 
 	private EditText et_productSku;
 	private AutoCompleteTextView et_productName;
+	private EditText et_oldSku;
 	private AutoCompleteAdapter<ProductDangAn> adapter;
 	private TextView tv_productSku,tv_year,tv_brand,tv_season,tv_category,tv_color,tv_size,tv_date,tv_other,tv_jldw,tv_cw;
 	private ImageView btn_addColorImg;
@@ -132,6 +133,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			et_productSku.setSelection(goodsSn.length());
 		}
 		et_productName=$(R.id.et_productName);
+		et_oldSku=$(R.id.et_oldSku);
 		
 		List<ProductDangAn> products=DataSupport.order("id desc").limit(200).find(ProductDangAn.class);
 		adapter = new AutoCompleteAdapter<ProductDangAn>(context, products,10);
@@ -1792,6 +1794,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		
 		tv_productSku.setText(dateCode+styleCode+color+size);//2+4+2+2
 		et_productName.setEnabled(false);
+		et_oldSku.setEnabled(false);
 		tv_year.setClickable(false);
 		tv_year.setTextColor(ContextCompat.getColor(context, R.color.grayMiddle));
 		btn_addYear.setClickable(false);
@@ -1805,13 +1808,14 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		switch (v.getId()) {
 		case R.id.btn_generateCode:
 			String productName=et_productName.getText().toString().trim();
+			String oldSku=et_oldSku.getText().toString().trim();
 			if(isEmpty(productName)){
 				showToast("请输入名称");
 				doShake(context, et_productName);
 				return;
 			}
 			String year_code=tv_year.getText().toString().substring(2);
-			doCommandGetProdStyleList(year_code,productName);
+			doCommandGetProdStyleList(year_code,productName+oldSku);
 			break;
 		case R.id.btn_query:
 			startActivity(new Intent(context,ProductListActivity.class));
@@ -1845,13 +1849,13 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 				return;
 			}
 			
-			if(isEmpty(et_jh_price)){
-				showToast("请填写进货价");
-				doShake(context, et_jh_price);
-				return;
-			}
+//			if(isEmpty(et_jh_price)){
+//				showToast("请填写进货价");
+//				doShake(context, et_jh_price);
+//				return;
+//			}
 			if(isEmpty(et_ls_price)){
-				showToast("请填写批零价");
+				showToast("请填写零售价");
 				doShake(context, et_ls_price);
 				return;
 			}
@@ -1860,15 +1864,15 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 //				doShake(context, et_zxs);
 //				return;
 //			}
-			int childCount=flowLayout.getChildCount();
-			if(childCount<=1){
-				doShake(context, flowLayout);
-				showToast("缺少主图");
-				return;
-			}
+//			int childCount=flowLayout.getChildCount();
+//			if(childCount<=1){
+//				doShake(context, flowLayout);
+//				showToast("缺少商品图");
+//				return;
+//			}
 			
 			
-			UploadResult uploadResult=(UploadResult)btn_addColorImg.getTag();
+//			UploadResult uploadResult=(UploadResult)btn_addColorImg.getTag();
 			if(btn_addColorImg.getTag()==null){
 				doShake(context, btn_addColorImg);
 				String message="我们建议您在保存前添加一张对应颜色的图片。";
@@ -1939,6 +1943,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			bean.setGoods_style(dateCode+styleCode);
 		}
 		
+		//debug
 		bean.setGoods_name(et_productName.getText().toString().trim());
 		bean.setGoods_desc(et_productName.getText().toString().trim());
 		
@@ -1951,7 +1956,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		bean.setGoods_season(tv_season.getTag()==null?"00":((ProdSeason)tv_season.getTag()).getSeasonCode());
 		bean.setGoods_sort(tv_category.getTag()==null?"00":((ProdSort)tv_category.getTag()).getSortCode());
 		bean.setGoods_color(tv_color.getTag()==null?"00":((ProdColor)tv_color.getTag()).getColorCode());
-		bean.setGoods_color_image(btn_addColorImg.getTag()==null?"":((UploadResult)btn_addColorImg.getTag()).downloadUrl);//颜色对应的图片
+//		bean.setGoods_color_image(btn_addColorImg.getTag()==null?"":((UploadResult)btn_addColorImg.getTag()).downloadUrl);//颜色对应的图片
 		
 		bean.setGoods_spec(tv_size.getTag()==null?"00":((ProdSpec)tv_size.getTag()).getSpecCode());
 		bean.setGoods_other(tv_other.getTag()==null?null:((ProdOther)tv_other.getTag()).getOtherCode());
@@ -1959,22 +1964,29 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		bean.setGoods_cw(tv_cw.getTag()==null?null:((ProdCw)tv_cw.getTag()).getCwCode());
 		bean.setGoods_jldw(tv_jldw.getTag()==null?null:((ProdJLDW)tv_jldw.getTag()).getJldwCode());
 		bean.setGoods_sj_date(tv_date.getText().toString());
-		bean.setGoods_jh_price(Float.parseFloat(et_jh_price.getText().toString()));
-		bean.setGoods_ls_price(Float.parseFloat(et_ls_price.getText().toString()));
+		bean.setGoods_jh_price(Float.parseFloat(et_jh_price.getText().length()==0?"0":et_jh_price.getText().toString()));
+		bean.setGoods_ls_price(Float.parseFloat(et_ls_price.getText().length()==0?"0":et_ls_price.getText().toString()));
 		bean.setGoods_zxs(et_zxs.getText().toString());
 		
-		StringBuffer sb=new StringBuffer();
-		int childCount=flowLayout.getChildCount()-1;//-1去除最后一个添加按钮
-		for(int i=0;i<childCount;i++){
-			View child=flowLayout.getChildAt(i);
-			if(child.getTag()!=null){
-				UploadResult result=(UploadResult)child.getTag();
-				sb.append(";").append(result.downloadUrl);
-			}
-		}
-		if(sb.length()>0){
-			bean.setGoods_img(sb.substring(1).toString());
-		}
+//		//主图集合
+//		List<ProdColorImage> goodsImages=new ArrayList<ProdColorImage>();
+////		StringBuffer sb=new StringBuffer();
+//		int childCount=flowLayout.getChildCount()-1;//-1去除最后一个添加按钮
+//		for(int i=0;i<childCount;i++){
+//			View child=flowLayout.getChildAt(i);
+//			if(child.getTag()!=null){
+//				UploadResult result=(UploadResult)child.getTag();
+////				sb.append(";").append(result.downloadUrl);
+//				ProdColorImage goodsImage=new ProdColorImage();
+//				goodsImage.setCompanyCode(App.user.getShopInfo().getCompany_code());
+//				goodsImage.setImgUrl(result.downloadUrl);
+//				goodsImage.setStyleCode(bean.getGoods_style());
+//				goodsImages.add(goodsImage);
+//			}
+//		}
+//		if(sb.length()>0){
+//			bean.setGoods_img(sb.substring(1).toString());
+//		}
 		
 		goodsInfo.add(bean);
 		
@@ -1988,26 +2000,100 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	}
 	
 	private void doCommandAddGoodsInfo(List<ProductDangAn> goodsInfo){
-		Commands.doCommandAddGoodsInfo(context, goodsInfo, new Listener<JSONObject>() {
+		Commands.doCommandAddGoodsInfo(context, goodsInfo,new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject response) {
+				// TODO Auto-generated method stub
+				Log.i("tag", "response="+response.toString());
+				if (isSuccess(response)) {
+					ProdColorImage colorImage=new ProdColorImage();
+					colorImage.setCompanyCode(App.user.getShopInfo().getCompany_code());
+					colorImage.setColorCode(tv_color.getTag()==null?"00":((ProdColor)tv_color.getTag()).getColorCode());
+//					colorImage.setDescription(tv_color.getText().length()==0?"均色":tv_color.getText().toString());
+					colorImage.setImgUrl(btn_addColorImg.getTag()==null?"":((UploadResult)btn_addColorImg.getTag()).downloadUrl);
+					
+					String styleCode=null;
+					String sku=null;
+					if(isEmpty(tv_productSku)){//扫描已有吊牌
+						sku=et_productSku.getText().toString();
+					}else{//生成款号
+						sku=tv_productSku.getText().toString();
+					}
+					if(sku.length()>6){
+						styleCode=sku.substring(0, 6);
+						colorImage.setStyleCode(styleCode);
+					}
+					
+					doCommandAddGoodsColorImage(colorImage);
+					doCommandAddGoodsStyleImage(styleCode);
+					resetViews();
+				}
+			}
+		});
+	}
+	
+	private void resetViews(){
+//		et_productSku.setEnabled(true);
+		et_productName.setEnabled(true);
+		et_productName.requestFocus();
+		et_productName.setSelection(et_productName.length());
+		et_oldSku.setEnabled(true);
+		tv_year.setClickable(true);
+		tv_year.setTextColor(ContextCompat.getColor(context, R.color.grayDark));
+		btn_addYear.setClickable(true);
+		tv_productSku.setText("");
+		
+		flowLayout.removeViews(0, flowLayout.getChildCount()-1);
+	}
+	
+	private void doCommandAddGoodsColorImage(ProdColorImage colorImage){
+		List<ProdColorImage> colorImages=new ArrayList<ProdColorImage>();
+		colorImages.add(colorImage);
+		Commands.doCommandAddGoodsColorImage(context, colorImages, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject response) {
+				// TODO Auto-generated method stub
+				Log.i("tag", "response="+response.toString());
+				if (isSuccess(response)) {
+					showToast("保存成功");
+//					resetViews();
+				}
+			}
+		});
+	}
+	
+	private void doCommandAddGoodsStyleImage(String styleCode){
+		//主图集合
+		List<ProdColorImage> goodsImages=new ArrayList<ProdColorImage>();
+		int childCount=flowLayout.getChildCount()-1;//-1去除最后一个添加按钮
+		for(int i=0;i<childCount;i++){
+			View child=flowLayout.getChildAt(i);
+			if(child.getTag()!=null){
+				UploadResult result=(UploadResult)child.getTag();
+				ProdColorImage goodsImage=new ProdColorImage();
+				goodsImage.setCompanyCode(App.user.getShopInfo().getCompany_code());
+				goodsImage.setImgUrl(result.downloadUrl);
+				goodsImage.setStyleCode(styleCode);
+				goodsImages.add(goodsImage);
+			}
+		}
+		
+		Commands.doCommandAddGoodsStyleImage(context, goodsImages, new Listener<JSONObject>() {
 
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
 //				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
-					showToast("保存成功");
-//					et_productSku.setEnabled(true);
-					et_productName.setEnabled(true);
-					et_productName.requestFocus();
-					et_productName.setSelection(et_productName.length());
-					tv_year.setClickable(true);
-					tv_year.setTextColor(ContextCompat.getColor(context, R.color.grayDark));
-					btn_addYear.setClickable(true);
-					tv_productSku.setText("");
-					
+//					showToast("保存成功");
+//					resetViews();
 				}
 			}
 		});
+		
+		
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2022,21 +2108,13 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	//QQ万象优图参数
-	public static int APP_ID_V2 = 10009153;// 10000001
-	public static String SECRET_ID_V2 = "AKIDfSSfovfua0dim2D6lbDo9uFHOQ29q1cO";// AKIDNZwDVhbRtdGkMZQfWgl2Gnn1dhXs95C0
-	public static String SECRET_KEY_V2 = "leHXiJjxZeVYToYyYjKN2UXEKXqYkyfs";// ZDdyyRLCLv1TkeYOl5OCMLbyH4sJ40wp
-	public static String BUCKET = "zstore"; // 空间名 testa
-	public static final boolean NEED_CHECK_PORN = false; // 是否有必要检查porn图片
-	
-		
 	private void uploadToQQcloud(View view,String filePath) throws Exception {
 //		Log.i("tag", "APP_ID_V2="+APP_ID_V2);
 //		Log.i("tag", "SECRET_ID_V2="+SECRET_ID_V2);
 //		Log.i("tag", "SECRET_KEY_V2="+SECRET_KEY_V2);
 //		Log.i("tag", "BUCKET="+BUCKET);
 //		Log.i("tag", "filePath="+filePath);///storage/sdcard0/wandoujia/downloader/openscreen/open_screen_bg_img_1653.png
-		PicCloud pc = new PicCloud(APP_ID_V2, SECRET_ID_V2, SECRET_KEY_V2, BUCKET);
+		PicCloud pc = new PicCloud(App.APP_ID_V2, App.SECRET_ID_V2, App.SECRET_KEY_V2, App.BUCKET);
 		picBase(view,pc, filePath);
 	}
 	
@@ -2064,7 +2142,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		//com.qcloud.PicAnalyze@519e0684
 		
 		if(ret==0){
-			if(NEED_CHECK_PORN){
+			if(App.NEED_CHECK_PORN){
 				if(checkPorn(result.downloadUrl)){
 //					 ret = pc.delete(result.fileId);// 删除一张图片
 //					 return;
@@ -2095,7 +2173,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				PicCloud pc = new PicCloud(APP_ID_V2, SECRET_ID_V2, SECRET_KEY_V2, BUCKET);
+				PicCloud pc = new PicCloud(App.APP_ID_V2, App.SECRET_ID_V2, App.SECRET_KEY_V2, App.BUCKET);
 				pc.delete(fileId);
 			}
 		};
@@ -2109,7 +2187,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
      * public static final String PORN_URL = "http://b.hiphotos.baidu.com/image/pic/item/8ad4b31c8701a18b1efd50a89a2f07082938fec7.jpg";
      */
     private boolean checkPorn(String url) {
-		PicCloud pc = new PicCloud(APP_ID_V2, SECRET_ID_V2, SECRET_KEY_V2, BUCKET);
+		PicCloud pc = new PicCloud(App.APP_ID_V2, App.SECRET_ID_V2, App.SECRET_KEY_V2, App.BUCKET);
 		PornDetectInfo info = new PornDetectInfo();
 		int ret = pc.pornDetect(url, info);
 		if(ret==0){
@@ -2199,34 +2277,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		}
 	}
 	
-//	private void luban(final View view,final File file) {
-//		Luban.get(context)
-//			.load(file)
-//			.putGear(Luban.THIRD_GEAR)// 传人要压缩的图片
-//			.setOnCompressListener(new Luban.OnCompressListener() {
-//				
-//				@Override
-//				public void onSuccess(File file, long timeSpent) {
-//					// TODO Auto-generated method stub
-//					Log.i("tag", "timeSpent=" + timeSpent);
-////					context.closeProgress();
-//					uploadImages(view,file);
-//				}
-//				
-//				@Override
-//				public void onStart() {
-//					// TODO Auto-generated method stub
-////					context.showProgress();
-//				}
-//				
-//				@Override
-//				public void onError(long timeSpent) {
-//					// TODO Auto-generated method stub
-//					
-//				}
-//			}).launch();
-//	}
-	
 	private void luban(final List<View> views,List<File> files) {
 		Luban.get(context)
 			.load(files)
@@ -2252,27 +2302,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 					}
 				}).launch();
 	}
-	
-//	private void uploadImages(final View view,final File file) {
-//		TimerTask task=new TimerTask() {
-//			
-//			@Override
-//			public void run() {
-//				// TODO Auto-generated method stub
-//				try {
-////					Looper.prepare();
-//					String filePath = file.getAbsolutePath();
-//					uploadToQQcloud(view,filePath);
-////					Looper.loop();
-//				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//		};
-//		Timer t=new Timer();
-//		t.schedule(task, 5);
-//	}
 	
 	private void uploadImages(final List<View> views,final List<File> files) {
 		TimerTask task=new TimerTask() {
