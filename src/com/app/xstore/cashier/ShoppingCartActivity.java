@@ -1,6 +1,7 @@
 package com.app.xstore.cashier;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONObject;
 import org.simple.eventbus.Subscriber;
@@ -27,20 +28,20 @@ import android.widget.TextView;
 
 import com.android.volley.Response.Listener;
 import com.app.model.Discount;
-import com.app.model.Goods;
 import com.app.model.GuaDan;
 import com.app.model.UserInfo;
-import com.app.model.response.GetGoodsInfoReponse;
 import com.app.net.Commands;
 import com.app.widget.BadgeView;
 import com.app.widget.JieDanListDialog;
-import com.app.widget.ProductIdDialog;
 import com.app.widget.SimpleEditTextDialog;
 import com.app.widget.SimplePairListPopupWindow;
+import com.app.widget.dialog.ProductCodeDialog;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
-import com.app.xstore.member.MemberRegisterActivity;
 import com.app.xstore.R;
+import com.app.xstore.member.MemberRegisterActivity;
+import com.app.xstore.mendiancaigouruku.GetGoodsListBySKUsResponse;
+import com.app.xstore.shangpindangan.ProductDangAn;
 import com.base.app.CommonAdapter;
 import com.base.app.ViewHolder;
 import com.base.util.D;
@@ -57,9 +58,9 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 	private Context context;
 	private EditText tv_scan_result;
 	private ListView listView;
-	private CommonAdapter<Goods> adapter;
-	private ArrayList<Goods> beans=new ArrayList<Goods>();
-	private Goods curGoods;//当前选中的Item
+	private CommonAdapter<ProductDangAn> adapter;
+	private ArrayList<ProductDangAn> beans=new ArrayList<ProductDangAn>();
+	private ProductDangAn curProduct;//当前选中的Item
 	private int scanType=0;//扫描商品0，扫描会员1
 	private String memo="";//备注
 	private final int REQUEST_CODE_DISCOUNT=101;
@@ -104,19 +105,20 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 				// TODO Auto-generated method stub
 				Intent intent=null;
 				switch (pair.first) {
-				case 0://交易查询
-					startActivity(new Intent(context,TradeLocalListActivity.class));
-					break;
-				case 1://
-					ProductIdDialog d=new ProductIdDialog(context,"","请输入商品号或扫描");
-					d.setOnClickListener(new ProductIdDialog.OnClickListener() {
+				case 0://
+					ProductCodeDialog d=new ProductCodeDialog(context,"1800280404","请输入商品号或扫描");
+					d.setOnClickListener(new ProductCodeDialog.OnClickListener() {
 						@Override
 						public void onClick(View v, String text) {
 							// TODO Auto-generated method stub
-							doCommandGetGoodsInfo(text);
+//							doCommandGetGoodsInfo(text);
+							doCommandGetGoodsListBySKUs(text);
 						}
 					});
 					d.show();
+					break;
+				case 1://交易查询
+					startActivity(new Intent(context,TradeLocalListActivity.class));
 					break;
 				case 2://
 					D.showDialog(ShoppingCartActivity.this, "确定要清空吗？",  "清空", "取消", new D.OnPositiveListener() {
@@ -170,11 +172,11 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 	
 	private void notifyDataSetChanged(){
 		if(adapter==null){
-			listView.setAdapter(adapter = new CommonAdapter<Goods>( context, beans,
+			listView.setAdapter(adapter = new CommonAdapter<ProductDangAn>( context, beans,
 					  R.layout.item_shoppingcart){
 					  
 					@Override
-					public void setValues(ViewHolder helper,final Goods item, final int position) {
+					public void setValues(ViewHolder helper,final ProductDangAn item, final int position) {
 						// TODO Auto-generated method stub
 						View convertView=helper.getConvertView();
 //						if(isExist.get(position)==null){
@@ -218,41 +220,44 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 							
 						});
 
-						helper.setText(R.id.item_1, item.getGoods_name());
-						helper.setText(R.id.item_2, "商品编码  "+item.getGoods_sn());
-						helper.setText(R.id.item_3, "颜色/尺码");
-//						helper.setText(R.id.item_3, item.getColorName()+"/"+item.getSizeName());
-						TextView tv_TotalMoney=(TextView)helper.getView(R.id.item_4);
-						tv_TotalMoney.setText("￥"+item.getGoods_price());//金额
+						helper.setText(R.id.item_name, item.getGoods_name());
+						helper.setText(R.id.item_sn, "商品编码  "+item.getGoods_sn());
+						helper.setText(R.id.item_colorSize, item.getGoods_color_desc()+"  "+item.getGoods_spec_desc());
 						
-						TextView tv_TotalMoneyReal=(TextView)helper.getView(R.id.item_9);
-						if(item.getGoods_price()==item.getGoods_price_discount()){//没折扣
-							tv_TotalMoney.getPaint().setFlags(Paint.LINEAR_TEXT_FLAG);//去掉横线效果
-							tv_TotalMoney.setTextColor(App.res.getColor(R.color.primary));
-							tv_TotalMoneyReal.setVisibility(View.GONE);
+						TextView tv_ls_price=(TextView)helper.getView(R.id.item_ls_price);
+						tv_ls_price.setText("￥"+item.getGoods_ls_price());//零售金额
+						TextView tv_discount_price=(TextView)helper.getView(R.id.item_discount_price);//打折后的金额
+						if(item.getDiscount()==null){//没折扣
+							tv_ls_price.getPaint().setFlags(Paint.LINEAR_TEXT_FLAG);//去掉横线效果
+							tv_ls_price.setTextColor(getColorCompat(R.color.primary));
+							tv_discount_price.setVisibility(View.GONE);
 						}else{
-							tv_TotalMoney.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//中间加横线 
-							tv_TotalMoney.setTextColor(App.res.getColor(R.color.gray));
-							tv_TotalMoneyReal.setVisibility(View.VISIBLE);
-							String text=formatNumber(10*item.getGoods_price_discount()/item.getGoods_price(),"###0.##")+"折	￥"+item.getGoods_price_discount();
-							tv_TotalMoneyReal.setText(text);//实际金额
+							Discount discount=item.getDiscount();
+							tv_ls_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//中间加横线 
+							tv_ls_price.setTextColor(getColorCompat(R.color.gray));
+							tv_discount_price.setVisibility(View.VISIBLE);
+							
+							String rate=formatNumber(10*discount.getDiscountRate(),"###0.##")+"折  ";
+							String value="￥"+formatNumber(discount.getDiscountPrice(),"###0.##");
+							tv_discount_price.setText(rate+value);//实际金额
+							
 						}
 						//导购
-						final TextView item_5=(TextView)helper.getView(R.id.item_5);
-						setThemeDrawable(context, item_5);
-						item_5.setText(App.user.getUserInfo().getUser_code());
-						item_5.setOnClickListener(new View.OnClickListener() {
+						final TextView item_seller=(TextView)helper.getView(R.id.item_seller);
+						setThemeDrawable(context, item_seller);
+						item_seller.setText(App.user.getUserInfo().getUser_code());
+						item_seller.setOnClickListener(new View.OnClickListener() {
 							
 							@Override
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
-								curGoods=item;
+								curProduct=item;
 								doCommandGetShopUserListAndShowDialog(new OnSelectUserInfoListener(){
 
 									@Override
 									public void doResult(UserInfo instance) {
 										// TODO Auto-generated method stub
-										item_5.setText(instance.getUser_code());
+										item_seller.setText(instance.getUser_code());
 										item.setSellerUser(instance.getUser_code());
 									}
 									
@@ -261,22 +266,23 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 						});
 						
 						//单件折扣
-						helper.getView(R.id.item_8).setOnClickListener(new View.OnClickListener() {
+						helper.getView(R.id.item_discount).setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
-								curGoods=item;
+								curProduct=item;
 								Intent intent=new Intent(context,DiscountActivity.class);
+								intent.putExtra("TotalPrice", item.getGoods_ls_price());//
 								intent.putExtra("WholeOrder", false);
 								startActivityForResult(intent, REQUEST_CODE_DISCOUNT);
 							}
 						});
 						//商品详情
-						helper.getView(R.id.item_11).setOnClickListener(new View.OnClickListener() {
+						helper.getView(R.id.item_detail).setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
-								curGoods=item;
+								curProduct=item;
 								startProductDetailActivity(item.getGoods_sn());
 							}
 						});
@@ -308,18 +314,20 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 			dialog.show();
 			break;
 		case R.id.iv_scan:
-//			if(App.user.isDefaultPhoneType()){
-				scanType=1;
-//			}
+			scanType=1;
 			doScan(resultHandler);
-//			doScan(resultHandlerScanMember,this);
 			break;
 		case R.id.btn_register:
 			intent=new Intent(context,MemberRegisterActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.btn_discount://整单打折
+			float totalPrice=0;
+			for(ProductDangAn bean:beans){
+				totalPrice+=bean.getGoods_ls_price();
+			}
 			intent=new Intent(context,DiscountActivity.class);
+			intent.putExtra("TotalPrice", totalPrice);//
 			intent.putExtra("WholeOrder", true);
 			startActivityForResult(intent, REQUEST_CODE_DISCOUNT);
 			break;
@@ -328,7 +336,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 				return;
 			}
 			//开辟新内存
-			ArrayList<Goods> tmpBeans=new ArrayList<Goods>();
+			ArrayList<ProductDangAn> tmpBeans=new ArrayList<ProductDangAn>();
 			tmpBeans.addAll(beans);
 //			ArrayList<Boolean> tmpExist=new ArrayList<Boolean>();
 //			tmpExist.addAll(isExist);
@@ -337,12 +345,12 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 			dan.setInfos(tmpBeans);//不能直接写入beans
 			dan.setQty(tmpBeans.size());
 			
-			double money=0.0;
-			for(Goods b:tmpBeans){
-				if(b.getDiscount()==null){//实际金额
-					money+=b.getGoods_price();
-				}else{
-					money+=b.getGoods_price_discount();//打折后金额
+			float money=0f;
+			for(ProductDangAn b:tmpBeans){
+				if(b.getDiscount()==null){//零售价
+					money+=b.getGoods_ls_price();
+				}else{//折扣价
+					money+=b.getDiscount().getDiscountPrice();//打折后金额
 				}
 			}
 			dan.setMoney(formatMoney(money));
@@ -382,7 +390,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 				return;
 			}
 			intent=new Intent(context,PaymentTypeActivity.class);
-			intent.putParcelableArrayListExtra("Goods", beans);
+			intent.putParcelableArrayListExtra("Products", beans);
 			startActivity(intent);
 			break;
 		default:
@@ -396,33 +404,63 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 //		isExist.clear();
 	}
 		
-	private void doCommandGetGoodsInfo(String goods_sn){
-		String shop_code=App.user.getShopInfo().getShop_code();
-		Commands.doCommandGetGoodsInfo(context, shop_code, goods_sn, new Listener<JSONObject>() {
-
+	private void doCommandGetGoodsListBySKUs(String goods_sn){
+		List<String> goodsSns=new ArrayList<String>();
+		goodsSns.add(goods_sn);
+		Commands.doCommandGetGoodsListBySKUs(context, goodsSns, new Listener<JSONObject>() {
+			
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
 				Log.i("tag", response.toString());
 				if(isSuccess(response)){
-					GetGoodsInfoReponse obj=mapperToObject(response, GetGoodsInfoReponse.class);
-					if(obj!=null){
-						Goods bean=obj.getGoods();
-						if(bean!=null){
-							beans.add(bean);
-							updateViews(beans);
-						}else{
-							showToast("查不到商品");
+					GetGoodsListBySKUsResponse obj=mapperToObject(response, GetGoodsListBySKUsResponse.class);
+					List<ProductDangAn> products=obj.getGoodsInfo();
+					if(!isEmptyList(products)){
+						
+						for(ProductDangAn bean:products){
+							bean.setGoods_price(bean.getGoods_ls_price());
+							bean.setGoods_discountRate(100);//不打折
 						}
+						
+						beans.addAll(products);
+						updateViews(beans);
+					}else{
+						showToast("查不到商品");
 					}
 				}
 			}
 		});
 	}
 	
+//	private void doCommandGetGoodsInfo(String goods_sn){
+//		String shop_code=App.user.getShopInfo().getShop_code();
+//		Commands.doCommandGetGoodsInfo(context, shop_code, goods_sn, new Listener<JSONObject>() {
+//
+//			@Override
+//			public void onResponse(JSONObject response) {
+//				// TODO Auto-generated method stub
+//				Log.i("tag", response.toString());
+//				if(isSuccess(response)){
+//					GetGoodsInfoReponse obj=mapperToObject(response, GetGoodsInfoReponse.class);
+//					if(obj!=null){
+//						Goods bean=obj.getGoods();
+//						if(bean!=null){
+//							bean.setGoods_price(99);
+//							beans.add(bean);
+//							updateViews(beans);
+//						}else{
+//							showToast("查不到商品");
+//						}
+//					}
+//				}
+//			}
+//		});
+//	}
+	
 	@Override
 	public void onScanProductHandleMessage(String prodID){
-		doCommandGetGoodsInfo(prodID);
+		doCommandGetGoodsListBySKUs(prodID);
 	}
 	
 	@Override
@@ -433,13 +471,19 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 		if(requestCode == REQUEST_CODE_DISCOUNT){
 			if(resultCode==1){
 				if(data!=null){
-					Discount discount=data.getParcelableExtra("DiscountWrap");
+					Discount discount=data.getParcelableExtra("Discount");
 					if(discount.isWholeOrder()){
-						for( Goods bean:beans){
+						//整单折扣时，折扣金额需要从新计算
+						for(ProductDangAn bean:beans){
+							discount.setDiscountPrice(bean.getGoods_ls_price()*discount.getDiscountRate());
+							bean.setGoods_price(discount.getDiscountPrice());
+							bean.setGoods_discountRate(discount.getDiscountRate());
 							bean.setDiscount(discount);
 						}
 					}else{
-						curGoods.setDiscount(discount);
+						curProduct.setGoods_price(discount.getDiscountPrice());
+						curProduct.setGoods_discountRate(discount.getDiscountRate());
+						curProduct.setDiscount(discount);
 					}
 					updateViews(beans);
 				}

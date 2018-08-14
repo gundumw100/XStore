@@ -5,46 +5,72 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/tv_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_blue_light"
         android:gravity="center"
         android:padding="10dp"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/font_middle" />
+        android:textSize="@dimen/font_middle" 
+        android:text="积分抵现"
+        />
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp" >
+        android:padding="16dp"
+        android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/tv_scan_result"
+        <TextView
+            android:id="@+id/tv_jifen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:background="@drawable/bg_edittext"
-            android:inputType="number"
-            android:maxLength="13"
-            android:padding="8dp"
-            android:hint="请输入商品编码"
-            android:singleLine="true"
+            android:text="可用积分："
+            android:textColor="@color/grayDark"
             android:textSize="@dimen/font_middle" />
 
-        <ImageView
-            android:id="@+id/iv_scan"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:padding="8dp"
-            android:src="@drawable/ic_scan_small" />
-    </FrameLayout>
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="本次使用："
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+
+            <EditText
+                android:id="@+id/et_jifen"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edittext"
+                android:maxLength="5"
+                android:padding="8dp"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textSize="@dimen/font_middle" />
+
+            <TextView
+                android:id="@+id/tv_dixian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="抵现0元"
+                android:layout_marginLeft="16dp"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
+
         <Button
             android:id="@+id/btn_left"
             android:layout_width="match_parent"
@@ -55,7 +81,7 @@
             android:text="取消"
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_middle" />
-        
+
         <Button
             android:id="@+id/btn_right"
             android:layout_width="match_parent"
@@ -66,7 +92,6 @@
             android:text="确定"
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_middle" />
-        
     </LinearLayout>
 
 </LinearLayout>

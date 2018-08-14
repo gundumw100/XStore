@@ -3,7 +3,6 @@ package com.app.xstore.cashier;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
 import android.content.Context;
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.model.Goods;
 import com.app.model.PaymentType;
 import com.app.net.SosopayRequest;
 import com.app.net.SosopayTradePrecreateTask;
@@ -24,6 +22,7 @@ import com.app.net.SosopayTradeQueryRequestTask;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
+import com.app.xstore.shangpindangan.ProductDangAn;
 import com.base.util.D;
 import com.google.zxing.WriterException;
 import com.sosopay.SosopayConstants;
@@ -38,6 +37,7 @@ import com.zxing.encoding.EncodingHandler;
  * @author Ni Guijun
  *
  */
+@Deprecated
 public class PaymentActivity extends BaseActivity{
 
 	private Context context;
@@ -69,7 +69,7 @@ public class PaymentActivity extends BaseActivity{
 		String operid=App.user.getUserInfo().getUser_code();//操作员编号
 		String devid=App.config.getDeviceId();//设备编号
 		String storeid=App.user.getShopInfo().getShop_code();//门店编号
-		double amt=getIntent().getDoubleExtra("Ying", 0.00);//交易金额，元
+		double amt=getIntent().getDoubleExtra("Need", 0.00);//交易金额，元
 		if(isTest){
 			amt=0.01d;
 		}
@@ -82,12 +82,12 @@ public class PaymentActivity extends BaseActivity{
 		chargeCode=UUID.randomUUID().toString();//交易流水号
 		String notifyUrl="http://test.sssyin.cn:8083/sosopayWebDemo/sosoNodify";//
 		String paySubject="收款";//支付信息描述
-		ArrayList<Goods> beans =getIntent().getParcelableArrayListExtra("Goods");
+		ArrayList<ProductDangAn> beans =getIntent().getParcelableArrayListExtra("Products");
 		ArrayList<GoodsInfo> goodsInfos=null;
 		if(!isEmptyList(beans)){
 			paySubject="零售";//支付信息描述
 			goodsInfos=new ArrayList<GoodsInfo>();
-			for(Goods bean:beans){
+			for(ProductDangAn bean:beans){
 				GoodsInfo goodsInfo = new GoodsInfo(bean.getGoods_sn(),bean.getGoods_name(),"类型",String.valueOf(bean.getGoods_price()),bean.getGoods_desc(),"1");
 				goodsInfos.add(goodsInfo);
 			}
@@ -124,7 +124,7 @@ public class PaymentActivity extends BaseActivity{
 //		String MerchantName=getIntent().getStringExtra("MerchantName");
 		TextView tv_merchantName=(TextView)findViewById(R.id.tv_merchantName);
 		tv_merchantName.setText("收款帐号：未知");
-		double ying=getIntent().getDoubleExtra("Ying", 0.00);
+		double ying=getIntent().getDoubleExtra("Need", 0.00);
 		TextView tv_realMoney=(TextView)findViewById(R.id.tv_realMoney);
 		tv_realMoney.setText("金额： ￥"+ying);
 		iv_qr=(ImageView)findViewById(R.id.iv_qr);

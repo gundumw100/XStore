@@ -19,6 +19,7 @@ import com.android.volley.Response.Listener;
 import com.app.net.Commands;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
+import com.app.xstore.mendiankucun.ProductKuCunListByParamsActivity;
 import com.widget.flowlayout.FlowLayout;
 
 /**
@@ -205,6 +206,16 @@ public class ProductQueryByParamsActivity extends BaseActivity {
 //		ArrayList<String> goods_cw=null;
 		
 //		if(hasParam){
+		String function=getIntent().getStringExtra("Function");
+		if("cunku".equals(function)){
+			Intent intent=new Intent(context,ProductKuCunListByParamsActivity.class);
+			intent.putStringArrayListExtra("goods_brand", goods_brand);
+			intent.putStringArrayListExtra("goods_year", goods_year);
+			intent.putStringArrayListExtra("goods_season", goods_season);
+			intent.putStringArrayListExtra("goods_sort", goods_sort);
+			intent.putStringArrayListExtra("goods_other", goods_other);
+			startActivity(intent);
+		}else{
 			Intent intent=new Intent(context,ProductQueryListByParamsActivity.class);
 			intent.putStringArrayListExtra("goods_brand", goods_brand);
 			intent.putStringArrayListExtra("goods_year", goods_year);
@@ -212,6 +223,7 @@ public class ProductQueryByParamsActivity extends BaseActivity {
 			intent.putStringArrayListExtra("goods_sort", goods_sort);
 			intent.putStringArrayListExtra("goods_other", goods_other);
 			startActivity(intent);
+		}
 //			doCommandGetGoodsListByParam(goods_brand,goods_color,goods_cs,goods_sort,goods_spec, goods_season, goods_jldw,goods_cw,goods_other);
 //		}else{
 //			showToast("没有查询条件");

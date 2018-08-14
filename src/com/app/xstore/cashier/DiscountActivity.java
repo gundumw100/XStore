@@ -26,6 +26,7 @@ public class DiscountActivity extends BaseActivity implements OnClickListener{
 	private EditText discountValue;
 	private TextView tv_rate,tv_p;
 	private boolean wholeOrder;
+	private float totalPrice;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class DiscountActivity extends BaseActivity implements OnClickListener{
 		context=this;
 		initViews();
 		wholeOrder=getIntent().getBooleanExtra("WholeOrder", false);
+		totalPrice=getIntent().getFloatExtra("TotalPrice", 0);
 		initActionBar(wholeOrder?"整单折扣":"单件折扣",null,null);
 	}
 	@Override
@@ -74,30 +76,36 @@ public class DiscountActivity extends BaseActivity implements OnClickListener{
 				doShake(context, discountValue);
 				return;
 			}
-			double value=Double.parseDouble(text);
-			value=Double.parseDouble(formatMoney(value));
+			float value=Float.parseFloat(text);
+			value=Float.parseFloat(formatMoney(value));
 			
-			Discount discountWrap=new Discount();
+			Discount discount=new Discount();
 			if(discountType.getSelectedItemPosition()==0){//折扣率
-				discountWrap.setMode(0);//DiscountMode.DiscountRate
 				if(value>100){
-					showToast(R.string.require_discount_max_rate);
+					showToast("折扣率不能大于100");
 					return;
 				}
+				discount.setDiscountType(0);
+				
+				float rate=value/100;
+				discount.setDiscountRate(rate);
+				discount.setDiscountPrice(rate*totalPrice);//整单折扣时该值需要从新计算
 			}
 			else if(discountType.getSelectedItemPosition()==1){//折扣额
-				discountWrap.setMode(1);//DiscountMode.DiscountPrice
+				if(value>totalPrice){
+					showToast("不能超过原价");
+					return;
+				}
+				discount.setDiscountType(1);
+				
+				float rate=value/totalPrice;
+				discount.setDiscountRate(rate);
+				discount.setDiscountPrice(value);//整单折扣时该值需要从新计算
 			}
-			discountWrap.setDiscountValue(value);
-//			if(discountOptions.getSelectedItemPosition()==0){
-//				discountWrap.setDisOnBillPrice(true);//使用当前价,RetailPrice
-//			}else{
-//				discountWrap.setDisOnBillPrice(false);//使用当前价,RetailPrice
-//			}
-			discountWrap.setWholeOrder(wholeOrder);//整单打折
+			discount.setWholeOrder(wholeOrder);//整单打折
 			
 			Intent intent=new Intent();
-			intent.putExtra("DiscountWrap", discountWrap);
+			intent.putExtra("Discount", discount);
 			setResult(1,intent);
 			finish();
 			break;

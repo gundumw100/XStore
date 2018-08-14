@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/bg_edittext"
-                    android:hint="扫描原条码"
+                    android:hint="扫描原厂条码"
                     android:padding="8dp"
                     android:maxLength="13"
                     android:inputType="number"
@@ -127,18 +127,18 @@
 			        android:singleLine="true"
                     android:background="@drawable/bg_edittext"
                     android:padding="8dp"
-                    android:hint="如：纯棉舒适短袖男T恤A/B/C"
+                    android:hint="如:纯棉舒适短袖男T恤"
                     android:textSize="@dimen/font_middle"
                     android:completionThreshold="1"
                     android:maxLength="30"
 			        />  
         
                 <EditText
-                    android:id="@+id/et_oldSku"
+                    android:id="@+id/et_originalSku"
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_edittext"
-                    android:hint="原货号"
+                    android:hint="原厂货号"
                     android:padding="8dp"
                     android:maxLength="13"
                     android:inputType="number"
@@ -211,22 +211,41 @@
 
                 <TextView
                     style="@style/text_tip"
-                    android:text="季节" />
+                    android:textColor="@color/primary"
+                    android:text="颜色" />
 
+                <FrameLayout 
+                    android:layout_width="0dp"
+                	android:layout_height="wrap_content"
+                	android:layout_weight="1"
+                    >
+	                <TextView
+	                    android:id="@+id/tv_color"
+	                    android:layout_width="match_parent"
+	                	android:layout_height="wrap_content"
+	                	android:textColor="@color/grayDark"
+	                	android:background="@drawable/bg_textview_gray_light"
+	                	android:textAppearance="?android:attr/textAppearanceSmall"
+	                	android:padding="8dp"
+	                    android:hint="均色" />
+	                <ImageView
+	                    android:id="@+id/btn_addColorImg"
+	                    android:layout_width="32dp"
+	                    android:layout_height="32dp"
+	                    android:src="@drawable/default_img"
+	                    android:layout_gravity="right|center_vertical"
+	                    android:layout_marginRight="2dp"
+	                    />
+                </FrameLayout>
+                
                 <TextView
-                    android:id="@+id/tv_season"
-                    style="@style/text_field_gray" 
-                    android:hint="全年"
-                    />
-
-                <TextView
-                    android:id="@+id/btn_addSeason"
+                    android:id="@+id/btn_addColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
-
+                
                 <TextView
                     style="@style/text_tip"
                     android:layout_width="48dp"
@@ -258,45 +277,6 @@
                 <TextView
                     style="@style/text_tip"
                     android:textColor="@color/primary"
-                    android:text="颜色" />
-
-                <FrameLayout 
-                    android:layout_width="0dp"
-                	android:layout_height="wrap_content"
-                	android:layout_weight="1"
-                    >
-	                <TextView
-	                    android:id="@+id/tv_color"
-	                    android:layout_width="match_parent"
-	                	android:layout_height="wrap_content"
-	                	android:textColor="@color/grayDark"
-	                	android:background="@drawable/bg_textview_gray_light"
-	                	android:textAppearance="?android:attr/textAppearanceSmall"
-	                	android:padding="8dp"
-	                    android:hint="均色" />
-	                <ImageView
-	                    android:id="@+id/btn_addColorImg"
-	                    android:layout_width="32dp"
-	                    android:layout_height="32dp"
-	                    android:src="@drawable/default_img"
-	                    android:layout_gravity="right|center_vertical"
-	                    android:layout_marginRight="2dp"
-	                    />
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/btn_addColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_edit32"
-                    android:padding="8dp"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    style="@style/text_tip"
-                    android:layout_width="48dp"
-                    android:textColor="@color/primary"
-                    android:gravity="center"
                     android:text="尺码" />
 
                 <TextView
@@ -311,6 +291,27 @@
                     android:drawableLeft="@drawable/ic_edit32"
                     android:padding="8dp"
                     android:textColor="@android:color/white" />
+                
+                <TextView
+                    android:layout_width="48dp"
+                    style="@style/text_tip"
+                    android:gravity="center"
+                    android:text="季节" />
+
+                <TextView
+                    android:id="@+id/tv_season"
+                    style="@style/text_field_gray" 
+                    android:hint="全年"
+                    />
+
+                <TextView
+                    android:id="@+id/btn_addSeason"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_edit32"
+                    android:padding="8dp"
+                    android:textColor="@android:color/white" />
+                
             </LinearLayout>
 
             <LinearLayout
@@ -498,7 +499,7 @@
                     style="@style/text_tip"
                     android:gravity="center"
                     android:textSize="@dimen/font_middle"
-                    android:text="请选择商品图\n(长按可删除重选,已上传的图片勿重复选择)" />
+                    android:text="添加商品图\n(长按可删除重选)" />
                 
 	            <com.widget.flowlayout.FlowLayout
 	                android:id="@+id/flowLayout"

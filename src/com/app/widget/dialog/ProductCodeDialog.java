@@ -1,4 +1,4 @@
-package com.app.widget;
+package com.app.widget.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.app.widget.ScanerBaseDialog;
 import com.app.xstore.R;
 
 /**
@@ -13,7 +14,7 @@ import com.app.xstore.R;
  * @author pythoner
  * 
  */
-public class ProductIdDialog extends ScanerBaseDialog implements
+public class ProductCodeDialog extends ScanerBaseDialog implements
 		View.OnClickListener {
 
 	private String defaultText;
@@ -22,12 +23,12 @@ public class ProductIdDialog extends ScanerBaseDialog implements
 	private String tip;
 	private EditText tv_scan_result;
 
-	public ProductIdDialog(Context context, String defaultText, String tip) {
+	public ProductCodeDialog(Context context, String defaultText, String tip) {
 		this(context, R.style.Theme_Dialog_NoTitle, defaultText, tip);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductIdDialog(Context context, int theme, String defaultText,
+	public ProductCodeDialog(Context context, int theme, String defaultText,
 			String tip) {
 		super(context, theme);
 		// TODO Auto-generated constructor stub

@@ -30,6 +30,7 @@ import com.sosopay.SosopayResponse;
  * @author Ni Guijun
  *
  */
+@Deprecated
 public class ReceiptActivity extends BaseActivity implements OnClickListener{
 
 	private Context context;

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Response.Listener;
 import com.app.model.Customer;
@@ -49,9 +50,17 @@ public final class Commands {
 	}
 	
 	private static String getCompanyCode(){
+		if(App.user==null||App.user.getShopInfo()==null){
+			Log.i("tag", "App.user.getShopInfo() is null");
+			return null;
+		}
 		return App.user.getShopInfo().getCompany_code();
 	}
 	private static String getShopCode(){
+		if(App.user==null||App.user.getShopInfo()==null){
+			Log.i("tag", "App.user.getShopInfo() is null");
+			return null;
+		}
 		return App.user.getShopInfo().getShop_code();
 	}
 	
@@ -893,10 +902,10 @@ public final class Commands {
 	 * @param bankList
 	 * @param onSuccessListener
 	 */
-	public static void doCommandSaveBillSale(Context context, JvbillsaleInfo billSale, List<JvbillsaledetailInfo> billsaleDetailList,List<JvbillsalepayInfo> payList,List<JvbillsalebankInfo> bankList,Listener<JSONObject> onSuccessListener) {
+	public static void doCommandSaveBillSale(Context context, JvbillsaleInfo billSale, List detailList,List<JvbillsalepayInfo> payList,List<JvbillsalebankInfo> bankList,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
 		pars.setBillSale(billSale);
-		pars.setBillsaleDetailList(billsaleDetailList);
+		pars.setDetailList(detailList);
 		pars.setPayList(payList);
 		pars.setBankList(bankList);
 		doCommand(context, "SaveBillSale", pars, onSuccessListener);
@@ -1051,7 +1060,7 @@ public final class Commands {
 	 * @param detailList
 	 * @param onSuccessListener
 	 */
-	public static void doCommandSetEmailInfo(Context context,String shop_id,String user,List<EmailInfo> detailList,Listener<JSONObject> onSuccessListener) {
+	public static void doCommandSetEmailInfo(Context context,String shop_id,String user,List detailList,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
 		pars.setShop_id(shop_id);
 		pars.setUser(user);

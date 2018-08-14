@@ -42,33 +42,33 @@ public class Goods implements Parcelable{
 		this.sellerUser = sellerUser;
 	}
 
-	//折扣后的金额
-	 public double getGoods_price_discount(){
-		 if(discount!=null){
-			 if(discount.getMode()==0){//折扣率
-				 if(discount.getDiscountValue()>=100){//表示不打折
-					 return goods_price;
-				 }else{
-					 String text=formatMoney(goods_price*discount.getDiscountValue()/100);
-					 return Double.parseDouble(text);
-				 }
-				 
-			 }else if(discount.getMode()==1){//折扣额
-				 if(discount.getDiscountValue()>=goods_price){//表示不打折
-					 return goods_price;
-				 }else{
-					 String text=formatMoney(discount.getDiscountValue());
-					 return Double.parseDouble(text);
-				 }
-			 }
-		 }
-		 return goods_price;
-	 }
+//	//折扣后的金额
+//	 public double getGoods_price_discount(){
+//		 if(discount!=null){
+//			 if(discount.getMode()==0){//折扣率
+//				 if(discount.getDiscountValue()>=100){//表示不打折
+//					 return goods_price;
+//				 }else{
+//					 String text=formatMoney(goods_price*discount.getDiscountValue()/100);
+//					 return Double.parseDouble(text);
+//				 }
+//				 
+//			 }else if(discount.getMode()==1){//折扣额
+//				 if(discount.getDiscountValue()>=goods_price){//表示不打折
+//					 return goods_price;
+//				 }else{
+//					 String text=formatMoney(discount.getDiscountValue());
+//					 return Double.parseDouble(text);
+//				 }
+//			 }
+//		 }
+//		 return goods_price;
+//	 }
 	 
-	 //折扣了的金额
-	 public double getGoods_price_discount_off(){
-		 return goods_price-getGoods_price_discount();
-	 }
+//	 //折扣了的金额
+//	 public double getGoods_price_discount_off(){
+//		 return goods_price-getGoods_price_discount();
+//	 }
 	 
 	/**
 	 * 格式化Money，结构为0.00，传入的是Number

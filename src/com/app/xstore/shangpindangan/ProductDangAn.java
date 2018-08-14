@@ -3,12 +3,18 @@ package com.app.xstore.shangpindangan;
 import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+
+import com.app.model.Discount;
+
 /**
  * 
  * @author Ni Guijun
  *
  */
-public class ProductDangAn extends DataSupport{
+public class ProductDangAn extends DataSupport implements Parcelable{
 	private long id;
 	private String goods_name;//": "GN000",
 	
@@ -17,7 +23,9 @@ public class ProductDangAn extends DataSupport{
 	@Column(ignore=true)
 	private String goods_desc;//": "GD000",
 	@Column(ignore=true)
-	private float goods_price;//": 0.0,
+	private String goods_thumb;//原厂货号
+	@Column(ignore=true)
+	private float goods_price;//实际支付的价格（折扣后或不折扣）
 	@Column(ignore=true)
 	private String goods_brand;//": "00",
 	@Column(ignore=true)
@@ -35,13 +43,13 @@ public class ProductDangAn extends DataSupport{
 	@Column(ignore=true)
 	private String goods_sj_date;//": "2018-06-15",
 	@Column(ignore=true)
-	private float goods_jh_price;//": 0.0,
+	private float goods_jh_price;//进货价
 	@Column(ignore=true)
-	private float goods_ls_price;//": 0.0,
+	private float goods_ls_price;//零售价
 	@Column(ignore=true)
 	private float goods_db_price;//": 0.0,
 	@Column(ignore=true)
-	private float goods_discountRate;//": 0.00,
+	private float goods_discountRate;//折扣率
 	@Column(ignore=true)
 	private String goods_cs;//": "00",
 	@Column(ignore=true)
@@ -73,9 +81,38 @@ public class ProductDangAn extends DataSupport{
 	@Column(ignore=true)
 	private String goods_img;//主图，之间用;分隔
 	
+	@Column(ignore=true)
+	private String sellerUser;//导购销售员
+	@Column(ignore=true)
+	private Discount discount;//折扣对象
+	
 	@Override
 	public String toString() {
 		return goods_name;
+	}
+
+	public String getGoods_thumb() {
+		return goods_thumb;
+	}
+
+	public void setGoods_thumb(String goods_thumb) {
+		this.goods_thumb = goods_thumb;
+	}
+
+	public String getSellerUser() {
+		return sellerUser;
+	}
+
+	public void setSellerUser(String sellerUser) {
+		this.sellerUser = sellerUser;
+	}
+
+	public Discount getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Discount discount) {
+		this.discount = discount;
 	}
 
 	public String getGoods_color_image() {
@@ -334,4 +371,59 @@ public class ProductDangAn extends DataSupport{
 		this.goods_img = goods_img;
 	}
 
+	public static Parcelable.Creator<ProductDangAn> getCreator()
+    {
+        return CREATOR;
+    }
+
+    public int describeContents()
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        // TODO Auto-generated method stub
+        dest.writeString(goods_name);
+        dest.writeString(goods_sn);
+        dest.writeString(goods_desc);
+    	dest.writeFloat(goods_price);
+    	dest.writeFloat(goods_ls_price);
+    	dest.writeFloat(goods_discountRate);
+    	dest.writeString(goods_color);
+    	dest.writeString(goods_color_desc);
+    	dest.writeString(goods_spec);
+    	dest.writeString(goods_spec_desc);
+    	dest.writeString(sellerUser);
+    	dest.writeParcelable(discount, flags);
+    }
+
+    public static final Parcelable.Creator<ProductDangAn> CREATOR = new Creator<ProductDangAn>()
+    {
+        public ProductDangAn createFromParcel(Parcel source)
+        {
+        	ProductDangAn instance = new ProductDangAn();
+        	instance.goods_name = source.readString();
+        	instance.goods_sn = source.readString();
+        	instance.goods_desc = source.readString();
+        	instance.goods_price = source.readFloat();
+        	instance.goods_ls_price = source.readFloat();
+        	instance.goods_discountRate = source.readFloat();
+        	instance.goods_color = source.readString();
+        	instance.goods_color_desc = source.readString();
+        	instance.goods_spec = source.readString();
+        	instance.goods_spec_desc = source.readString();
+        	instance.sellerUser = source.readString();
+        	instance.discount = source.readParcelable(Discount.class.getClassLoader());
+            return instance;
+        }
+
+        public ProductDangAn[] newArray(int size)
+        {
+            // TODO Auto-generated method stub
+            return new ProductDangAn[size];
+        }
+    };
+    
 }

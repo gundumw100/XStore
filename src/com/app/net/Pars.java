@@ -220,8 +220,14 @@ public class Pars {
 		this.saleNo = saleNo;
 	}
 
+	List detailList;
+	
+	public void setDetailList(List detailList) {
+		this.detailList = detailList;
+	}
+
+
 	JvbillsaleInfo billSale;
-	List<JvbillsaledetailInfo> billsaleDetailList;
 	List<JvbillsalepayInfo> payList;
 	List<JvbillsalebankInfo> bankList;
 	
@@ -229,9 +235,6 @@ public class Pars {
 		this.billSale = billSale;
 	}
 
-	public void setBillsaleDetailList(List<JvbillsaledetailInfo> billsaleDetailList) {
-		this.billsaleDetailList = billsaleDetailList;
-	}
 
 	public void setPayList(List<JvbillsalepayInfo> payList) {
 		this.payList = payList;
@@ -311,15 +314,15 @@ public class Pars {
 	}
 
 	String user;
-	List<EmailInfo> detailList;
+//	List<EmailInfo> detailList;
 	
 	public void setUser(String user) {
 		this.user = user;
 	}
 
-	public void setDetailList(List<EmailInfo> detailList) {
-		this.detailList = detailList;
-	}
+//	public void setDetailList(List<EmailInfo> detailList) {
+//		this.detailList = detailList;
+//	}
 
 	String shopCode;
 	String vipCode;

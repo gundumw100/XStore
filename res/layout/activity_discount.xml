@@ -57,7 +57,10 @@
                 android:maxLength="6"
                 android:textSize="@dimen/font_middle"
                 android:imeOptions="actionDone"
-                android:singleLine="true" />
+                android:singleLine="true" 
+                android:padding="8dp"
+                android:background="@drawable/bg_edittext"
+                />
             <TextView
                 android:id="@+id/tv_p"
                 android:layout_width="wrap_content"
@@ -78,8 +81,8 @@
         android:layout_margin="8dp"
         android:background="@drawable/bg_btn_primary"
         android:paddingBottom="8dp"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
         android:paddingTop="8dp"
         android:text="确定"
         android:textColor="@android:color/white"

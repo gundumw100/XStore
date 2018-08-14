@@ -36,7 +36,7 @@
             android:layout_marginTop="32dp" >
 
             <EditText
-                android:id="@+id/et_shopId"
+                android:id="@+id/et_shopCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -57,7 +57,7 @@
             android:layout_marginTop="32dp" >
 
             <EditText
-                android:id="@+id/et_assistantId"
+                android:id="@+id/et_userCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

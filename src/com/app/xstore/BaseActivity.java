@@ -60,6 +60,7 @@ import com.app.util.ScannerInterface;
 import com.app.util.ThemeManager;
 import com.app.util.ThimfoneScanUtil;
 import com.app.widget.SimpleListDialog;
+import com.app.xstore.shangpindangan.ProductDangAn;
 import com.app.xstore.shangpindangan.ProductDetailActivity;
 import com.app.xstore.space.ImageActivity;
 import com.app.xstore.space.ImageGalleryActivity;
@@ -967,31 +968,34 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 	 * @param zhaoLin 找零金额
 	 */
 	public void doCommandSaveBillSale(int payMode,String actPayValue,String zhaoLin){
-		String[] modes={"支付宝","微信","现金","刷卡"};
-//		double ding=getIntent().getDoubleExtra("Ding", 0.00);
-		double ying=getIntent().getDoubleExtra("Ying", 0.00);
-		ArrayList<Goods> beans=getIntent().getParcelableArrayListExtra("Goods");
-		if(beans==null){
-			beans=new ArrayList<Goods>();
+		double need=getIntent().getDoubleExtra("Need", 0.00);
+		ArrayList<ProductDangAn> beans=getIntent().getParcelableArrayListExtra("Products");
+		if(isEmptyList(beans)){
+			showToast("缺少商品数据");
+			return;
 		}
+		String[] modes={"支付宝","微信","现金","刷卡"};
 		JvbillsaleInfo billSale=new JvbillsaleInfo();
 		billSale.setShopCode(App.user.getShopInfo().getShop_code());
 		billSale.setCreateuser(App.user.getUserInfo().getUser_code());
 		billSale.setCurrencyCode("RMB");
 		billSale.setSaleType("XS");//销售模式:XS(销售)、TH(退货)、HH(换货)
-		billSale.setTotalMoney(ying);//总金额60
+		billSale.setTotalMoney(need);//总金额60
 		billSale.setTotalQty(beans.size());//
 		billSale.setUserId(App.user.getUserInfo().getUser_code());//
 		billSale.setRemark(modes[payMode]);//
 		
 		List<JvbillsaledetailInfo> billsaleDetailList=new ArrayList<JvbillsaledetailInfo>();
-		for(Goods bean:beans){
+		for(ProductDangAn bean:beans){
 			JvbillsaledetailInfo item=new JvbillsaledetailInfo();
 			item.setShopCode(App.user.getShopInfo().getShop_code());
 			item.setProdNum(bean.getGoods_sn());
 //			item.setProdName(bean.getGoods_name());
 			item.setSellerUser(isEmpty(bean.getSellerUser())?App.user.getUserInfo().getUser_code():bean.getSellerUser());//导购
 			item.setSaleMode("XS");//销售模式:XS(销售)、TH(退货)、HH(换货)
+			item.setQty(1);
+			item.setRemarkCode(modes[payMode]);//注释编码
+			item.setRemark(modes[payMode]);//注释
 			
 			if(bean.getDiscount()==null){//(不打折)
 				item.setDivAmount(0.00);//折扣金额(不打折)
@@ -999,14 +1003,15 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 				item.setRetailPrice(bean.getGoods_price());//零售价
 				item.setSalePrice(bean.getGoods_price());//折扣价(不打折)
 			}else{
-				item.setDivAmount(bean.getGoods_price_discount_off());//折扣金额
-				item.setDivSaleRate(bean.getDiscount().getDiscountValue());//折扣率
-				item.setRetailPrice(bean.getGoods_price());//零售价
-				item.setSalePrice(bean.getGoods_price_discount());//折扣价
+//				item.setDivAmount(bean.getGoods_price_discount_off());//折扣金额
+//				item.setDivSaleRate(bean.getDiscount().getDiscountValue());//折扣率
+//				item.setRetailPrice(bean.getGoods_price());//零售价
+//				item.setSalePrice(bean.getGoods_price_discount());//折扣价
+				item.setDivAmount(bean.getDiscount().getDiscountPrice()*item.getQty());//折扣金额
+				item.setDivSaleRate(bean.getDiscount().getDiscountRate());//折扣率
+				item.setRetailPrice(bean.getGoods_ls_price());//零售价
+				item.setSalePrice(bean.getDiscount().getDiscountPrice());//折扣价
 			}
-			item.setQty(1);
-			item.setRemarkCode(modes[payMode]);//注释编码
-			item.setRemark(modes[payMode]);//注释
 			billsaleDetailList.add(item);
 		}
 		
@@ -1016,22 +1021,22 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 			item.setPayCode(null);
 			item.setShopCode(App.user.getShopInfo().getShop_code());
 			item.setChange("0.00");//找零金额
-			item.setPayValue(formatMoney(ying));//应付金额
-			item.setActPayValue(formatMoney(ying));//实付金额(需要去掉代金券？)
+			item.setPayValue(formatMoney(need));//应付金额
+			item.setActPayValue(formatMoney(need));//实付金额(需要去掉代金券？)
 		}else
 		if(payMode==2){//现金
 			item.setPayCode(null);
 			item.setShopCode(App.user.getShopInfo().getShop_code());
 			item.setChange(zhaoLin);//找零金额
-			item.setPayValue(formatMoney(ying));//应付金额
+			item.setPayValue(formatMoney(need));//应付金额
 			item.setActPayValue(actPayValue);//实付金额(需要去掉代金券？)
 		}else
 		if(payMode==3){//刷卡
 			item.setPayCode(null);
 			item.setShopCode(App.user.getShopInfo().getShop_code());
 			item.setChange("0.00");//找零金额
-			item.setPayValue(formatMoney(ying));//应付金额
-			item.setActPayValue(formatMoney(ying));//实付金额(需要去掉代金券？)
+			item.setPayValue(formatMoney(need));//应付金额
+			item.setActPayValue(formatMoney(need));//实付金额(需要去掉代金券？)
 		}
 		payList.add(item);
 		
@@ -1042,9 +1047,9 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-//				Log.i("tag", "response="+response.toString());
+				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
-					showToast("支付成功!");
+					showToast("支付成功");
 					EventBus.getDefault().post(App.EVENT_FINISH);//关闭PaymentTypeActivity界面
 					EventBus.getDefault().post(App.EVENT_CLEAR);//清理ShoppingCartActivity数据
 					finish();

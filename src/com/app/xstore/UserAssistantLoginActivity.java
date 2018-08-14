@@ -38,7 +38,7 @@ import com.base.util.comm.SPUtils;
 public class UserAssistantLoginActivity extends BaseActivity implements OnClickListener {
 
 	private Context context;
-	private EditText et_assistantId, et_password;
+	private EditText et_userCode, et_password;
 	private CheckBox checkBox;
 	private String KEY_SHOP_CODE = "shop_code";
 	private String KEY_USER_CODE = "user_code";
@@ -101,12 +101,12 @@ public class UserAssistantLoginActivity extends BaseActivity implements OnClickL
 		findViewById(R.id.btn_left).setOnClickListener(this);
 		findViewById(R.id.btn_right).setOnClickListener(this);
 		findViewById(R.id.btn_scan).setOnClickListener(this);
-//		et_shopId = (EditText) findViewById(R.id.et_shopId);
-		et_assistantId = (EditText) findViewById(R.id.et_assistantId);
+//		et_shopCode = (EditText) findViewById(R.id.et_shopCode);
+		et_userCode = (EditText) findViewById(R.id.et_userCode);
 		et_password = (EditText) findViewById(R.id.et_password);
 		checkBox = (CheckBox) findViewById(R.id.checkBox);
-//		et_shopId.setText((String) SPUtils.get(context, KEY_SHOP_CODE, ""));
-		et_assistantId.setText((String) SPUtils.get(context, KEY_USER_CODE, ""));
+//		et_shopCode.setText((String) SPUtils.get(context, KEY_SHOP_CODE, ""));
+		et_userCode.setText((String) SPUtils.get(context, KEY_USER_CODE, ""));
 		et_password.setText((String) SPUtils.get(context, KEY_USER_PWD, ""));
 		checkBox.setChecked((Boolean) SPUtils.get(context, KEY_REMEMBER_USER, false));
 		
@@ -133,8 +133,8 @@ public class UserAssistantLoginActivity extends BaseActivity implements OnClickL
 			startActivity(intent);
 			break;
 		case R.id.btn_right:
-//			String shop_code = et_shopId.getText().toString().trim();
-			String user_code = et_assistantId.getText().toString().trim();
+//			String shop_code = et_shopCode.getText().toString().trim();
+			String user_code = et_userCode.getText().toString().trim();
 			String user_pwd = et_password.getText().toString().trim();
 			if (TextUtils.isEmpty(user_code)) {
 				showToast("员工ID不能为空");
@@ -167,7 +167,7 @@ public class UserAssistantLoginActivity extends BaseActivity implements OnClickL
 		resultHandler = new Handler() {
 			public void handleMessage(android.os.Message msg) {
 				String data = (String) msg.obj;
-				et_assistantId.setText(getParameter(data, "sid"));
+				et_userCode.setText(getParameter(data, "sid"));
 				et_password.setText("");
 			}
 		};

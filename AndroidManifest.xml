@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.xstore"
-    android:versionCode="2018081001"
+    android:versionCode="2018081404"
     android:versionName="V1.1.0" >
 
     <uses-sdk
@@ -102,6 +102,8 @@
         <activity android:name="com.app.xstore.cashier.ShoppingCartActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.cashier.DiscountActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.cashier.PaymentTypeActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.PayZFBActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.cashier.PayWXActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.cashier.PayCrashActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.cashier.PayCreditActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.cashier.PaymentActivity" android:screenOrientation="portrait" />
@@ -140,6 +142,7 @@
         
         <activity android:name="com.app.xstore.mendiankucun.KuCunQueryBySkuActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.mendiankucun.MyFavoritesActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiankucun.ProductKuCunListByParamsActivity" android:screenOrientation="portrait" />
         
         <activity android:name="com.app.xstore.mendiancaigouruku.CaiGouRuKuActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.mendiancaigouruku.CaiGouRuKuCreateActivity" android:screenOrientation="portrait" />

@@ -14,10 +14,12 @@ import org.litepal.crud.DataSupport;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,6 +47,7 @@ import com.qq.cloud.PicCloud;
 import com.qq.cloud.PornDetectInfo;
 import com.qq.cloud.UploadResult;
 import com.squareup.picasso.Picasso;
+import com.widget.effect.text.Spanny;
 import com.widget.flowlayout.FlowLayout;
 import com.widget.imagepicker.ImageConfig;
 import com.widget.imagepicker.ImageSelector;
@@ -61,7 +64,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 
 	private EditText et_productSku;
 	private AutoCompleteTextView et_productName;
-	private EditText et_oldSku;
+	private EditText et_originalSku;
 	private AutoCompleteAdapter<ProductDangAn> adapter;
 	private TextView tv_productSku,tv_year,tv_brand,tv_season,tv_category,tv_color,tv_size,tv_date,tv_other,tv_jldw,tv_cw;
 	private ImageView btn_addColorImg;
@@ -103,37 +106,37 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		//款号
 		tv_productSku=$(R.id.tv_productSku);
 		et_productSku=$(R.id.et_productSku);
-		et_productSku.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-				btn_generateCode.setEnabled(s.length()==0);
-				tv_productSku.setText("");
-				tv_productSku.setTag(null);
-				if(!et_productSku.isEnabled()){
-					et_productSku.setEnabled(true);
-				}
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+//		et_productSku.addTextChangedListener(new TextWatcher() {
+//			
+//			@Override
+//			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//				// TODO Auto-generated method stub
+//				btn_generateCode.setEnabled(s.length()==0);
+//				tv_productSku.setText("");
+//				tv_productSku.setTag(null);
+//				if(!et_productSku.isEnabled()){
+//					et_productSku.setEnabled(true);
+//				}
+//			}
+//			
+//			@Override
+//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void afterTextChanged(Editable arg0) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
 		if(!isEmpty(goodsSn)){
 			et_productSku.setText(goodsSn);
 			et_productSku.setSelection(goodsSn.length());
 		}
 		et_productName=$(R.id.et_productName);
-		et_oldSku=$(R.id.et_oldSku);
+		et_originalSku=$(R.id.et_originalSku);
 		
 		List<ProductDangAn> products=DataSupport.order("id desc").limit(200).find(ProductDangAn.class);
 		adapter = new AutoCompleteAdapter<ProductDangAn>(context, products,10);
@@ -1792,14 +1795,16 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			size=((ProdSpec)tv_size.getTag()).getSpecCode();
 		}
 		
-		tv_productSku.setText(dateCode+styleCode+color+size);//2+4+2+2
+		Spanny spanny = new Spanny();
+		spanny.append(dateCode+styleCode);
+		spanny.append(color+size,new ForegroundColorSpan(Color.RED));
+		tv_productSku.setText(spanny);//2+4+2+2
+		
 		et_productName.setEnabled(false);
-		et_oldSku.setEnabled(false);
+		et_originalSku.setEnabled(false);
 		tv_year.setClickable(false);
 		tv_year.setTextColor(ContextCompat.getColor(context, R.color.grayMiddle));
 		btn_addYear.setClickable(false);
-		
-//		et_productSku.setEnabled(false);
 	}
 	
 	@Override
@@ -1808,14 +1813,14 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		switch (v.getId()) {
 		case R.id.btn_generateCode:
 			String productName=et_productName.getText().toString().trim();
-			String oldSku=et_oldSku.getText().toString().trim();
+			String originalSku=et_originalSku.getText().toString().trim();
 			if(isEmpty(productName)){
 				showToast("请输入名称");
 				doShake(context, et_productName);
 				return;
 			}
 			String year_code=tv_year.getText().toString().substring(2);
-			doCommandGetProdStyleList(year_code,productName+oldSku);
+			doCommandGetProdStyleList(year_code,productName+originalSku);
 			break;
 		case R.id.btn_query:
 			startActivity(new Intent(context,ProductListActivity.class));
@@ -1912,40 +1917,45 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			}
 		}
 		
-		List<ProductDangAn> goodsInfo=new ArrayList<ProductDangAn>();
-		ProductDangAn bean=new ProductDangAn();
 		
-		if(isEmpty(tv_productSku)){//扫描已有吊牌
-			bean.setGoods_sn(et_productSku.getText().toString());
-		}else{//生成款号
-			bean.setGoods_sn(tv_productSku.getText().toString());
-		}
-		
-		if(isEmpty(bean.getGoods_sn())){
+		if(isEmpty(tv_productSku)){
 			showToast("尚未生成款号");
 			return;
 		}
-		if(bean.getGoods_sn().length()<10){
+		if(tv_productSku.getText().length()<10){
 			showToast("编码长度不正确");
 			return;
 		}
 		
-		if(isEmpty(tv_productSku)){//扫描已有吊牌
-			String styleCode=bean.getGoods_sn().substring(0, 6);
-			bean.setGoods_style(styleCode);
-		}else{//生成款号
-			ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
-			if(prodStyle==null){
-				return;
-			}
-			String dateCode=prodStyle.getDateCode();
-			String styleCode=prodStyle.getStyleCode();
-			bean.setGoods_style(dateCode+styleCode);
-		}
+		List<ProductDangAn> goodsInfo=new ArrayList<ProductDangAn>();
+		ProductDangAn bean=new ProductDangAn();
 		
-		//debug
-		bean.setGoods_name(et_productName.getText().toString().trim());
-		bean.setGoods_desc(et_productName.getText().toString().trim());
+//		if(isEmpty(tv_productSku)){//扫描已有吊牌
+//			bean.setGoods_sn(et_productSku.getText().toString());
+//		}else{//生成款号
+//			bean.setGoods_sn(tv_productSku.getText().toString());
+//		}
+//		if(isEmpty(tv_productSku)){//扫描已有吊牌
+//			String styleCode=bean.getGoods_sn().substring(0, 6);
+//			bean.setGoods_style(styleCode);
+//		}else{//生成款号
+//			ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
+//			if(prodStyle==null){
+//				return;
+//			}
+//			String dateCode=prodStyle.getDateCode();
+//			String styleCode=prodStyle.getStyleCode();
+//			bean.setGoods_style(dateCode+styleCode);
+//		}
+		
+		bean.setGoods_sn(tv_productSku.getText().toString());//10位码
+		bean.setGoods_style(bean.getGoods_sn().substring(0, 6));//6位码
+		bean.setGoods_desc(et_productSku.getText().toString().trim());//原厂条码
+		
+		String productName=et_productName.getText().toString().trim();
+		String originalSku=et_originalSku.getText().toString().trim();
+		bean.setGoods_name(productName+originalSku);//名称
+		bean.setGoods_thumb(originalSku);//原厂货号
 		
 		if(tv_brand.getTag()!=null){//品牌
 			ProdBrand brand=(ProdBrand)tv_brand.getTag();
@@ -2015,11 +2025,11 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 					
 					String styleCode=null;
 					String sku=null;
-					if(isEmpty(tv_productSku)){//扫描已有吊牌
-						sku=et_productSku.getText().toString();
-					}else{//生成款号
+//					if(isEmpty(tv_productSku)){//扫描已有吊牌
+//						sku=et_productSku.getText().toString();
+//					}else{//生成款号
 						sku=tv_productSku.getText().toString();
-					}
+//					}
 					if(sku.length()>6){
 						styleCode=sku.substring(0, 6);
 						colorImage.setStyleCode(styleCode);
@@ -2034,15 +2044,15 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	}
 	
 	private void resetViews(){
-//		et_productSku.setEnabled(true);
 		et_productName.setEnabled(true);
 		et_productName.requestFocus();
 		et_productName.setSelection(et_productName.length());
-		et_oldSku.setEnabled(true);
+		et_originalSku.setEnabled(true);
 		tv_year.setClickable(true);
 		tv_year.setTextColor(ContextCompat.getColor(context, R.color.grayDark));
 		btn_addYear.setClickable(true);
 		tv_productSku.setText("");
+		et_productSku.setText("");
 		
 		flowLayout.removeViews(0, flowLayout.getChildCount()-1);
 	}

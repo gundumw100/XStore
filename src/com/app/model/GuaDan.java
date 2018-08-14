@@ -2,13 +2,15 @@ package com.app.model;
 
 import java.util.ArrayList;
 
+import com.app.xstore.shangpindangan.ProductDangAn;
+
 public class GuaDan {
 
 	String createTime;
 	int qty;
 	String money;
 	
-	ArrayList<Goods> infos;
+	ArrayList<ProductDangAn> infos;
 	ArrayList<Boolean> exists;
 	public String getCreateTime() {
 		return createTime;
@@ -16,10 +18,10 @@ public class GuaDan {
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-	public ArrayList<Goods> getInfos() {
+	public ArrayList<ProductDangAn> getInfos() {
 		return infos;
 	}
-	public void setInfos(ArrayList<Goods> infos) {
+	public void setInfos(ArrayList<ProductDangAn> infos) {
 		this.infos = infos;
 	}
 	public ArrayList<Boolean> getExists() {

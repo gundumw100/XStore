@@ -27,8 +27,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.app.widget.ProductIdDialog;
 import com.app.widget.SimpleNumberDialog;
+import com.app.widget.dialog.ProductCodeDialog;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
@@ -89,8 +89,8 @@ public class PanDianActivity extends BaseActivity {
 	@Override
 	public void doLeftButtonClick(View v) {
 		// TODO Auto-generated method stub
-		ProductIdDialog d=new ProductIdDialog(context,"","请输入商品号或扫描");
-		d.setOnClickListener(new ProductIdDialog.OnClickListener() {
+		ProductCodeDialog d=new ProductCodeDialog(context,"","请输入商品号或扫描");
+		d.setOnClickListener(new ProductCodeDialog.OnClickListener() {
 			@Override
 			public void onClick(View v, String text) {
 				// TODO Auto-generated method stub
@@ -240,8 +240,8 @@ public class PanDianActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				ProductIdDialog d=new ProductIdDialog(context,"","请输入商品号或扫描");
-				d.setOnClickListener(new ProductIdDialog.OnClickListener() {
+				ProductCodeDialog d=new ProductCodeDialog(context,"","请输入商品号或扫描");
+				d.setOnClickListener(new ProductCodeDialog.OnClickListener() {
 					@Override
 					public void onClick(View v, String text) {
 						// TODO Auto-generated method stub

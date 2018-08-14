@@ -594,6 +594,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
 				if(which==0){
+					mode="updateColorImage";
 					openImageSelector();
 				}
 			}
@@ -677,6 +678,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 					mode="addStyleImage";
 					openImageSelector();
 				}else if(which==2){//删除
+					mode="deleteStyleImage";
 					doCommandDeleteGoodsStyleImage();
 				}
 			}
@@ -720,7 +722,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	        .showCamera()// 开启拍照功能 （默认关闭）
 	        .filePath("/xStore/picture")// 拍照后存放的图片路径（默认 /temp/picture） （会自动创建）
 	        .build();
-		}else{//修改色图，需要裁剪
+		}else if(mode.equals("updateColorImage")){//修改色图，需要裁剪
 			imageConfig
 	        = new ImageConfig.Builder(new PicassoLoader())
 	        .crop()  // (截图默认配置：关闭    比例 1：1    输出分辨率  500*500)
@@ -758,7 +760,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 						files.add(file);
 					}
 					luban(files);
-				}else{//修改色图
+				}else if(mode.equals("updateColorImage")){//修改色图
 					List<String> list = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
 					List<File> files=new ArrayList<File>();
 					for (String path : list) {
@@ -863,7 +865,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 				doCommandUpdateGoodsStyleImage(result);
 			}else if(mode.equals("addStyleImage")){//添加主图
 				doCommandAddGoodsStyleImage(result);
-			}else{//修改色图
+			}else if(mode.equals("updateColorImage")){//修改色图
 				doCommandUpdateGoodsColorImage(result);
 			}
 		}else{

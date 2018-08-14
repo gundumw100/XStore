@@ -16,18 +16,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.app.widget.ProductIdDialog;
-import com.app.widget.SimpleNumberDialog;
-import com.app.widget.SimpleTextDialog;
 import com.app.widget.VerificationCodeDialog;
+import com.app.widget.dialog.ProductCodeDialog;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
@@ -196,8 +192,8 @@ public class PanDianListActivity extends BaseActivity implements OnClickListener
 			startActivity(intent);
 			break;
 		case R.id.btn_search://
-			ProductIdDialog d=new ProductIdDialog(context,"","请输入商品号或扫描");
-			d.setOnClickListener(new ProductIdDialog.OnClickListener() {
+			ProductCodeDialog d=new ProductCodeDialog(context,"","请输入商品号或扫描");
+			d.setOnClickListener(new ProductCodeDialog.OnClickListener() {
 				@Override
 				public void onClick(View v, String text) {
 					// TODO Auto-generated method stub

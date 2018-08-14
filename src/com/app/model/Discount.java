@@ -11,35 +11,34 @@ import android.os.Parcelable.Creator;
  */
 public class Discount implements Parcelable{
 
-	int mode;//0:折扣率;1:折扣价
-	double discountValue;//折扣率
-	boolean disOnBillPrice;//使用当前价
-	boolean wholeOrder;//整单打折
+	int discountType;//0:折扣率;1:折扣价
+	float discountRate;//折扣率
+	float discountPrice;//折扣后的金额
+	boolean wholeOrder;//是否整单打折
 	
-	public int getMode() {
-		return mode;
+	public float getDiscountRate() {
+		return discountRate;
 	}
 
-	public void setMode(int mode) {
-		this.mode = mode;
+	public void setDiscountRate(float discountRate) {
+		this.discountRate = discountRate;
 	}
 
-	public double getDiscountValue() {
-		return discountValue;
+	public float getDiscountPrice() {
+		return discountPrice;
 	}
 
-	public void setDiscountValue(double discountValue) {
-		this.discountValue = discountValue;
+	public void setDiscountPrice(float discountPrice) {
+		this.discountPrice = discountPrice;
 	}
 
-	public boolean isDisOnBillPrice() {
-		return disOnBillPrice;
+	public int getDiscountType() {
+		return discountType;
 	}
 
-	public void setDisOnBillPrice(boolean disOnBillPrice) {
-		this.disOnBillPrice = disOnBillPrice;
+	public void setDiscountType(int discountType) {
+		this.discountType = discountType;
 	}
-
 
 	public boolean isWholeOrder() {
 		return wholeOrder;
@@ -63,9 +62,9 @@ public class Discount implements Parcelable{
     public void writeToParcel(Parcel dest, int flags)
     {
         // TODO Auto-generated method stub
-        dest.writeInt(mode);
-    	dest.writeDouble(discountValue);
-    	dest.writeInt(disOnBillPrice?0:1);
+        dest.writeInt(discountType);
+        dest.writeFloat(discountRate);
+    	dest.writeFloat(discountPrice);
     	dest.writeInt(wholeOrder?0:1);
     }
 
@@ -74,9 +73,9 @@ public class Discount implements Parcelable{
         public Discount createFromParcel(Parcel source)
         {
         	Discount instance = new Discount();
-        	instance.mode = source.readInt();
-        	instance.discountValue = source.readDouble();
-        	instance.disOnBillPrice = source.readInt()==0;
+        	instance.discountType = source.readInt();
+        	instance.discountRate = source.readFloat();
+        	instance.discountPrice = source.readFloat();
         	instance.wholeOrder = source.readInt()==0;
             return instance;
         }
