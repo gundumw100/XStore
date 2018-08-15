@@ -22,6 +22,12 @@ import com.app.xstore.shangpindangan.ProductDangAn;
 
 public class Pars {
 
+	List<String> goodsSnList;
+	
+	public void setGoodsSnList(List<String> goodsSnList) {
+		this.goodsSnList = goodsSnList;
+	}
+
 	List<ProdColorImage> imageInfo;
 	
 	public void setImageInfo(List<ProdColorImage> imageInfo) {

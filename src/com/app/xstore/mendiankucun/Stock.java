@@ -2,10 +2,25 @@ package com.app.xstore.mendiankucun;
 
 public class Stock {
 
+	String styleName;//倪桂军",
+	String styleCode;//:"180008",
     String shop_code;
 	String goods_sn;
     int stock;
     int online_stock;
+    
+	public String getStyleName() {
+		return styleName;
+	}
+	public void setStyleName(String styleName) {
+		this.styleName = styleName;
+	}
+	public String getStyleCode() {
+		return styleCode;
+	}
+	public void setStyleCode(String styleCode) {
+		this.styleCode = styleCode;
+	}
 	public String getShop_code() {
 		return shop_code;
 	}

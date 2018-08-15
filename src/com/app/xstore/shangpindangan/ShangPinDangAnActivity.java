@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -157,14 +158,24 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	        	DataSupport.delete(ProductDangAn.class, value.getId());
 	        }
 	    });
-	
+		
+		et_productName.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long id) {
+				// TODO Auto-generated method stub
+				ProductDangAn bean=(ProductDangAn)adapter.getItem(position);
+				et_originalSku.setText(bean.getGoods_thumb());
+			}
+
+		});
 		et_productName.setAdapter(adapter);
 		et_productName.setThreshold(1);
 		// 设置下拉提示框中底部的提示
 	    // et_productName.setCompletionHint("最多显示"+maxMatch+"条最近记录");
 		// 设置下拉提示框的高度为200dp
 	    // mAutoCompleteTv.setDropDownHeight();// 或XML中为android:dropDownHeight="200dp"
-
 		
 		$(R.id.btn_scan).setOnClickListener(new View.OnClickListener() {
 			
@@ -1805,6 +1816,9 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		tv_year.setClickable(false);
 		tv_year.setTextColor(ContextCompat.getColor(context, R.color.grayMiddle));
 		btn_addYear.setClickable(false);
+		tv_brand.setClickable(false);
+		tv_category.setClickable(false);
+		tv_season.setClickable(false);
 	}
 	
 	@Override
@@ -1813,14 +1827,14 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		switch (v.getId()) {
 		case R.id.btn_generateCode:
 			String productName=et_productName.getText().toString().trim();
-			String originalSku=et_originalSku.getText().toString().trim();
+			String originalSku=et_originalSku.getText().toString().trim();//原厂货号
 			if(isEmpty(productName)){
 				showToast("请输入名称");
 				doShake(context, et_productName);
 				return;
 			}
 			String year_code=tv_year.getText().toString().substring(2);
-			doCommandGetProdStyleList(year_code,productName+originalSku);
+			doCommandGetProdStyleList(year_code,productName+originalSku);//名称+原厂货号
 			break;
 		case R.id.btn_query:
 			startActivity(new Intent(context,ProductListActivity.class));
@@ -1954,7 +1968,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		
 		String productName=et_productName.getText().toString().trim();
 		String originalSku=et_originalSku.getText().toString().trim();
-		bean.setGoods_name(productName+originalSku);//名称
+		bean.setGoods_name(productName+originalSku);//名称+原厂货号
 		bean.setGoods_thumb(originalSku);//原厂货号
 		
 		if(tv_brand.getTag()!=null){//品牌
@@ -2004,6 +2018,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		//点击保存后，保存一份Product到本地数据库，用于AutoCompleteTextView快显菜单
 		ProductDangAn product=DataSupport.where("goods_name = ?",bean.getGoods_name()).findFirst(ProductDangAn.class);
 		if(product==null){//如果没有保存过类似的名称，则存盘（不要重复保存相同的名称）
+			bean.setGoods_name(productName);//重新设置成名称,去掉原厂货号
 			bean.saveFast();//此时可以得到Product.id
 			adapter.add(bean);
 		}
@@ -2053,6 +2068,10 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		btn_addYear.setClickable(true);
 		tv_productSku.setText("");
 		et_productSku.setText("");
+		
+		tv_brand.setClickable(true);
+		tv_category.setClickable(true);
+		tv_season.setClickable(true);
 		
 		flowLayout.removeViews(0, flowLayout.getChildCount()-1);
 	}

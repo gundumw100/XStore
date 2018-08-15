@@ -17,13 +17,12 @@ import com.app.model.Discount;
 public class ProductDangAn extends DataSupport implements Parcelable{
 	private long id;
 	private String goods_name;//": "GN000",
+	private String goods_thumb;//原厂货号
 	
 	@Column(ignore=true)
 	private String goods_sn;//": "GS000",
 	@Column(ignore=true)
 	private String goods_desc;//": "GD000",
-	@Column(ignore=true)
-	private String goods_thumb;//原厂货号
 	@Column(ignore=true)
 	private float goods_price;//实际支付的价格（折扣后或不折扣）
 	@Column(ignore=true)
@@ -386,6 +385,7 @@ public class ProductDangAn extends DataSupport implements Parcelable{
     {
         // TODO Auto-generated method stub
         dest.writeString(goods_name);
+        dest.writeString(goods_thumb);
         dest.writeString(goods_sn);
         dest.writeString(goods_desc);
     	dest.writeFloat(goods_price);
@@ -405,6 +405,7 @@ public class ProductDangAn extends DataSupport implements Parcelable{
         {
         	ProductDangAn instance = new ProductDangAn();
         	instance.goods_name = source.readString();
+        	instance.goods_thumb = source.readString();
         	instance.goods_sn = source.readString();
         	instance.goods_desc = source.readString();
         	instance.goods_price = source.readFloat();

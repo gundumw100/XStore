@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.xstore"
-    android:versionCode="2018081404"
+    android:versionCode="2018081502"
     android:versionName="V1.1.0" >
 
     <uses-sdk
@@ -142,7 +142,7 @@
         
         <activity android:name="com.app.xstore.mendiankucun.KuCunQueryBySkuActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.mendiankucun.MyFavoritesActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.app.xstore.mendiankucun.ProductKuCunListByParamsActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.mendiankucun.ProductKuCunListActivity" android:screenOrientation="portrait" />
         
         <activity android:name="com.app.xstore.mendiancaigouruku.CaiGouRuKuActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.mendiancaigouruku.CaiGouRuKuCreateActivity" android:screenOrientation="portrait" />

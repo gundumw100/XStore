@@ -16,28 +16,26 @@ import com.android.volley.Response.Listener;
 import com.app.net.Commands;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
-import com.app.xstore.shangpindangan.GetProdStyleListResponse;
-import com.app.xstore.shangpindangan.ProdStyle;
 import com.base.app.CommonAdapter;
 import com.base.app.ViewHolder;
 
 /**
- * 
+ * 商品库存列表界面
  * @author pythoner
  * 
  */
-public class ProductKuCunListByParamsActivity extends BaseActivity {
+public class ProductKuCunListActivity extends BaseActivity {
 
 	private ListView listView;
-	private CommonAdapter<ProdStyle> adapter;
-	private List<ProdStyle> beans=new ArrayList<ProdStyle>();
+	private CommonAdapter<Stock> adapter;
+	private List<Stock> beans=new ArrayList<Stock>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_mendiankucun_list_by_params);
+		setContentView(R.layout.activity_mendian_kucun_list);
 		context = this;
-		initActionBar("商品", null, null);
+		initActionBar("商品库存", null, null);
 		initViews();
 		
 		ArrayList<String> goods_brand=getIntent().getStringArrayListExtra("goods_brand");
@@ -51,7 +49,7 @@ public class ProductKuCunListByParamsActivity extends BaseActivity {
 		ArrayList<String> goods_jldw=null;
 		ArrayList<String> goods_cw=null;
 		
-		doCommandGetGoodsListByParam(goods_brand,goods_color,goods_cs,goods_sort,goods_spec, goods_season, goods_jldw,goods_cw,goods_other);
+		doCommandGetStockByParamList(goods_brand,goods_color,goods_cs,goods_sort,goods_spec, goods_season, goods_jldw,goods_cw,goods_other);
 	}
 
 	@Override
@@ -64,7 +62,9 @@ public class ProductKuCunListByParamsActivity extends BaseActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long id) {
 				// TODO Auto-generated method stub
-				startProductDetailActivity(beans.get(position).getStyleCode());
+				Intent intent=new Intent(context,KuCunQueryBySkuActivity.class);
+				intent.putExtra("StyleCode", beans.get(position).getStyleCode());
+				startActivity(intent);
 			}
 		});
 	}
@@ -82,17 +82,16 @@ public class ProductKuCunListByParamsActivity extends BaseActivity {
 
 	private void notifyDataSetChanged(){
 		if(adapter==null){
-			listView.setAdapter(adapter = new CommonAdapter<ProdStyle>( context, beans,
-					  R.layout.item_product_query_list){
+			listView.setAdapter(adapter = new CommonAdapter<Stock>( context, beans,
+					  R.layout.item_product_kucun_list){
 					  
 					@Override
-					public void setValues(ViewHolder helper, final ProdStyle item, final int position) {
+					public void setValues(ViewHolder helper, final Stock item, final int position) {
 						// TODO Auto-generated method stub
-						helper.setText(R.id.item_0, item.getDateCode()+item.getStyleCode());
-						helper.setText(R.id.item_1, item.getDescription());
-//						helper.setText(R.id.item_2, item.getGoods_spec());
-//						helper.setText(R.id.item_3, String.valueOf(item.getGoods_ls_price()));
-						
+						helper.setText(R.id.item_0, item.getStyleCode());
+						helper.setText(R.id.item_1, item.getStyleName());
+						helper.setText(R.id.item_2, String.valueOf(item.getStock()));
+						helper.setText(R.id.item_3, String.valueOf(item.getOnline_stock()));
 					}
 			});
 		}else{
@@ -100,21 +99,18 @@ public class ProductKuCunListByParamsActivity extends BaseActivity {
 		}
 	}
 	
-	
-	private void doCommandGetGoodsListByParam(List<String> goods_brand,List<String> goods_color,List<String> goods_cs,List<String> goods_sort,List<String> goods_spec,List<String> goods_season,List<String> goods_jldw,List<String> goods_cw,List<String> goods_other) {
-		Commands.doCommandGetGoodsListByParam(context, goods_brand, goods_color, goods_cs, goods_sort, goods_spec, goods_season, goods_jldw, goods_cw, goods_other, new Listener<JSONObject>() {
+	private void doCommandGetStockByParamList(List<String> goods_brand,List<String> goods_color,List<String> goods_cs,List<String> goods_sort,List<String> goods_spec,List<String> goods_season,List<String> goods_jldw,List<String> goods_cw,List<String> goods_other) {
+		Commands.doCommandGetStockByParamList(context, goods_brand, goods_color, goods_cs, goods_sort, goods_spec, goods_season, goods_jldw, goods_cw, goods_other, new Listener<JSONObject>() {
 			
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-//				{"ErrMessage":"","Result":true,"Info":[{"DateCode":"18","ShopCode":"S001","Description":"帅哥","StyleCode":"0008"}],"ErrSysTrackMessage":"","ErrSysMessage":"","Message":"获取成功"}
-				Log.i("tag", "response="+response.toString());
+//				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
-					GetProdStyleListResponse obj=mapperToObject(response, GetProdStyleListResponse.class);
+					GetStockByParamListResponse obj=mapperToObject(response, GetStockByParamListResponse.class);
 					if(obj!=null&&obj.getInfo()!=null){
 						beans.addAll(obj.getInfo());
 						updateViews(beans);
-						
 					}
 				}
 			}

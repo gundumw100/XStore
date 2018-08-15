@@ -19,24 +19,13 @@
             android:gravity="center"
             android:padding="8dp"
             android:singleLine="true"
-            android:text="款式"
+            android:text="款式/名称"
             android:textColor="@color/grayDark"
             android:textSize="@dimen/font_small" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="64dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="名称"
-            android:textColor="@color/grayDark"
-            android:textSize="@dimen/font_small" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:padding="8dp"
             android:singleLine="true"
@@ -45,15 +34,18 @@
             android:textSize="@dimen/font_small" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="64dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:padding="8dp"
             android:singleLine="true"
             android:text="在途"
             android:textColor="@color/grayDark"
             android:textSize="@dimen/font_small" />
+
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="16dp" />
     </LinearLayout>
 
     <ListView

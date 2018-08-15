@@ -10,6 +10,7 @@ import org.litepal.crud.DataSupport;
 public class ProductDangAnRecentlyBrowse extends DataSupport{
 	private long id;
 	private String goods_name;//": "GN000",
+	private String goods_thumb;//": "GN000",
 	
 	private String goods_sn;//": "GS000",
 	private String goods_desc;//": "GD000",
@@ -37,6 +38,14 @@ public class ProductDangAnRecentlyBrowse extends DataSupport{
 	@Override
 	public String toString() {
 		return goods_name;
+	}
+
+	public String getGoods_thumb() {
+		return goods_thumb;
+	}
+
+	public void setGoods_thumb(String goods_thumb) {
+		this.goods_thumb = goods_thumb;
 	}
 
 	public String getGoods_img() {

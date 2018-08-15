@@ -55,7 +55,6 @@ import com.base.util.comm.TimeUtils;
  */
 public class ShoppingCartActivity extends BaseActivity implements OnClickListener{
 
-	private Context context;
 	private EditText tv_scan_result;
 	private ListView listView;
 	private CommonAdapter<ProductDangAn> adapter;
@@ -71,7 +70,6 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shoppingcart);
-		context=this;
 		initHandler();
 		initActionBar("收银台",null,getDrawableCompat(R.drawable.icon_order_more));
 		initViews();
@@ -106,7 +104,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 				Intent intent=null;
 				switch (pair.first) {
 				case 0://
-					ProductCodeDialog d=new ProductCodeDialog(context,"1800280404","请输入商品号或扫描");
+					ProductCodeDialog d=new ProductCodeDialog(context,"1800460000","请输入商品号或扫描");
 					d.setOnClickListener(new ProductCodeDialog.OnClickListener() {
 						@Override
 						public void onClick(View v, String text) {
@@ -222,7 +220,16 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 
 						helper.setText(R.id.item_name, item.getGoods_name());
 						helper.setText(R.id.item_sn, "商品编码  "+item.getGoods_sn());
-						helper.setText(R.id.item_colorSize, item.getGoods_color_desc()+"  "+item.getGoods_spec_desc());
+						
+						String color_desc=item.getGoods_color_desc();
+						if(context.isEmpty(color_desc)){
+							color_desc="均色";
+						}
+						String spec_desc=item.getGoods_spec_desc();
+						if(context.isEmpty(spec_desc)){
+							spec_desc="均码";
+						}
+						helper.setText(R.id.item_colorSize, color_desc+"  "+spec_desc);
 						
 						TextView tv_ls_price=(TextView)helper.getView(R.id.item_ls_price);
 						tv_ls_price.setText("￥"+item.getGoods_ls_price());//零售金额
@@ -419,7 +426,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 					if(!isEmptyList(products)){
 						
 						for(ProductDangAn bean:products){
-							bean.setGoods_price(bean.getGoods_ls_price());
+							bean.setGoods_price(bean.getGoods_ls_price());//实际售价预置成零售价
 							bean.setGoods_discountRate(100);//不打折
 						}
 						

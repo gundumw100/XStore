@@ -251,6 +251,7 @@ public class ProductQueryBySkuActivity extends BaseActivity {
 				ProductDangAn bean=new ProductDangAn();
 				bean.setGoods_sn(item.getGoods_sn());
 				bean.setGoods_name(item.getGoods_name());
+				bean.setGoods_thumb(item.getGoods_thumb());
 				bean.setBrand_name(item.getBrand_name());
 				bean.setGoods_brand(item.getGoods_brand());
 				bean.setGoods_ls_price(item.getGoods_ls_price());

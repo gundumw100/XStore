@@ -84,8 +84,8 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 	@Override
 	public void initViews() {
 		// TODO Auto-generated method stub
+		
 		et_productSku=$(R.id.et_productSku);
-		et_productSku.setText("180030");//debug
 		tv_name=$(R.id.tv_name);
 		tv_kucun=$(R.id.tv_kucun);
 		tv_year=$(R.id.tv_year);
@@ -120,6 +120,15 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 		});
 		initListView();
 		initRecyclerView();
+		
+		String styleCode=getIntent().getStringExtra("StyleCode");
+		if(isEmpty(styleCode)){
+//			et_productSku.setText("180030");//debug
+		}else{
+			et_productSku.setText(styleCode);
+			doCommandGetStockBySKUList();
+		}
+		
 	}
 
 	private void doCommandGetStockBySKUList(){
@@ -266,7 +275,9 @@ public class KuCunQueryBySkuActivity extends BaseActivity {
 	}
 	
 	private void doCommandGetStockBySKUList(String goods_sn){
-		Commands.doCommandGetStockBySKUList(context, goods_sn, new Listener<JSONObject>() {
+		List<String> goodsSnList=new ArrayList<String>();
+		goodsSnList.add(goods_sn);
+		Commands.doCommandGetStockBySKUList(context, goodsSnList, new Listener<JSONObject>() {
 
 			@Override
 			public void onResponse(JSONObject response) {

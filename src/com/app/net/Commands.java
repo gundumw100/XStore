@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Response.Listener;
 import com.app.model.Customer;
@@ -330,10 +329,10 @@ public final class Commands {
 	 * @param goods_sn
 	 * @param onSuccessListener
 	 */
-	public static void doCommandGetStockBySKUList(Context context,String goods_sn,Listener<JSONObject> onSuccessListener) {
+	public static void doCommandGetStockBySKUList(Context context,List<String> goodsSnList,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
 		pars.setShopCode(getShopCode());
-		pars.setGoodsSn(goods_sn);
+		pars.setGoodsSnList(goodsSnList);
 		doCommand(context, "GetStockBySKUList", pars, onSuccessListener);
 	}
 	
@@ -353,7 +352,8 @@ public final class Commands {
 	 */
 	public static void doCommandGetStockByParamList(Context context,List<String> goods_brand,List<String> goods_color,List<String> goods_cs,List<String> goods_sort,List<String> goods_spec,List<String> goods_season,List<String> goods_jldw,List<String> goods_cw,List<String> goods_other,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
-		pars.setShopCode(getCompanyCode());
+		pars.setCompanyCode(getCompanyCode());
+		pars.setShopCode(getShopCode());
 		pars.setGoodsBrand(goods_brand);
 		pars.setGoodsColor(goods_color);
 		pars.setGoodsCs(goods_cs);
