@@ -5,4 +5,12 @@
     <item name="sr_classic_last_update" type="id"/>
     <item name="sr_classic_arrow" type="id"/>
     <item name="sr_classic_progress" type="id"/>
+    
+    
+    
+    <!-- ActionBar -->
+    <item name="leftImg" type="id"/>
+    <item name="rightImg" type="id"/>
+    <item name="leftTv" type="id"/>
+    
 </resources>

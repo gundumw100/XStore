@@ -87,7 +87,7 @@ public class ProductDangAn extends DataSupport implements Parcelable{
 	
 	@Override
 	public String toString() {
-		return goods_name;
+		return goods_name+goods_thumb;
 	}
 
 	public String getGoods_thumb() {

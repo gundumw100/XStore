@@ -17,8 +17,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -36,6 +34,9 @@ import com.android.volley.Response.Listener;
 import com.app.net.Commands;
 import com.app.widget.SimpleListPopupWindow;
 import com.app.widget.SimpleListPopupWindow.OnItemClickListener;
+import com.app.widget.dialog.ColorListPopupWindow;
+import com.app.widget.dialog.MenDianColorDialog;
+import com.app.widget.dialog.MenDianSizeDialog;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
@@ -54,7 +55,7 @@ import com.widget.imagepicker.ImageConfig;
 import com.widget.imagepicker.ImageSelector;
 import com.widget.imagepicker.ImageSelectorActivity;
 import com.widget.imagepicker.PicassoLoader;
-//import android.util.Log;
+import android.util.Log;
 
 /**
  * 
@@ -107,31 +108,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		//款号
 		tv_productSku=$(R.id.tv_productSku);
 		et_productSku=$(R.id.et_productSku);
-//		et_productSku.addTextChangedListener(new TextWatcher() {
-//			
-//			@Override
-//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-//				// TODO Auto-generated method stub
-//				btn_generateCode.setEnabled(s.length()==0);
-//				tv_productSku.setText("");
-//				tv_productSku.setTag(null);
-//				if(!et_productSku.isEnabled()){
-//					et_productSku.setEnabled(true);
-//				}
-//			}
-//			
-//			@Override
-//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void afterTextChanged(Editable arg0) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
 		if(!isEmpty(goodsSn)){
 			et_productSku.setText(goodsSn);
 			et_productSku.setSelection(goodsSn.length());
@@ -167,6 +143,8 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 				// TODO Auto-generated method stub
 				ProductDangAn bean=(ProductDangAn)adapter.getItem(position);
 				et_originalSku.setText(bean.getGoods_thumb());
+				
+				et_productName.setText(bean.getGoods_name());
 			}
 
 		});
@@ -352,22 +330,24 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Commands.doCommandGetProdColorList(context, null, new Listener<JSONObject>() {
-					
-					@Override
-					public void onResponse(JSONObject response) {
-						// TODO Auto-generated method stub
-//						Log.i("tag", "response="+response.toString());
-						if (isSuccess(response)) {
-							GetProdColorListResponse obj=mapperToObject(response, GetProdColorListResponse.class);
-							colorList=obj.getInfo();
-							if(!isFinishing()){
-								showColorDialog();
-							}
-							
-						}
-					}
-				});
+				showColorDialog();
+				//debug
+//				Commands.doCommandGetProdColorList(context, null, new Listener<JSONObject>() {
+//					
+//					@Override
+//					public void onResponse(JSONObject response) {
+//						// TODO Auto-generated method stub
+////						Log.i("tag", "response="+response.toString());
+//						if (isSuccess(response)) {
+//							GetProdColorListResponse obj=mapperToObject(response, GetProdColorListResponse.class);
+//							colorList=obj.getInfo();
+//							if(!isFinishing()){
+//								showColorDialog();
+//							}
+//							
+//						}
+//					}
+//				});
 			}
 		});
 		//尺码
@@ -417,26 +397,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-//				c.setTimeInMillis(System.currentTimeMillis());
-//				List<String> dates=new ArrayList<String>();
-//				for(int i=0;i<12;i++){
-//					dates.add(format.format(c.getTime()));
-//					c.add(Calendar.MONTH, 1);
-//				}
-//				
-//				View view = LayoutInflater.from(context).inflate(R.layout.popupwindow_simple, null);
-//				SimpleListPopupWindow<String> popupWindow=new SimpleListPopupWindow<String>(context, view, tv_date.getWidth(), dates);
-//				popupWindow.showAsDropDown(tv_date, 0, 0);
-//				popupWindow.setOnItemClickListener(new SimpleListPopupWindow.OnItemClickListener<String>() {
-//					
-//					@Override
-//					public void onItemClick(int position, String item) {
-//						// TODO Auto-generated method stub
-//						tv_date.setText(item+"-01");
-//						tv_date.setTag(item+"-01");
-//					}
-//				});
-				
 				Calendar c = Calendar.getInstance();
 		        int mYear = c.get(Calendar.YEAR);
 		        int mMonth = c.get(Calendar.MONTH);
@@ -454,9 +414,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 						tv_date.setTag(date);
 					}
 				},mYear,mMonth,mDay);
-
                 datePickerDialog.show();
-                
 			}
 		});
 
@@ -613,7 +571,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		//////////////////////////////////////////////////////////////////////////
 		
 		initFlowLayout();
-		
 	}
 
 	@Override
@@ -735,7 +692,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 				@Override
 				public void onResponse(JSONObject response) {
 					// TODO Auto-generated method stub
-//					Log.i("tag", "response="+response.toString());
+					Log.i("tag", "response="+response.toString());
 					if (isSuccess(response)) {
 						GetProdColorListResponse obj=mapperToObject(response, GetProdColorListResponse.class);
 						colorList=obj.getInfo();
@@ -745,9 +702,9 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 								showToast("暂无数据");
 							}else{
 								View view = LayoutInflater.from(context).inflate(R.layout.popupwindow_simple, null);
-								SimpleListPopupWindow<ProdColor> popupWindow=new SimpleListPopupWindow<ProdColor>(context, view, tv.getWidth(), colorList);
+								ColorListPopupWindow popupWindow=new ColorListPopupWindow(context, view, tv.getWidth(), colorList);
 								popupWindow.showAsDropDown(tv, 0, 0);
-								popupWindow.setOnItemClickListener(new SimpleListPopupWindow.OnItemClickListener<ProdColor>() {
+								popupWindow.setOnItemClickListener(new ColorListPopupWindow.OnItemClickListener() {
 		
 									@Override
 									public void onItemClick(int position, ProdColor item) {
@@ -767,9 +724,9 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			});
 		}else{
 			View view = LayoutInflater.from(context).inflate(R.layout.popupwindow_simple, null);
-			SimpleListPopupWindow<ProdColor> popupWindow=new SimpleListPopupWindow<ProdColor>(context, view, tv.getWidth(), colorList);
+			ColorListPopupWindow popupWindow=new ColorListPopupWindow(context, view, tv.getWidth(), colorList);
 			popupWindow.showAsDropDown(tv, 0, 0);
-			popupWindow.setOnItemClickListener(new SimpleListPopupWindow.OnItemClickListener<ProdColor>() {
+			popupWindow.setOnItemClickListener(new ColorListPopupWindow.OnItemClickListener() {
 
 				@Override
 				public void onItemClick(int position, ProdColor item) {
@@ -901,7 +858,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		}
 		
 	}
-	
 	
 	private List<ProdSort> sortList = null;
 	private void showSortPopupWindow(final TextView tv){
@@ -1345,92 +1301,69 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	}
 	
 	private void showColorDialog(){
-		SimpleTextListDialog<ProdColor> d = new SimpleTextListDialog<ProdColor>(context, "", "请输入颜色名称",colorList,SimpleTextListDialog.COL_TWO);
-		d.setOnClickListener(new SimpleTextListDialog.OnClickListener() {
+		isUpdateColor=true;//只要打开Dialog，就简单的认为颜色列表有更新，需要从新获取
+		MenDianColorDialog d = new MenDianColorDialog(context);
+		/*d.setOnChildClickListener(new MenDianColorDialog.OnChildClickListener() {
 			
 			@Override
-			public void onClick(View v, String text) {
+			public void onChildClick(ProdColor child, int position) {
 				// TODO Auto-generated method stub
-				doCommandAddProdColor(text);
-			}
-		});
-		d.setOnItemClickListener(new SimpleTextListDialog.OnItemClickListener<ProdColor>() {
-
-			@Override
-			public void onItemClick(ProdColor bean,
-					int position) {
-				// TODO Auto-generated method stub
-				resetAddColorImgView(tv_color,bean);
-				tv_color.setText(bean.getDescription());
-				tv_color.setTag(bean);
+				resetAddColorImgView(tv_color,child);
+				tv_color.setText(child.getDescription());
+				tv_color.setTag(child);
 				ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
 				updateProductSkuTextView(prodStyle);
 			}
-		});
-		d.setOnCheckedChangeListener(new OnCheckedChangeListener<ProdColor>() {
-
-			@Override
-			public void onCheckedChange(ProdColor bean, int position,
-					boolean isChecked) {
-				// TODO Auto-generated method stub
-				Commands.doCommandUpdateProdColorEnabled(context, bean.getColorCode(), isChecked?"1":"0", new Listener<JSONObject>() {
-
-					@Override
-					public void onResponse(JSONObject response) {
-						// TODO Auto-generated method stub
-//						Log.i("tag", response.toString());
-						if(isSuccess(response)){
-							isUpdateColor=true;
-						}
-					}
-				});
-			}
-		});
+		});*/
 		d.show();
 	}
 	
 	private void showSpecDialog(){
-		SimpleTextListDialog<ProdSpec> d = new SimpleTextListDialog<ProdSpec>(context, "", "请输入尺码名称",specList,SimpleTextListDialog.COL_TWO);
-		d.setOnClickListener(new SimpleTextListDialog.OnClickListener() {
-			
-			@Override
-			public void onClick(View v, String text) {
-				// TODO Auto-generated method stub
-				doCommandAddProdSpec(text);
-			}
-		});
-		d.setOnItemClickListener(new SimpleTextListDialog.OnItemClickListener<ProdSpec>() {
-
-			@Override
-			public void onItemClick(ProdSpec bean,
-					int position) {
-				// TODO Auto-generated method stub
-				tv_size.setText(bean.getDescription());
-				tv_size.setTag(bean);
-				ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
-				updateProductSkuTextView(prodStyle);
-			}
-		});
-		d.setOnCheckedChangeListener(new OnCheckedChangeListener<ProdSpec>() {
-
-			@Override
-			public void onCheckedChange(ProdSpec bean, int position,
-					boolean isChecked) {
-				// TODO Auto-generated method stub
-				Commands.doCommandUpdateProdSpecEnabled(context, bean.getSpecCode(), isChecked?"1":"0", new Listener<JSONObject>() {
-
-					@Override
-					public void onResponse(JSONObject response) {
-						// TODO Auto-generated method stub
-//						Log.i("tag", response.toString());
-						if(isSuccess(response)){
-							isUpdateSpec=true;
-						}
-					}
-				});
-			}
-		});
+		isUpdateSpec=true;//只要打开Dialog，就简单的认为尺码列表有更新，需要从新获取
+		MenDianSizeDialog d = new MenDianSizeDialog(context);
 		d.show();
+		
+//		SimpleTextListDialog<ProdSpec> d = new SimpleTextListDialog<ProdSpec>(context, "", "请输入尺码名称",specList,SimpleTextListDialog.COL_TWO);
+//		d.setOnClickListener(new SimpleTextListDialog.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v, String text) {
+//				// TODO Auto-generated method stub
+//				doCommandAddProdSpec(text);
+//			}
+//		});
+//		d.setOnItemClickListener(new SimpleTextListDialog.OnItemClickListener<ProdSpec>() {
+//
+//			@Override
+//			public void onItemClick(ProdSpec bean,
+//					int position) {
+//				// TODO Auto-generated method stub
+//				tv_size.setText(bean.getDescription());
+//				tv_size.setTag(bean);
+//				ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
+//				updateProductSkuTextView(prodStyle);
+//			}
+//		});
+//		d.setOnCheckedChangeListener(new OnCheckedChangeListener<ProdSpec>() {
+//
+//			@Override
+//			public void onCheckedChange(ProdSpec bean, int position,
+//					boolean isChecked) {
+//				// TODO Auto-generated method stub
+//				Commands.doCommandUpdateProdSpecEnabled(context, bean.getSpecCode(), isChecked?"1":"0", new Listener<JSONObject>() {
+//
+//					@Override
+//					public void onResponse(JSONObject response) {
+//						// TODO Auto-generated method stub
+////						Log.i("tag", response.toString());
+//						if(isSuccess(response)){
+//							isUpdateSpec=true;
+//						}
+//					}
+//				});
+//			}
+//		});
+//		d.show();
 	}
 
 	private void showCsDialog(){
@@ -1601,19 +1534,20 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	private boolean isUpdateColor=true;
-	private void doCommandAddProdColor(final String description){
-		Commands.doCommandAddProdColor(context, description, new Listener<JSONObject>() {
-			
-			@Override
-			public void onResponse(JSONObject response) {
-				// TODO Auto-generated method stub
-//				Log.i("tag", "response="+response.toString());
-				if (isSuccess(response)) {
-					isUpdateColor=true;
-				}
-			}
-		});
-	}
+	//debug
+//	private void doCommandAddProdColor(final String description){
+//		Commands.doCommandAddProdColor(context, description, new Listener<JSONObject>() {
+//			
+//			@Override
+//			public void onResponse(JSONObject response) {
+//				// TODO Auto-generated method stub
+////				Log.i("tag", "response="+response.toString());
+//				if (isSuccess(response)) {
+//					isUpdateColor=true;
+//				}
+//			}
+//		});
+//	}
 	
 	private boolean isUpdateSpec=true;
 	private void doCommandAddProdSpec(final String description){
@@ -1766,7 +1700,9 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 						}else if(styleList.size()==1){
 							ProdStyle prodStyle=styleList.get(0);
 							tv_productSku.setTag(prodStyle);
+							tv_productSku.setText(prodStyle.getDateCode()+prodStyle.getStyleCode());
 							updateProductSkuTextView(prodStyle);
+							lockViews();
 						}else{
 							//debug
 							View view = LayoutInflater.from(context).inflate(R.layout.popupwindow_simple, null);
@@ -1778,7 +1714,9 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 								public void onItemClick(int position, ProdStyle item) {
 									// TODO Auto-generated method stub
 									tv_productSku.setTag(item);
+									tv_productSku.setText(item.getDateCode()+item.getStyleCode());
 									updateProductSkuTextView(item);
+									lockViews();
 								}
 							});
 						}
@@ -1792,9 +1730,8 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		if(prodStyle==null){
 			return;
 		}
-//		String dateCode=prodStyle.getDateCode().substring(2);
-		String dateCode=prodStyle.getDateCode();
-		String styleCode=prodStyle.getStyleCode();
+//		String dateCode=prodStyle.getDateCode();
+//		String styleCode=prodStyle.getStyleCode();
 		
 		String color="00";
 		if(tv_color.getTag()!=null){
@@ -1806,19 +1743,27 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			size=((ProdSpec)tv_size.getTag()).getSpecCode();
 		}
 		
-		Spanny spanny = new Spanny();
-		spanny.append(dateCode+styleCode);
-		spanny.append(color+size,new ForegroundColorSpan(Color.RED));
-		tv_productSku.setText(spanny);//2+4+2+2
-		
-		et_productName.setEnabled(false);
-		et_originalSku.setEnabled(false);
+		String productSku=tv_productSku.getText().toString();
+		if(productSku.length()>=6){
+			Spanny spanny = new Spanny();
+			spanny.append(productSku.substring(0, 6));
+			spanny.append(color+size,new ForegroundColorSpan(Color.RED));
+			tv_productSku.setText(spanny);//2+4+2+2
+		}
+	}
+	
+	//一单生成编码之后，需要锁定部分View不可操作
+	private void lockViews(){
 		tv_year.setClickable(false);
 		tv_year.setTextColor(ContextCompat.getColor(context, R.color.grayMiddle));
 		btn_addYear.setClickable(false);
-		tv_brand.setClickable(false);
-		tv_category.setClickable(false);
-		tv_season.setClickable(false);
+		
+		et_productName.setEnabled(false);
+		et_originalSku.setEnabled(false);
+		
+//		tv_brand.setClickable(false);
+//		tv_category.setClickable(false);
+//		tv_season.setClickable(false);
 	}
 	
 	@Override
@@ -1890,29 +1835,27 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 //				return;
 //			}
 			
-			
-//			UploadResult uploadResult=(UploadResult)btn_addColorImg.getTag();
-			if(btn_addColorImg.getTag()==null){
-				doShake(context, btn_addColorImg);
-				String message="我们建议您在保存前添加一张对应颜色的图片。";
-				D.showDialog(this, message, "马上添加", "不添加,继续保存", new D.OnPositiveListener() {
-					
-					@Override
-					public void onPositive() {
-						// TODO Auto-generated method stub
-						openImageSelector();
-					}
-				},new D.OnNegativeListener() {
-					
-					@Override
-					public void onNegative() {
-						// TODO Auto-generated method stub
-						save();
-					}
-				});
-			}else{
+//			if(btn_addColorImg.getTag()==null){
+//				doShake(context, btn_addColorImg);
+//				String message="我们建议您在保存前添加一张对应颜色的图片。";
+//				D.showDialog(this, message, "马上添加", "不添加,继续保存", new D.OnPositiveListener() {
+//					
+//					@Override
+//					public void onPositive() {
+//						// TODO Auto-generated method stub
+//						openImageSelector();
+//					}
+//				},new D.OnNegativeListener() {
+//					
+//					@Override
+//					public void onNegative() {
+//						// TODO Auto-generated method stub
+//						save();
+//					}
+//				});
+//			}else{
 				save();
-			}
+//			}
 			
 			break;
 
@@ -2016,9 +1959,9 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		
 		doCommandAddGoodsInfo(goodsInfo);
 		//点击保存后，保存一份Product到本地数据库，用于AutoCompleteTextView快显菜单
-		ProductDangAn product=DataSupport.where("goods_name = ?",bean.getGoods_name()).findFirst(ProductDangAn.class);
+		bean.setGoods_name(productName);//重新设置成名称,去掉原厂货号,保存到本地
+		ProductDangAn product=DataSupport.where("goods_name = ?",productName).findFirst(ProductDangAn.class);
 		if(product==null){//如果没有保存过类似的名称，则存盘（不要重复保存相同的名称）
-			bean.setGoods_name(productName);//重新设置成名称,去掉原厂货号
 			bean.saveFast();//此时可以得到Product.id
 			adapter.add(bean);
 		}
@@ -2039,14 +1982,9 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 					colorImage.setImgUrl(btn_addColorImg.getTag()==null?"":((UploadResult)btn_addColorImg.getTag()).downloadUrl);
 					
 					String styleCode=null;
-					String sku=null;
-//					if(isEmpty(tv_productSku)){//扫描已有吊牌
-//						sku=et_productSku.getText().toString();
-//					}else{//生成款号
-						sku=tv_productSku.getText().toString();
-//					}
-					if(sku.length()>6){
-						styleCode=sku.substring(0, 6);
+					String productSku=tv_productSku.getText().toString();
+					if(productSku.length()>=6){
+						styleCode=productSku.substring(0, 6);
 						colorImage.setStyleCode(styleCode);
 					}
 					
@@ -2063,15 +2001,18 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		et_productName.requestFocus();
 		et_productName.setSelection(et_productName.length());
 		et_originalSku.setEnabled(true);
+		
 		tv_year.setClickable(true);
 		tv_year.setTextColor(ContextCompat.getColor(context, R.color.grayDark));
 		btn_addYear.setClickable(true);
+		
+		tv_productSku.setTag(null);
 		tv_productSku.setText("");
 		et_productSku.setText("");
 		
-		tv_brand.setClickable(true);
-		tv_category.setClickable(true);
-		tv_season.setClickable(true);
+//		tv_brand.setClickable(true);
+//		tv_category.setClickable(true);
+//		tv_season.setClickable(true);
 		
 		flowLayout.removeViews(0, flowLayout.getChildCount()-1);
 	}
@@ -2084,7 +2025,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", "response="+response.toString());
+//				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
 					showToast("保存成功");
 //					resetViews();
@@ -2138,11 +2079,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private void uploadToQQcloud(View view,String filePath) throws Exception {
-//		Log.i("tag", "APP_ID_V2="+APP_ID_V2);
-//		Log.i("tag", "SECRET_ID_V2="+SECRET_ID_V2);
-//		Log.i("tag", "SECRET_KEY_V2="+SECRET_KEY_V2);
-//		Log.i("tag", "BUCKET="+BUCKET);
-//		Log.i("tag", "filePath="+filePath);///storage/sdcard0/wandoujia/downloader/openscreen/open_screen_bg_img_1653.png
 		PicCloud pc = new PicCloud(App.APP_ID_V2, App.SECRET_ID_V2, App.SECRET_KEY_V2, App.BUCKET);
 		picBase(view,pc, filePath);
 	}

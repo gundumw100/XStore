@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical"
+    >
+
+    <TextView
+        android:id="@+id/item_0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:textColor="@color/grayDark"
+        android:textSize="@dimen/font_middle" 
+        android:layout_marginLeft="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/item_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:textColor="@color/grayDark"
+        android:textSize="@dimen/font_middle" />
+    
+    <com.app.widget.SwitchButton
+        android:id="@+id/item_2"
+        style="@style/SwitchButtonStyle"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grayDark"
+        android:textSize="@dimen/font_small"
+        android:checked="true"
+        app:kswTextAdjust="-2dp"
+        app:kswTextExtra="8dp"
+        app:kswTextOff="停用"
+        app:kswTextOn="启用" />
+    
+</LinearLayout>

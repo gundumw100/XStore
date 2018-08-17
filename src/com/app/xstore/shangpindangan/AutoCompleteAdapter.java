@@ -92,14 +92,14 @@ public class AutoCompleteAdapter<T> extends BaseAdapter implements Filterable {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.simple_dropdown_item_1line, null);
-            holder.tv = (TextView) convertView.findViewById(R.id.tv_simple_item);
-            holder.iv = (ImageView) convertView.findViewById(R.id.iv_simple_item);
+            holder.item_tv = (TextView) convertView.findViewById(R.id.item_tv);
+            holder.item_iv = (ImageView) convertView.findViewById(R.id.item_iv);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tv.setText(mObjects.get(position).toString());
-        holder.iv.setOnClickListener(new View.OnClickListener() {
+        holder.item_tv.setText(mObjects.get(position).toString());
+        holder.item_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 T value = mObjects.remove(position);
@@ -121,8 +121,8 @@ public class AutoCompleteAdapter<T> extends BaseAdapter implements Filterable {
     }
 
     private static class ViewHolder {
-        TextView tv;
-        ImageView iv;
+        TextView item_tv;
+        ImageView item_iv;
     }
 
     public void setDefaultMode(int defaultMode) {
@@ -131,13 +131,13 @@ public class AutoCompleteAdapter<T> extends BaseAdapter implements Filterable {
 
     public void add(T item) {
         mOriginalValues.add(item);
-        notifyDataSetChanged();         //
+        notifyDataSetChanged();
     }
 
     public void clear() {
         if(mOriginalValues != null && !mOriginalValues.isEmpty()) {
             mOriginalValues.clear();
-            notifyDataSetChanged();         //
+            notifyDataSetChanged();
         }
     }
 

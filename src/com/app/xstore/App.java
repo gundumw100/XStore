@@ -11,10 +11,10 @@ import com.app.model.GuaDan;
 import com.app.model.User;
 import com.app.model.UserInfo;
 import com.app.model.WXYTImageServerInfo;
-import com.app.store.crash.CrashHelper;
-import com.app.store.crash.CustomErrorActivity;
 import com.app.util.ScanUtil;
 import com.base.app.BaseApp;
+import com.widget.crash.CrashHelper;
+import com.widget.crash.CustomErrorActivity;
 import com.widget.iconify.Iconify;
 import com.widget.iconify.font.FontAwesomeModule;
 

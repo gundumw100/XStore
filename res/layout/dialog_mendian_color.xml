@@ -1,0 +1,72 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_gravity="center_vertical"
+        android:padding="16dp"
+        >
+        <EditText 
+            android:id="@+id/et_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="请输入颜色分组名称"
+            android:padding="8dp"
+            android:maxLength="6"
+            android:singleLine="true"
+            android:background="@drawable/bg_edittext"
+            android:textSize="@dimen/font_middle"
+            />
+        <TextView 
+            android:id="@+id/btn_addGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_btn_blue"
+            android:text="添加分组"
+            android:textColor="@android:color/white"
+            android:padding="8dp"
+            android:textSize="@dimen/font_middle"
+            />
+    </LinearLayout>
+
+    <ListView 
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@android:color/transparent"
+        />
+
+    <!-- 
+   <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_for_dialog"
+            android:text="取消"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_for_dialog"
+            android:text="添加"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+     -->
+
+</LinearLayout>

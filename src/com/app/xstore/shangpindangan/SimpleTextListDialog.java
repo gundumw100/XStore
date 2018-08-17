@@ -174,16 +174,6 @@ public class SimpleTextListDialog<T> extends BaseDialog implements View.OnClickL
 								}
 							}
 						});
-//						item_2.setOnCheckedChangeListener(new com.app.widget.SwitchButton.OnCheckedChangeListener() {
-//							
-//							@Override
-//							public void onCheckedChanged(CompoundButton btn, boolean checked) {
-//								// TODO Auto-generated method stub
-//								if(onCheckedChangeListener!=null){
-//									onCheckedChangeListener.onCheckedChange(item, position, checked);
-//								}
-//							}
-//						});
 					}
 			});
 		}else{

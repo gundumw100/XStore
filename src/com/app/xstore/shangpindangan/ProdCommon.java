@@ -3,7 +3,7 @@ package com.app.xstore.shangpindangan;
 public class ProdCommon {
 
 	public String companyCode;
-    public String enabled;
+    public String enabled; //0不选中，1选中
     
 	public String getCompanyCode() {
 		return companyCode;

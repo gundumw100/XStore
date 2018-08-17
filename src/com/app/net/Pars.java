@@ -17,10 +17,29 @@ import com.app.model.ProdCheckDataInfo;
 import com.app.model.SimpleGoods;
 import com.app.xstore.mendiandiaochu.ChuRuKuHead;
 import com.app.xstore.mendiandiaochu.ChuRuKuProduct;
+import com.app.xstore.shangpindangan.ProdColor;
+import com.app.xstore.shangpindangan.ProdColorGroup;
 import com.app.xstore.shangpindangan.ProdColorImage;
 import com.app.xstore.shangpindangan.ProductDangAn;
 
 public class Pars {
+
+	List<ProdColorGroup> groupInfos;
+	List<ProdColor> colorInfos;
+	
+	public void setGroupInfos(List<ProdColorGroup> groupInfos) {
+		this.groupInfos = groupInfos;
+	}
+
+	public void setColorInfos(List<ProdColor> colorInfos) {
+		this.colorInfos = colorInfos;
+	}
+
+	String groupCode;
+	
+	public void setGroupCode(String groupCode) {
+		this.groupCode = groupCode;
+	}
 
 	List<String> goodsSnList;
 	

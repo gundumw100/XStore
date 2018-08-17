@@ -7,23 +7,24 @@
     android:gravity="center_vertical">
 
     <TextView
-        android:id="@+id/tv_simple_item"
+        android:id="@+id/item_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:padding="8dp"
-        android:text=""
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textAllCaps="false"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textColor="#000"/>
 
     <ImageView
-        android:id="@+id/iv_simple_item"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:id="@+id/item_iv"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:src="@drawable/ic_delete48"
         android:contentDescription="@null"
-        android:layout_marginRight="16dp"
-        android:padding="4dp"
+        android:layout_marginRight="8dp"
         />
 </LinearLayout>

@@ -26,6 +26,8 @@ import com.app.model.SimpleGoods;
 import com.app.xstore.App;
 import com.app.xstore.mendiandiaochu.ChuRuKuHead;
 import com.app.xstore.mendiandiaochu.ChuRuKuProduct;
+import com.app.xstore.shangpindangan.ProdColor;
+import com.app.xstore.shangpindangan.ProdColorGroup;
 import com.app.xstore.shangpindangan.ProdColorImage;
 import com.app.xstore.shangpindangan.ProductDangAn;
 import com.base.net.VolleyHelper;
@@ -734,18 +736,57 @@ public final class Commands {
 	/**
 	 * 添加颜色
 	 * @param context
-	 * @param shopCode
-	 * @param colorCode
+	 * @param groupCode
 	 * @param description
 	 * @param onSuccessListener
 	 */
-	public static void doCommandAddProdColor(Context context,String description,Listener<JSONObject> onSuccessListener) {
+	public static void doCommandAddProdColor(Context context,String groupCode,String description,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
 		pars.setCompanyCode(getCompanyCode());
+		pars.setGroupCode(groupCode);
 		pars.setDescription(description);
 		doCommand(context, "AddProdColor", pars, onSuccessListener);
 	}
 	
+	/**
+	 * 保存颜色分组信息
+	 * @param context
+	 * @param description
+	 * @param onSuccessListener
+	 */
+	public static void doCommandAddColorGroup(Context context,String description,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setDescription(description);
+		doCommand(context, "AddColorGroup", pars, onSuccessListener);
+	}
+	
+	/**
+	 * 更新颜色分组信息
+	 * @param context
+	 * @param groupInfos
+	 * @param colorInfos
+	 * @param onSuccessListener
+	 */
+	public static void doCommandUpdateBackColorByGroup(Context context,List<ProdColorGroup> groupInfos,List<ProdColor> colorInfos,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setGroupInfos(groupInfos);
+		pars.setColorInfos(colorInfos);
+		doCommand(context, "UpdateBackColorByGroup", pars, onSuccessListener);
+	}
+	
+	/**
+	 * 获取颜色分组列表
+	 * @param context
+	 * @param enabled 0 表示失效 1 表示生效
+	 * @param onSuccessListener
+	 */
+	public static void doCommandGetColorGroupList(Context context,String enabled,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setEnabled(enabled);
+		doCommand(context, "GetColorGroupList", pars, onSuccessListener);
+	}
 	/**
 	 * 更新品牌状态
 	 * @param context

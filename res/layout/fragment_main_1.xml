@@ -1,4 +1,4 @@
-<com.app.widget.refreshlayout.SmoothRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.widget.refreshlayout.SmoothRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
@@ -30,4 +30,4 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"/>
     
-</com.app.widget.refreshlayout.SmoothRefreshLayout>
+</com.widget.refreshlayout.SmoothRefreshLayout>

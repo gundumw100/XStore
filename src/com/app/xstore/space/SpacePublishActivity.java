@@ -28,9 +28,6 @@ import android.widget.TextView;
 
 import com.android.volley.Response.Listener;
 import com.base.util.D;
-import com.mb.exfilepicker.ExFilePicker;
-import com.mb.exfilepicker.ExFilePickerActivity;
-import com.mb.exfilepicker.ExFilePickerParcelObject;
 import com.app.model.ClerkSpaceInfo;
 import com.app.model.JvclerkspaceInfo;
 import com.app.model.response.ClerkUpLoadFileResponse;
@@ -44,6 +41,9 @@ import com.app.xstore.BaseActivity;
 import com.app.xstore.cashier.TradeDetailActivity;
 import com.app.xstore.cashier.TradeLocalListActivity;
 import com.app.xstore.R;
+import com.widget.exfilepicker.ExFilePicker;
+import com.widget.exfilepicker.ExFilePickerActivity;
+import com.widget.exfilepicker.ExFilePickerParcelObject;
 import com.zltd.decoder.DecoderManager;
 import com.app.util.ImageUploadUtil;
 

@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.app.widget.refreshlayout.Constants;
-import com.app.widget.refreshlayout.IIndicator;
-import com.app.widget.refreshlayout.MovingStatus;
-import com.app.widget.refreshlayout.RefreshingListenerAdapter;
-import com.app.widget.refreshlayout.SmoothRefreshLayout;
-import com.app.widget.refreshlayout.classic.ClassicFooter;
-import com.app.widget.refreshlayout.classic.ClassicHeader;
 import com.app.xstore.R;
+import com.widget.refreshlayout.Constants;
+import com.widget.refreshlayout.IIndicator;
+import com.widget.refreshlayout.MovingStatus;
+import com.widget.refreshlayout.RefreshingListenerAdapter;
+import com.widget.refreshlayout.SmoothRefreshLayout;
+import com.widget.refreshlayout.classic.ClassicFooter;
+import com.widget.refreshlayout.classic.ClassicHeader;
 
 
 /**
