@@ -4,69 +4,50 @@
     android:background="@android:color/white"
     android:orientation="vertical" >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn_blue"
+        android:padding="10dp"
+        android:text="尺码管理"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_middle" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
         android:layout_gravity="center_vertical"
-        android:padding="16dp"
-        >
-        <EditText 
+        android:orientation="horizontal"
+        android:padding="16dp" >
+
+        <EditText
             android:id="@+id/et_group"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="请输入颜色分组名称"
-            android:padding="8dp"
-            android:maxLength="6"
-            android:singleLine="true"
             android:background="@drawable/bg_edittext"
-            android:textSize="@dimen/font_middle"
-            />
-        <TextView 
+            android:hint="请输入尺码分组名称"
+            android:maxLength="6"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textSize="@dimen/font_middle" />
+
+        <TextView
             android:id="@+id/btn_addGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_btn_blue"
+            android:padding="8dp"
             android:text="添加分组"
             android:textColor="@android:color/white"
-            android:padding="8dp"
-            android:textSize="@dimen/font_middle"
-            />
+            android:textSize="@dimen/font_middle" />
     </LinearLayout>
 
-    <ListView 
+    <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:cacheColorHint="@android:color/transparent"
-        />
-
-    <!-- 
-   <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_btn_for_dialog"
-            android:text="取消"
-            android:textColor="@color/grayDark"
-            android:textSize="@dimen/font_middle" />
-
-        <Button
-            android:id="@+id/btn_ok"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_btn_for_dialog"
-            android:text="添加"
-            android:textColor="@color/grayDark"
-            android:textSize="@dimen/font_middle" />
-    </LinearLayout>
-     -->
+        android:cacheColorHint="@android:color/transparent" />
 
 </LinearLayout>

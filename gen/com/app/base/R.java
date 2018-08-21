@@ -280,13 +280,13 @@ public final class R {
 		public static final int dialog_time_picker = 0x7f03006f;
 		public static final int dialog_user_birthday = 0x7f030070;
 		public static final int fragment_list_comm = 0x7f03007b;
-		public static final int item_widget_toggle_switch = 0x7f0300bc;
-		public static final int load_more_footer = 0x7f0300bd;
-		public static final int newton_cradle_loader = 0x7f0300be;
-		public static final int softupdate_progress = 0x7f0300c2;
-		public static final int textview_list_search_param = 0x7f0300c3;
-		public static final int textview_list_total_info = 0x7f0300c4;
-		public static final int widget_toggle_switch = 0x7f0300c5;
+		public static final int item_widget_toggle_switch = 0x7f0300be;
+		public static final int load_more_footer = 0x7f0300bf;
+		public static final int newton_cradle_loader = 0x7f0300c0;
+		public static final int softupdate_progress = 0x7f0300c4;
+		public static final int textview_list_search_param = 0x7f0300c5;
+		public static final int textview_list_total_info = 0x7f0300c6;
+		public static final int widget_toggle_switch = 0x7f0300c7;
 	}
 	public static final class menu {
 		public static final int main = 0x7f0d0000;

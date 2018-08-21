@@ -4,6 +4,17 @@
     android:background="@android:color/white"
     android:orientation="vertical" >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn_blue"
+        android:padding="10dp"
+        android:text="颜色管理"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_middle" />
+    
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

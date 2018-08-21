@@ -6,8 +6,6 @@ import com.app.model.response.BaseResponse;
 
 public class GetProdSpecListResponse extends BaseResponse {
 
-//	{"ErrMessage":"","Result":true,"Info":[],"ErrSysTrackMessage":"","ErrSysMessage":"","Message":"OK"}
-
 	List<ProdSpec> Info;
 
 	public List<ProdSpec> getInfo() {

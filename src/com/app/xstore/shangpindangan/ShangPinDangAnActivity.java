@@ -1550,19 +1550,19 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 //	}
 	
 	private boolean isUpdateSpec=true;
-	private void doCommandAddProdSpec(final String description){
-		Commands.doCommandAddProdSpec(context, description, new Listener<JSONObject>() {
-
-			@Override
-			public void onResponse(JSONObject response) {
-				// TODO Auto-generated method stub
-//				Log.i("tag", "response="+response.toString());
-				if (isSuccess(response)) {
-					isUpdateSpec=true;
-				}
-			}
-		});
-	}
+//	private void doCommandAddProdSpec(final String description){
+//		Commands.doCommandAddProdSpec(context, description, new Listener<JSONObject>() {
+//
+//			@Override
+//			public void onResponse(JSONObject response) {
+//				// TODO Auto-generated method stub
+////				Log.i("tag", "response="+response.toString());
+//				if (isSuccess(response)) {
+//					isUpdateSpec=true;
+//				}
+//			}
+//		});
+//	}
 	
 	private boolean isUpdateBrand=true;
 	private void doCommandAddProdBrand(final String description){

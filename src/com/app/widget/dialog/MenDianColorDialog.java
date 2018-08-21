@@ -31,7 +31,7 @@ import com.base.app.CommonAdapter;
 import com.base.app.ViewHolder;
 
 /**
- * 
+ * 颜色管理Dialog
  * @author pythoner
  * 
  */
@@ -238,15 +238,15 @@ public class MenDianColorDialog extends BaseDialog {
 				Log.i("tag", "response="+response.toString());
 				if (isShowing()&&context.isSuccess(response)) {
 					GetProdColorListResponse obj=context.mapperToObject(response, GetProdColorListResponse.class);
-					List<ProdColor> colors=obj.getInfo();
-					for(ProdColor color:colors){
-						if(map.get(color.getGroupCode())==null){
+					List<ProdColor> list=obj.getInfo();
+					for(ProdColor item:list){
+						if(map.get(item.getGroupCode())==null){
 							List<ProdColor> items=new ArrayList<ProdColor>();
-							items.add(color);
-							map.put(color.getGroupCode(), items);
+							items.add(item);
+							map.put(item.getGroupCode(), items);
 						}else{
-							List<ProdColor> items=map.get(color.getGroupCode());
-							items.add(color);
+							List<ProdColor> items=map.get(item.getGroupCode());
+							items.add(item);
 						}
 					}
 					

@@ -699,6 +699,7 @@ public final class Commands {
 	/**
 	 * 获取尺码
 	 * @param context
+	 * @param enabled 0 表示失效 1 表示生效，null表示全部
 	 * @param onSuccessListener
 	 */
 	public static void doCommandGetProdSpecList(Context context,String enabled,Listener<JSONObject> onSuccessListener) {
@@ -714,17 +715,44 @@ public final class Commands {
 	 * @param description
 	 * @param onSuccessListener
 	 */
-	public static void doCommandAddProdSpec(Context context,String description,Listener<JSONObject> onSuccessListener) {
+	public static void doCommandAddProdSpec(Context context,String groupCode,String description,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setGroupCode(groupCode);
+		pars.setDescription(description);
+		doCommand(context, "AddProdSpec", pars, onSuccessListener);
+	}
+
+	/**
+	 * 添加尺码分组
+	 * @param context
+	 * @param description
+	 * @param onSuccessListener
+	 */
+	public static void doCommandAddSpecGroup(Context context,String description,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
 		pars.setCompanyCode(getCompanyCode());
 		pars.setDescription(description);
-		doCommand(context, "AddProdSpec", pars, onSuccessListener);
+		doCommand(context, "AddSpecGroup", pars, onSuccessListener);
+	}
+	
+	/**
+	 * 获取尺码分组列表
+	 * @param context
+	 * @param enabled
+	 * @param onSuccessListener
+	 */
+	public static void doCommandGetSpecGroupList(Context context,String enabled,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setEnabled(enabled);
+		doCommand(context, "GetSpecGroupList", pars, onSuccessListener);
 	}
 	
 	/**
 	 * 获取颜色
 	 * @param context
-	 * @param shop_code
+	 * @param enabled 0 表示失效 1 表示生效，null表示全部
 	 * @param onSuccessListener
 	 */
 	public static void doCommandGetProdColorList(Context context,String enabled,Listener<JSONObject> onSuccessListener) {
@@ -778,7 +806,7 @@ public final class Commands {
 	/**
 	 * 获取颜色分组列表
 	 * @param context
-	 * @param enabled 0 表示失效 1 表示生效
+	 * @param enabled 0 表示失效 1 表示生效，null表示全部
 	 * @param onSuccessListener
 	 */
 	public static void doCommandGetColorGroupList(Context context,String enabled,Listener<JSONObject> onSuccessListener) {
