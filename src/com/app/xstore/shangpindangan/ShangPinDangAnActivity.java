@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response.Listener;
 import com.app.net.Commands;
+import com.app.printer.BluetoothDeviceListActivity;
 import com.app.widget.SimpleListPopupWindow;
 import com.app.widget.SimpleListPopupWindow.OnItemClickListener;
 import com.app.widget.dialog.ColorListPopupWindow;
@@ -1785,7 +1786,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			startActivity(new Intent(context,ProductListActivity.class));
 			break;
 		case R.id.btn_print:
-			
+			startActivity(new Intent(context,BluetoothDeviceListActivity.class));
 			break;
 		case R.id.btn_productSku_query:
 			startActivity(new Intent(context,ProductQueryBySkuActivity.class));

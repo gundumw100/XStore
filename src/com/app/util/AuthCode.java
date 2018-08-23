@@ -13,7 +13,7 @@ import android.graphics.Paint.Style;
 import android.graphics.drawable.BitmapDrawable;
 
 /**
- * 
+ * 生成验证码
  * @author pythoner
  *
  */
