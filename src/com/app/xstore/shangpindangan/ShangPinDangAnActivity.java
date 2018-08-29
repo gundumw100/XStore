@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.android.volley.Response.Listener;
 import com.app.net.Commands;
 import com.app.printer.BluetoothDeviceListActivity;
+import com.app.printer.GprinterUtil;
 import com.app.widget.SimpleListPopupWindow;
 import com.app.widget.SimpleListPopupWindow.OnItemClickListener;
 import com.app.widget.dialog.ColorListPopupWindow;
@@ -78,6 +79,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	private final int MAX_SIZE=10;//
 	private FlowLayout flowLayout;
 	private String goodsSn;
+	public static GprinterUtil printerUtil;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,10 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		setContentView(R.layout.activity_shangpindangan);
 		context = this;
 		initActionBar("商品档案", null, null);
+		printerUtil=new GprinterUtil(context);
+		printerUtil.registerPrinterStatusBroadcastReceiver();
+		printerUtil.connectPrinterService();
+		
 		goodsSn=getIntent().getStringExtra("goodsSn");
 		initViews();
 		initScanner(new OnScannerResult() {
@@ -97,6 +103,12 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		});
 	}
 
+	@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        printerUtil.unbindService();
+    }
+	
 	@Override
 	public void initViews() {
 		// TODO Auto-generated method stub
@@ -1786,7 +1798,17 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			startActivity(new Intent(context,ProductListActivity.class));
 			break;
 		case R.id.btn_print:
-			startActivity(new Intent(context,BluetoothDeviceListActivity.class));
+			if(printerUtil.isBluetoothAvailable()){
+				if(printerUtil.isPrinterConnected()){
+					printerUtil.sendTestLabel();
+				}else{
+					showToast("未连接到打印机");
+					startActivity(new Intent(context,BluetoothDeviceListActivity.class));
+				}
+			}else{
+				showToast("蓝牙未开启");
+				startActivity(new Intent(context,BluetoothDeviceListActivity.class));
+			}
 			break;
 		case R.id.btn_productSku_query:
 			startActivity(new Intent(context,ProductQueryBySkuActivity.class));

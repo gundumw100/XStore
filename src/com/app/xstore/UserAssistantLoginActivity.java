@@ -64,10 +64,6 @@ public class UserAssistantLoginActivity extends BaseActivity implements OnClickL
 			@Override
 			public void onResponse(JSONObject response) {
 //				 Log.i("tag", response.toString());
-				// {"Version_Info":null,"ErrMessage":"","Result":true,"ErrSysTrackMessage":"","ErrSysMessage":"","Message":"没有新版本"}
-				 //{"ActionName":"CheckVersion","Pars":{"device_type":"PAD","version_id":"2018062401"}}
-				//{"Version_Info":{"version_name":"V1.1","remark":null,"version_type":0,"device_type":null,"cancel_desc":null,"approver_date":"0001-01-01T00:00:00","modify_date":"0001-01-01T00:00:00","cancel_name":null,"approver_id":null,"version_date":"2018-06-25T17:59:55.693","file_name":"20180625175955.apk","downloads":0,"file_url":"http:\/\/www.jianve.top:8080\/Versions\/20180625175955.apk","forceupdate":false,"cancel_id":null,"approver_name":null,"version":"2018062501","doc_state":null,"modify_user":null,"create_date":"0001-01-01T00:00:00","create_user":null,"cancel_date":"0001-01-01T00:00:00","introduction":"更新；","approver_desc":null},"ErrMessage":"","Result":true,"ErrSysTrackMessage":"","ErrSysMessage":"","Message":"获取新版本成功"}
-
 				 if (isSuccess(response)) {
 					CheckVersionResponse obj = mapperToObject(response, CheckVersionResponse.class);
 					final VersionInfo bean = obj.getVersion_Info();
@@ -181,7 +177,7 @@ public class UserAssistantLoginActivity extends BaseActivity implements OnClickL
 				
 			@Override
 			public void onResponse(JSONObject response) {
-//				Log.i("tag", response.toString());
+				Log.i("tag", response.toString());
 				if (isSuccess(response)) {
 					LoginCheckDeviceResponse obj = mapperToObject(response, LoginCheckDeviceResponse.class);
 					updateViews(obj);

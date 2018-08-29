@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.xstore"
-    android:versionCode="2018082001"
+    android:versionCode="2018082901"
     android:versionName="V1.1.0" >
 
     <uses-sdk
@@ -162,6 +162,17 @@
         
         
         <activity android:name="com.app.printer.BluetoothDeviceListActivity" android:screenOrientation="portrait" />
+        
+        <service
+                android:name="com.gprinter.service.GpPrintService"
+
+                android:label="GpPrintService">
+            <intent-filter>
+                <action android:name="com.gprinter.aidl.GpPrintService"/>
+            </intent-filter>
+        </service>
+        <service android:name="com.gprinter.service.AllService">
+        </service>
         
         <activity
             android:name="com.widget.imagepicker.ImageSelectorActivity"
