@@ -57,7 +57,6 @@ import com.widget.imagepicker.ImageConfig;
 import com.widget.imagepicker.ImageSelector;
 import com.widget.imagepicker.ImageSelectorActivity;
 import com.widget.imagepicker.PicassoLoader;
-import android.util.Log;
 
 /**
  * 
@@ -66,6 +65,7 @@ import android.util.Log;
  */
 public class ShangPinDangAnActivity extends BaseActivity implements View.OnClickListener{
 
+	private final int SKU_LENGTH=10;//SKU编码长度
 	private EditText et_productSku;
 	private AutoCompleteTextView et_productName;
 	private EditText et_originalSku;
@@ -79,7 +79,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	private final int MAX_SIZE=10;//
 	private FlowLayout flowLayout;
 	private String goodsSn;
-	public static GprinterUtil printerUtil;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +86,9 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		setContentView(R.layout.activity_shangpindangan);
 		context = this;
 		initActionBar("商品档案", null, null);
-		printerUtil=new GprinterUtil(context);
-		printerUtil.registerPrinterStatusBroadcastReceiver();
-		printerUtil.connectPrinterService();
+		
+		//开启打印机服务监听
+		App.printerUtil.bindPrinterService();
 		
 		goodsSn=getIntent().getStringExtra("goodsSn");
 		initViews();
@@ -106,7 +105,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	@Override
     protected void onDestroy() {
         super.onDestroy();
-        printerUtil.unbindService();
+        App.printerUtil.closePrinterService();
     }
 	
 	@Override
@@ -1798,9 +1797,27 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			startActivity(new Intent(context,ProductListActivity.class));
 			break;
 		case R.id.btn_print:
-			if(printerUtil.isBluetoothAvailable()){
-				if(printerUtil.isPrinterConnected()){
-					printerUtil.sendTestLabel();
+			String sku=tv_productSku.getText().toString();
+			if(sku.length()<SKU_LENGTH){
+				showToast("请先生成编码");
+				doShake(context, tv_productSku);
+				return;
+			}
+			if(isEmpty(et_ls_price)){
+				showToast("请填写零售价");
+				doShake(context, et_ls_price);
+				return;
+			}
+//			String sku="0987654321";//debug
+			String name = et_productName.getText().toString();
+			String color = tv_color.getText().toString().length()==0?"均色":tv_color.getText().toString();
+			String size = tv_size.getText().toString().length()==0?"均码":tv_size.getText().toString();
+			String ls_price = et_ls_price.getText().toString();
+			
+			
+			if(App.printerUtil.isBluetoothAvailable()){
+				if(App.printerUtil.isPrinterConnected()){
+					App.printerUtil.sendLabel( name, sku, color, size, ls_price);
 				}else{
 					showToast("未连接到打印机");
 					startActivity(new Intent(context,BluetoothDeviceListActivity.class));
@@ -1902,36 +1919,16 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			showToast("尚未生成款号");
 			return;
 		}
-		if(tv_productSku.getText().length()<10){
+		if(tv_productSku.getText().length()<SKU_LENGTH){
 			showToast("编码长度不正确");
 			return;
 		}
 		
 		List<ProductDangAn> goodsInfo=new ArrayList<ProductDangAn>();
 		ProductDangAn bean=new ProductDangAn();
-		
-//		if(isEmpty(tv_productSku)){//扫描已有吊牌
-//			bean.setGoods_sn(et_productSku.getText().toString());
-//		}else{//生成款号
-//			bean.setGoods_sn(tv_productSku.getText().toString());
-//		}
-//		if(isEmpty(tv_productSku)){//扫描已有吊牌
-//			String styleCode=bean.getGoods_sn().substring(0, 6);
-//			bean.setGoods_style(styleCode);
-//		}else{//生成款号
-//			ProdStyle prodStyle=(ProdStyle)tv_productSku.getTag();
-//			if(prodStyle==null){
-//				return;
-//			}
-//			String dateCode=prodStyle.getDateCode();
-//			String styleCode=prodStyle.getStyleCode();
-//			bean.setGoods_style(dateCode+styleCode);
-//		}
-		
 		bean.setGoods_sn(tv_productSku.getText().toString());//10位码
 		bean.setGoods_style(bean.getGoods_sn().substring(0, 6));//6位码
 		bean.setGoods_desc(et_productSku.getText().toString().trim());//原厂条码
-		
 		String productName=et_productName.getText().toString().trim();
 		String originalSku=et_originalSku.getText().toString().trim();
 		bean.setGoods_name(productName+originalSku);//名称+原厂货号
@@ -1942,12 +1939,10 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			bean.setGoods_brand(brand.getBrandCode());
 			bean.setBrand_name(tv_brand.getText().toString());
 		}
-		
 		bean.setGoods_season(tv_season.getTag()==null?"00":((ProdSeason)tv_season.getTag()).getSeasonCode());
 		bean.setGoods_sort(tv_category.getTag()==null?"00":((ProdSort)tv_category.getTag()).getSortCode());
 		bean.setGoods_color(tv_color.getTag()==null?"00":((ProdColor)tv_color.getTag()).getColorCode());
 //		bean.setGoods_color_image(btn_addColorImg.getTag()==null?"":((UploadResult)btn_addColorImg.getTag()).downloadUrl);//颜色对应的图片
-		
 		bean.setGoods_spec(tv_size.getTag()==null?"00":((ProdSpec)tv_size.getTag()).getSpecCode());
 		bean.setGoods_other(tv_other.getTag()==null?null:((ProdOther)tv_other.getTag()).getOtherCode());
 		bean.setGoods_cs(tv_cs.getTag()==null?null:((ProdCs)tv_cs.getTag()).getCsCode());
@@ -1957,26 +1952,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		bean.setGoods_jh_price(Float.parseFloat(et_jh_price.getText().length()==0?"0":et_jh_price.getText().toString()));
 		bean.setGoods_ls_price(Float.parseFloat(et_ls_price.getText().length()==0?"0":et_ls_price.getText().toString()));
 		bean.setGoods_zxs(et_zxs.getText().toString());
-		
-//		//主图集合
-//		List<ProdColorImage> goodsImages=new ArrayList<ProdColorImage>();
-////		StringBuffer sb=new StringBuffer();
-//		int childCount=flowLayout.getChildCount()-1;//-1去除最后一个添加按钮
-//		for(int i=0;i<childCount;i++){
-//			View child=flowLayout.getChildAt(i);
-//			if(child.getTag()!=null){
-//				UploadResult result=(UploadResult)child.getTag();
-////				sb.append(";").append(result.downloadUrl);
-//				ProdColorImage goodsImage=new ProdColorImage();
-//				goodsImage.setCompanyCode(App.user.getShopInfo().getCompany_code());
-//				goodsImage.setImgUrl(result.downloadUrl);
-//				goodsImage.setStyleCode(bean.getGoods_style());
-//				goodsImages.add(goodsImage);
-//			}
-//		}
-//		if(sb.length()>0){
-//			bean.setGoods_img(sb.substring(1).toString());
-//		}
 		
 		goodsInfo.add(bean);
 		

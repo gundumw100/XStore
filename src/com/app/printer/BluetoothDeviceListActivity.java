@@ -3,6 +3,8 @@ package com.app.printer;
 
 import java.util.Set;
 
+import org.simple.eventbus.Subscriber;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -20,15 +22,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
-import com.app.xstore.shangpindangan.ShangPinDangAnActivity;
 
 public class BluetoothDeviceListActivity extends BaseActivity{
 
 	// changes the title when discovery is finished
 	private BroadcastReceiver mFindBlueToothReceiver=null;
-		
 	private BluetoothAdapter mBluetoothAdapter;
 	private ListView lvPairedDevice,lvNewDevice;
 	private ArrayAdapter<String> mPairedDevicesArrayAdapter;
@@ -36,30 +37,19 @@ public class BluetoothDeviceListActivity extends BaseActivity{
 	private TextView tvPairedDevice = null, tvNewDevice = null;
 	private Button btDeviceScan = null;
 	
-//	private GprinterUtil printerUtil;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bluetooth_device_list);
 		initActionBar("蓝牙设备", "打印测试", null);
-//		boolean available=isBluetoothAvailable();
-//		if(available){
-			initBlueToothBroadcastReceiver();
-			initViews();
-			
-//			printerUtil=new GprinterUtil(context);
-//			printerUtil.registerPrinterStatusBroadcastReceiver();
-//			printerUtil.connectPrinterService();
-//		}else{
-//			finish();
-//		}
+		initBlueToothBroadcastReceiver();
+		initViews();
 	}
 	
 	@Override
 	public void doRightButtonClick(View v) {
 		// TODO Auto-generated method stub
-		ShangPinDangAnActivity.printerUtil.sendTestLabel();
+		App.printerUtil.sendTestLabel();
 	}
 	
 	@Override
@@ -143,8 +133,6 @@ public class BluetoothDeviceListActivity extends BaseActivity{
         if(mFindBlueToothReceiver != null){
         	this.unregisterReceiver(mFindBlueToothReceiver);
         }
-        
-//        printerUtil.unbindService();
     }
 	
 	private void initBlueToothBroadcastReceiver(){
@@ -184,12 +172,18 @@ public class BluetoothDeviceListActivity extends BaseActivity{
             String noNewDevice = "没有找到蓝牙设备";
             if (! info.equals(noDevices) && ! info.equals(noNewDevice)) {
 				String address = info.substring(info.length() - 17);
-				ShangPinDangAnActivity.printerUtil.connectPrinter(address);
+				App.printerUtil.connectPrinter(address);
 			}
         }
     };
-    /////////////////////////////////////////////////////////////////////////////
-    //
-    /////////////////////////////////////////////////////////////////////////////
+    
+	@Subscriber
+	void updateByEventBus(String event) {
+		if(event.equals(GprinterUtil.EVENT_CONNECTING_PRINTER)){
+			showProgress();
+		}else if(event.equals(GprinterUtil.EVENT_CONNECT_PRINTER_RESULT)){
+			closeProgress();
+		}
+	}
     
 }

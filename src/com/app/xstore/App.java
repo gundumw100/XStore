@@ -11,6 +11,7 @@ import com.app.model.GuaDan;
 import com.app.model.User;
 import com.app.model.UserInfo;
 import com.app.model.WXYTImageServerInfo;
+import com.app.printer.GprinterUtil;
 import com.app.util.ScanUtil;
 import com.base.app.BaseApp;
 import com.widget.crash.CrashHelper;
@@ -56,12 +57,16 @@ public class App extends BaseApp implements IWrapperCallBack {
 	public static WXYTImageServerInfo qqCloudInfo;//QQ云图相关信息
 	public static String KEY_HAS_DATA="HAS_DATA";
 	
+	public static GprinterUtil printerUtil;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		initCrash();
 		initScan();
 		initIconify();
+		
+		printerUtil=GprinterUtil.getInstance(this);
 	}
 
 	private void initIconify(){
@@ -112,8 +117,4 @@ public class App extends BaseApp implements IWrapperCallBack {
 		handler.sendMessage(message);
 	}
 
-	public static void release() {
-
-	}
-	
 }
