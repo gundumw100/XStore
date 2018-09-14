@@ -53,6 +53,16 @@ public class SettingPrinterDialog extends BaseDialog {
 			}
 		}
 
+		findViewById(R.id.btn_cancel).setOnClickListener(
+			new View.OnClickListener() {
+	
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					dismiss();
+				}
+			});
+		
 		findViewById(R.id.btn_ok).setOnClickListener(
 				new View.OnClickListener() {
 

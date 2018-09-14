@@ -39,31 +39,6 @@
                 style="@style/Theme_Button"
                 android:layout_gravity="end|center_vertical"
                 android:text="查询" />
-        <!-- 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
-
-            <EditText
-                android:id="@+id/et_name"
-                style="@style/Theme_ProdNum"
-                android:layout_weight="1"
-                android:hint="姓名"
-                android:maxLength="30" />
-
-            <Space
-                android:layout_width="4dp"
-                android:layout_height="4dp" />
-
-            <TextView
-                android:id="@+id/btn_search2"
-                style="@style/Theme_Button"
-                android:layout_gravity="end|center_vertical"
-                android:text="查询" />
-        </LinearLayout>
-         -->
     </LinearLayout>
 
     <TextView
@@ -74,6 +49,7 @@
         android:paddingBottom="8dp"
         android:paddingTop="8dp" />
 
+    <!-- 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -185,5 +161,6 @@
         android:layout_height="wrap_content"
         android:text="1.若使用收银台与会员功能，积分将自动计算；\n2.若使用手工计算积分，建议扫入商品备查；"
         android:textColor="@color/primary" />
+     -->
 
 </LinearLayout>

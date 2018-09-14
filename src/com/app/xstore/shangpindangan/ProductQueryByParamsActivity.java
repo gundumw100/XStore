@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -29,7 +30,7 @@ import com.widget.flowlayout.FlowLayout;
  */
 public class ProductQueryByParamsActivity extends BaseActivity {
 
-	private FlowLayout flowLayout_brand,flowLayout_year,flowLayout_season,flowLayout_sort,flowLayout_other;
+	private FlowLayout flowLayout_brand,flowLayout_year,flowLayout_season,flowLayout_sort,flowLayout_other,flowLayout_label;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class ProductQueryByParamsActivity extends BaseActivity {
 		doCommandGetProdSeasonList();
 		doCommandGetProdSortList();
 		doCommandGetProdOtherList();
+		doCommandGetProdLabelList();
 	}
 
 	@Override
@@ -80,6 +82,7 @@ public class ProductQueryByParamsActivity extends BaseActivity {
 		flowLayout_season=$(R.id.flowLayout_season);
 		flowLayout_sort=$(R.id.flowLayout_sort);
 		flowLayout_other=$(R.id.flowLayout_other);
+		flowLayout_label=$(R.id.flowLayout_label);
 	}
 	
 	private void doCheckAll(final FlowLayout flowLayout){
@@ -172,6 +175,20 @@ public class ProductQueryByParamsActivity extends BaseActivity {
 			}
 		}
 		
+		ArrayList<String> goods_label=new ArrayList<String>();
+		count=flowLayout_label.getChildCount();
+		CheckBox all_label=(CheckBox)flowLayout_label.getChildAt(0);
+		if(all_label.isChecked()){
+			
+		}else{
+			for(int i=startItemNo;i<count;i++){
+				CheckBox child=(CheckBox)flowLayout_label.getChildAt(i);
+				if(child.isChecked()){
+					goods_label.add((String)child.getTag());
+				}
+			}
+		}
+		
 //		boolean hasParam=false;
 //		if(goods_brand.size()==0){
 //			goods_brand=null;
@@ -214,6 +231,7 @@ public class ProductQueryByParamsActivity extends BaseActivity {
 			intent.putStringArrayListExtra("goods_season", goods_season);
 			intent.putStringArrayListExtra("goods_sort", goods_sort);
 			intent.putStringArrayListExtra("goods_other", goods_other);
+			intent.putStringArrayListExtra("goods_label", goods_label);
 			startActivity(intent);
 //			finish();
 		}else{
@@ -223,6 +241,7 @@ public class ProductQueryByParamsActivity extends BaseActivity {
 			intent.putStringArrayListExtra("goods_season", goods_season);
 			intent.putStringArrayListExtra("goods_sort", goods_sort);
 			intent.putStringArrayListExtra("goods_other", goods_other);
+			intent.putStringArrayListExtra("goods_label", goods_label);
 			startActivity(intent);
 //			finish();
 		}
@@ -341,6 +360,33 @@ public class ProductQueryByParamsActivity extends BaseActivity {
 							flowLayout_other.addView(child);
 						}
 						doCheckAll(flowLayout_other);
+					}
+				}
+			}
+		});
+	}
+	
+	private void doCommandGetProdLabelList(){
+		Commands.doCommandGetProdLabelList(context,new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject response) {
+				// TODO Auto-generated method stub
+//				Log.i("tag", "response="+response.toString());
+				if (isSuccess(response)) {
+					GetProdLabelListResponse obj=mapperToObject(response, GetProdLabelListResponse.class);
+					if(obj!=null&&obj.getInfo()!=null){
+						List<ProdLabel> beans=obj.getInfo();
+						for(ProdLabel item:beans){
+							MarginLayoutParams params=new MarginLayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+							CheckBox child=new CheckBox(context);
+							child.setLayoutParams(params);
+							child.setText(item.getDescription());
+							child.setTag(item.getLabelCode());
+							child.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+							flowLayout_label.addView(child);
+						}
+						doCheckAll(flowLayout_label);
 					}
 				}
 			}

@@ -11,11 +11,9 @@ import android.util.Log;
 
 import com.android.volley.Response.Listener;
 import com.app.model.Customer;
-import com.app.model.EmailInfo;
 import com.app.model.JvSimpleCheckInfo;
 import com.app.model.JvbillsaleInfo;
 import com.app.model.JvbillsalebankInfo;
-import com.app.model.JvbillsaledetailInfo;
 import com.app.model.JvbillsalepayInfo;
 import com.app.model.JvclerkspaceInfo;
 import com.app.model.JvclerkspacecommentInfo;
@@ -40,11 +38,19 @@ import com.google.gson.Gson;
  */
 public final class Commands {
 
-	public static final String IP = "http://139.196.53.136:8080";
-	public static final String BASE_URL = "http://www.app.z-sh.com:8091/handler/user_handler.ashx";
+	public static String IP = "http://139.196.53.136:8080";
+	public static String BASE_URL = "http://www.app.z-sh.com:8091/handler/user_handler.ashx";
 
 	public static String PORT_Upload = "8078";
 	public static final String UPLOAD_ZIP_URL="http://"+IP+":"+PORT_Upload+"/UploadFile/zipSave.ashx";
+	
+	static{
+		if(App.isLog){
+			BASE_URL = "http://www.app.z-sh.com:8091/handler/user_handler.ashx";// 测试
+		}else{
+			BASE_URL = "";
+		}
+	}
 	
 	private Commands() {
 		throw new UnsupportedOperationException("cannot be instantiated");
@@ -76,6 +82,108 @@ public final class Commands {
 		pars.setCompanyCode(getCompanyCode());
 		pars.setGoodsSns(goodsSns);
 		doCommand(context, "GetGoodsListBySKUs", pars, onSuccessListener);
+	}
+	
+	/**
+	 * 保存商品标签信息
+	 * @param context
+	 * @param description
+	 * @param onSuccessListener
+	 */
+//	public static void doCommandAddProdLabel(Context context,String description,Listener<JSONObject> onSuccessListener) {
+//		Pars pars = new Pars();
+//		pars.setCompanyCode(getCompanyCode());
+//		pars.setDescription(description);
+//		doCommand(context, "AddProdLabel", pars, onSuccessListener);
+//	}
+	
+	public static void doCommandAddProdLabel(Context context,String classification,String property,String description,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setClassification(classification);
+		pars.setProperty(property);
+		pars.setDescription(description);
+		doCommand(context, "AddProdLabel", pars, onSuccessListener);
+	}
+	/**
+	 * 删除商品标签
+	 * @param context
+	 * @param labelCode
+	 * @param onSuccessListener
+	 */
+	public static void doCommandDeleteProdLabel(Context context,String labelCode,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setLabelCode(labelCode);
+		doCommand(context, "DeleteProdLabel", pars, onSuccessListener);
+	}
+	
+//	/**
+//	 * 变更商品标签状态
+//	 * @param context
+//	 * @param labelCode
+//	 * @param enabled
+//	 * @param onSuccessListener
+//	 */
+//	public static void doCommandUpdateProdLabelEnabled(Context context,String labelCode,String enabled,Listener<JSONObject> onSuccessListener) {
+//		Pars pars = new Pars();
+//		pars.setCompanyCode(getCompanyCode());
+//		pars.setLabelCode(labelCode);
+//		pars.setEnabled(enabled);
+//		doCommand(context, "UpdateProdLabelEnabled", pars, onSuccessListener);
+//	}
+	/**
+	 * 获取商品标签列表
+	 * @param context
+	 * @param onSuccessListener
+	 */
+	public static void doCommandGetProdLabelList(Context context,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		doCommand(context, "GetProdLabelList", pars, onSuccessListener);
+	}
+	
+	/**
+	 * 获取商品标签对应的标签
+	 * @param context
+	 * @param goodsCode
+	 * @param onSuccessListener
+	 */
+	public static void doCommandGetProdLabelMappingList(Context context,String goodsCode,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setGoodsCode(goodsCode);
+		doCommand(context, "GetProdLabelMappingList", pars, onSuccessListener);
+	}
+	
+	/**
+	 * 保存商品标签对应的标签
+	 * @param context
+	 * @param goodsCode
+	 * @param labelCode
+	 * @param description
+	 * @param onSuccessListener
+	 */
+	public static void doCommandAddProdLabelMapping(Context context,String goodsCode,String labelCode,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setGoodsCode(goodsCode);
+		pars.setLabelCode(labelCode);
+		doCommand(context, "AddProdLabelMapping", pars, onSuccessListener);
+	}
+	/**
+	 * 删除商品标签对应的标签
+	 * @param context
+	 * @param goodsCode
+	 * @param labelCode
+	 * @param onSuccessListener
+	 */
+	public static void doCommandDeleteProdLabelMapping(Context context,String goodsCode,String labelCode,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+		pars.setGoodsCode(goodsCode);
+		pars.setLabelCode(labelCode);
+		doCommand(context, "DeleteProdLabelMapping", pars, onSuccessListener);
 	}
 	
 	/**
@@ -352,7 +460,7 @@ public final class Commands {
 	 * @param goods_other
 	 * @param onSuccessListener
 	 */
-	public static void doCommandGetStockByParamList(Context context,List<String> goods_brand,List<String> goods_color,List<String> goods_cs,List<String> goods_sort,List<String> goods_spec,List<String> goods_season,List<String> goods_jldw,List<String> goods_cw,List<String> goods_other,Listener<JSONObject> onSuccessListener) {
+	public static void doCommandGetStockByParamList(Context context,List<String> goods_brand,List<String> goods_color,List<String> goods_cs,List<String> goods_sort,List<String> goods_spec,List<String> goods_season,List<String> goods_jldw,List<String> goods_cw,List<String> goods_other,List<String> goods_label,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
 		pars.setCompanyCode(getCompanyCode());
 		pars.setShopCode(getShopCode());
@@ -365,6 +473,7 @@ public final class Commands {
 		pars.setGoodsJldw(goods_jldw);
 		pars.setGoodsCw(goods_cw);
 		pars.setGoodsOther(goods_other);
+		pars.setGoodsLabel(goods_label);
 		doCommand(context, "GetStockByParamList", pars, onSuccessListener);
 	}
 	
@@ -450,7 +559,7 @@ public final class Commands {
 	 * @param goods_other
 	 * @param onSuccessListener
 	 */
-	public static void doCommandGetGoodsListByParam(Context context,List<String> goods_brand,List<String> goods_color,List<String> goods_cs,List<String> goods_sort,List<String> goods_spec,List<String> goods_season,List<String> goods_jldw,List<String> goods_cw,List<String> goods_other,Listener<JSONObject> onSuccessListener) {
+	public static void doCommandGetGoodsListByParam(Context context,List<String> goods_brand,List<String> goods_color,List<String> goods_cs,List<String> goods_sort,List<String> goods_spec,List<String> goods_season,List<String> goods_jldw,List<String> goods_cw,List<String> goods_other,List<String> goods_label,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
 		pars.setCompanyCode(getCompanyCode());
 		pars.setGoodsBrand(goods_brand);
@@ -462,6 +571,7 @@ public final class Commands {
 		pars.setGoodsJldw(goods_jldw);
 		pars.setGoodsCw(goods_cw);
 		pars.setGoodsOther(goods_other);
+		pars.setGoodsLabel(goods_label);
 		doCommand(context, "GetGoodsListByParam", pars, onSuccessListener);
 	}
 	

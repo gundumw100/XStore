@@ -111,17 +111,34 @@ public class MemberRegisterFragment extends BaseFragment implements OnClickListe
 	}
 
 	private void doCommandCreateVipInfo(){
-//		String memberId = et_memberId.getText().toString().trim();
 		String shopCode= App.user.getShopInfo().getShop_code();
 		String vipCode=et_cardNo.getText().toString().trim();
-		if (context.isEmpty(vipCode)) {
-			showToast("请输入卡号");
-			context.doShake(context, et_cardNo);
+//		if (context.isEmpty(vipCode)) {
+//			showToast("请输入卡号");
+//			context.doShake(context, et_cardNo);
+//			return;
+//		}
+		String mobile = et_phone.getText().toString().trim();
+		String name = et_name.getText().toString().trim();
+		String sex = et_sex.getText().toString().trim();
+		
+		if (context.isEmpty(mobile)) {
+			showToast("请输入手机号");
+			context.doShake(context, et_phone);
 			return;
 		}
-		String name = et_name.getText().toString().trim();
-		String mobile = et_phone.getText().toString().trim();
-		String sex = et_sex.getText().toString().trim();
+		if (context.isEmpty(name)) {
+			showToast("请输入姓名");
+			context.doShake(context, et_name);
+			return;
+		}
+		if (context.isEmpty(sex)) {
+			showToast("请输入性别");
+			context.doShake(context, et_sex);
+			return;
+		}
+		
+		
 		String birth = et_birthday.getText().toString().trim();
 		String address = et_address.getText().toString().trim();
 		String createuser=App.user.getUserInfo().getUser_code();

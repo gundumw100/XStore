@@ -45,7 +45,6 @@ public class SettingPrinterActivity extends BaseActivity{
 	@Override
 	public void doRightButtonClick(View v) {
 		// TODO Auto-generated method stub
-		super.doRightButtonClick(v);
 		SettingPrinterDialog d=new SettingPrinterDialog(context,null);
 		d.setOnClickListener(new SettingPrinterDialog.OnClickListener() {
 			

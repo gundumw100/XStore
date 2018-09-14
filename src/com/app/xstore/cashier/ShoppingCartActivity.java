@@ -8,7 +8,6 @@ import org.simple.eventbus.Subscriber;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -104,12 +103,15 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 				Intent intent=null;
 				switch (pair.first) {
 				case 0://
-					ProductCodeDialog d=new ProductCodeDialog(context,"1800460000","请输入商品号或扫描");
+					String test="";
+					if(App.isLog){
+						test="1800460000";
+					}
+					ProductCodeDialog d=new ProductCodeDialog(context,test,"请输入商品号或扫描");
 					d.setOnClickListener(new ProductCodeDialog.OnClickListener() {
 						@Override
 						public void onClick(View v, String text) {
 							// TODO Auto-generated method stub
-//							doCommandGetGoodsInfo(text);
 							doCommandGetGoodsListBySKUs(text);
 						}
 					});
@@ -232,7 +234,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 						helper.setText(R.id.item_colorSize, color_desc+"  "+spec_desc);
 						
 						TextView tv_ls_price=(TextView)helper.getView(R.id.item_ls_price);
-						tv_ls_price.setText("￥"+item.getGoods_ls_price());//零售金额
+						tv_ls_price.setText("￥"+formatNumber(item.getGoods_ls_price(),"###0.##"));//零售金额
 						TextView tv_discount_price=(TextView)helper.getView(R.id.item_discount_price);//打折后的金额
 						if(item.getDiscount()==null){//没折扣
 							tv_ls_price.getPaint().setFlags(Paint.LINEAR_TEXT_FLAG);//去掉横线效果
@@ -245,7 +247,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 							tv_discount_price.setVisibility(View.VISIBLE);
 							
 							String rate=formatNumber(10*discount.getDiscountRate(),"###0.##")+"折  ";
-							String value="￥"+formatNumber(discount.getDiscountPrice(),"###0.##");
+							String value="￥"+formatNumber(item.getGoods_price(),"###0.##");
 							tv_discount_price.setText(rate+value);//实际金额
 							
 						}
@@ -419,7 +421,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", response.toString());
+//				Log.i("tag", response.toString());
 				if(isSuccess(response)){
 					GetGoodsListBySKUsResponse obj=mapperToObject(response, GetGoodsListBySKUsResponse.class);
 					List<ProductDangAn> products=obj.getGoodsInfo();
@@ -440,31 +442,6 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 		});
 	}
 	
-//	private void doCommandGetGoodsInfo(String goods_sn){
-//		String shop_code=App.user.getShopInfo().getShop_code();
-//		Commands.doCommandGetGoodsInfo(context, shop_code, goods_sn, new Listener<JSONObject>() {
-//
-//			@Override
-//			public void onResponse(JSONObject response) {
-//				// TODO Auto-generated method stub
-//				Log.i("tag", response.toString());
-//				if(isSuccess(response)){
-//					GetGoodsInfoReponse obj=mapperToObject(response, GetGoodsInfoReponse.class);
-//					if(obj!=null){
-//						Goods bean=obj.getGoods();
-//						if(bean!=null){
-//							bean.setGoods_price(99);
-//							beans.add(bean);
-//							updateViews(beans);
-//						}else{
-//							showToast("查不到商品");
-//						}
-//					}
-//				}
-//			}
-//		});
-//	}
-	
 	@Override
 	public void onScanProductHandleMessage(String prodID){
 		doCommandGetGoodsListBySKUs(prodID);
@@ -482,8 +459,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 					if(discount.isWholeOrder()){
 						//整单折扣时，折扣金额需要从新计算
 						for(ProductDangAn bean:beans){
-							discount.setDiscountPrice(bean.getGoods_ls_price()*discount.getDiscountRate());
-							bean.setGoods_price(discount.getDiscountPrice());
+							bean.setGoods_price(bean.getGoods_ls_price()*discount.getDiscountRate());//实际支付的价格（折扣后或不折扣）
 							bean.setGoods_discountRate(discount.getDiscountRate());
 							bean.setDiscount(discount);
 						}

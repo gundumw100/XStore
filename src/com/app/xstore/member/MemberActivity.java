@@ -40,7 +40,6 @@ public class MemberActivity extends BaseActivity{
 		initViews();
 	}
 
-	//重写resultHandler
 	@Override
 	public void initHandler(){
 		resultHandler = new Handler(){

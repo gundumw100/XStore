@@ -9,9 +9,11 @@ import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -48,7 +50,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Response.Listener;
-import com.app.model.Goods;
 import com.app.model.JvbillsaleInfo;
 import com.app.model.JvbillsalebankInfo;
 import com.app.model.JvbillsaledetailInfo;
@@ -56,6 +57,7 @@ import com.app.model.JvbillsalepayInfo;
 import com.app.model.UserInfo;
 import com.app.model.response.GetShopUserListResponse;
 import com.app.net.Commands;
+import com.app.printer.BluetoothDeviceListActivity;
 import com.app.util.ScannerInterface;
 import com.app.util.ThemeManager;
 import com.app.util.ThimfoneScanUtil;
@@ -390,13 +392,7 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 	}
 
 	public <T> T mapperToObject(JSONObject response, Class<T> clazz) {
-		String result = null;
-		result = response.toString();
-		// Log.i("tag", "result="+result);
-		if (isEmpty(result)) {
-			return null;
-		}
-		return new Gson().fromJson(result, clazz); 
+		return new Gson().fromJson(response.toString(), clazz); 
 		
 //		ObjectMapper mapper = new ObjectMapper();
 //		// 反序列化时，忽略不匹配或者Bean不存在的字段
@@ -431,8 +427,8 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 	 *            悬浮View与屏幕底部的距离
 	 */
 	protected void createFloatView(int marginBottom) {
-		int size = 100;// 大小
-		int pxValue=DisplayUtils.dip2px(context, size);
+		int w = 56;// 大小
+		int pxValue=DisplayUtils.dip2px(context, w);
 		wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 //		view = getLayoutInflater().inflate(R.layout.floatview, null);
 //		view.setBackgroundColor(Color.TRANSPARENT);
@@ -440,7 +436,7 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 		view.setVisibility(View.VISIBLE);
 		view.setImageResource(R.drawable.ic_scan);
 		final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-		params.type = LayoutParams.TYPE_BASE_APPLICATION;// 所有程序窗口的“基地”窗口，其他应用程序窗口都显示在它上面。
+//		params.type = LayoutParams.TYPE_BASE_APPLICATION;// 所有程序窗口的“基地”窗口，其他应用程序窗口都显示在它上面。
 		params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
 		params.format = PixelFormat.TRANSLUCENT;// 不设置这个弹出框的透明遮罩显示为黑色
 		params.width = pxValue;
@@ -975,7 +971,7 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 			return;
 		}
 		String[] modes={"支付宝","微信","现金","刷卡"};
-		JvbillsaleInfo billSale=new JvbillsaleInfo();
+		final JvbillsaleInfo billSale=new JvbillsaleInfo();
 		billSale.setShopCode(App.user.getShopInfo().getShop_code());
 		billSale.setCreateuser(App.user.getUserInfo().getUser_code());
 		billSale.setCurrencyCode("RMB");
@@ -985,7 +981,7 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 		billSale.setUserId(App.user.getUserInfo().getUser_code());//
 		billSale.setRemark(modes[payMode]);//
 		
-		List<JvbillsaledetailInfo> billsaleDetailList=new ArrayList<JvbillsaledetailInfo>();
+		final List<JvbillsaledetailInfo> billsaleDetailList=new ArrayList<JvbillsaledetailInfo>();
 		for(ProductDangAn bean:beans){
 			JvbillsaledetailInfo item=new JvbillsaledetailInfo();
 			item.setShopCode(App.user.getShopInfo().getShop_code());
@@ -1015,7 +1011,7 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 			billsaleDetailList.add(item);
 		}
 		
-		List<JvbillsalepayInfo> payList=new ArrayList<JvbillsalepayInfo>();
+		final List<JvbillsalepayInfo> payList=new ArrayList<JvbillsalepayInfo>();
 		JvbillsalepayInfo item=new JvbillsalepayInfo();
 		if(payMode==0||payMode==1){//支付宝||微信
 			item.setPayCode(null);
@@ -1023,15 +1019,13 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 			item.setChange("0.00");//找零金额
 			item.setPayValue(formatMoney(need));//应付金额
 			item.setActPayValue(formatMoney(need));//实付金额(需要去掉代金券？)
-		}else
-		if(payMode==2){//现金
+		}else if(payMode==2){//现金
 			item.setPayCode(null);
 			item.setShopCode(App.user.getShopInfo().getShop_code());
 			item.setChange(zhaoLin);//找零金额
 			item.setPayValue(formatMoney(need));//应付金额
 			item.setActPayValue(actPayValue);//实付金额(需要去掉代金券？)
-		}else
-		if(payMode==3){//刷卡
+		}else if(payMode==3){//刷卡
 			item.setPayCode(null);
 			item.setShopCode(App.user.getShopInfo().getShop_code());
 			item.setChange("0.00");//找零金额
@@ -1049,13 +1043,36 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 				// TODO Auto-generated method stub
 				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
-					showToast("支付成功");
-					EventBus.getDefault().post(App.EVENT_FINISH);//关闭PaymentTypeActivity界面
-					EventBus.getDefault().post(App.EVENT_CLEAR);//清理ShoppingCartActivity数据
-					finish();
+					showPaySuccessDialog(billSale,billsaleDetailList,payList);
 				}
 			}
 		});
+	}
+	
+	private void showPaySuccessDialog(final JvbillsaleInfo billSale,final List<JvbillsaledetailInfo> billsaleDetailList,final List<JvbillsalepayInfo> payList) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("支付成功，打印小票");
+		builder.setPositiveButton("打印小票",new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				doPrintReceipt( billSale, billsaleDetailList, payList);//打印小票
+				finishAndClearShoppingCart();
+			}
+		});
+		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				finishAndClearShoppingCart();
+			}
+		});
+		builder.setCancelable(false);
+		builder.show();
+	}
+	
+	private void finishAndClearShoppingCart(){
+		EventBus.getDefault().post(App.EVENT_FINISH);//关闭PaymentTypeActivity界面
+		EventBus.getDefault().post(App.EVENT_CLEAR);//清理ShoppingCartActivity数据
+		finish();
 	}
 	
 	/** 
@@ -1260,6 +1277,42 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 			}
 		}else{
 			iv.setImageResource(R.drawable.default_img);
+		}
+	}
+	
+	/**
+	 * 打印标签或者打开蓝牙界面连接打印机
+	 * @param name
+	 * @param sku
+	 * @param color
+	 * @param size
+	 * @param ls_price
+	 */
+	public void doPrintLabel(String name, String sku, String color, String size, String ls_price){
+		if(App.printerUtil.isBluetoothAvailable()){
+			if(App.printerUtil.isPrinterConnected()){
+				App.printerUtil.sendLabel( name, sku, color, size, ls_price);
+			}else{
+				showToast("未连接到打印机");
+				startActivity(new Intent(context,BluetoothDeviceListActivity.class));
+			}
+		}else{
+			showToast("蓝牙未开启");
+			startActivity(new Intent(context,BluetoothDeviceListActivity.class));
+		}
+	}
+	
+	public void doPrintReceipt(JvbillsaleInfo billSale,List<JvbillsaledetailInfo> billsaleDetailList,List<JvbillsalepayInfo> payList){
+		if(App.printerUtil.isBluetoothAvailable()){
+			if(App.printerUtil.isPrinterConnected()){
+				App.printerUtil.sendReceipt( billSale, billsaleDetailList, payList);
+			}else{
+				showToast("未连接到打印机");
+				startActivity(new Intent(context,BluetoothDeviceListActivity.class));
+			}
+		}else{
+			showToast("蓝牙未开启");
+			startActivity(new Intent(context,BluetoothDeviceListActivity.class));
 		}
 	}
 	

@@ -40,6 +40,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 		initActionBar(null, getDrawableCompat(R.drawable.ic_user), getShopCode(), "设置", null);
 		initViews();
 		initWeather();
+		//开启打印机服务监听
+		App.printerUtil.bindPrinterService();
 	}
 
 	private String getShopCode(){
@@ -119,6 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 	protected void onDestroy() {
 		super.onDestroy();
 		weather.stop();
+		App.printerUtil.closePrinterService();
 	}
 
 	private void initIndicators() {

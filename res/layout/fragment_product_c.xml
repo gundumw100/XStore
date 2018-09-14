@@ -1,0 +1,116 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res/com.app.xstore"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:drawableRight="@drawable/ic_add48_blue"
+            android:gravity="center"
+            android:padding="8dp"
+            android:tag="A"
+            android:text="风格"
+            android:textColor="@color/grayDark" />
+
+        <com.widget.flowlayout.TagFlowLayout
+            android:id="@+id/flowLayout_fenge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:max_select="5"
+            app:multi_suppout="true" >
+        </com.widget.flowlayout.TagFlowLayout>
+
+        <TextView
+            android:id="@+id/tv_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:drawableRight="@drawable/ic_add48_blue"
+            android:gravity="center"
+            android:padding="8dp"
+            android:tag="B"
+            android:text="版型"
+            android:textColor="@color/grayDark" />
+
+        <com.widget.flowlayout.TagFlowLayout
+            android:id="@+id/flowLayout_banxing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:multi_suppout="false" >
+        </com.widget.flowlayout.TagFlowLayout>
+
+        <TextView
+            android:id="@+id/tv_c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:drawableRight="@drawable/ic_add48_blue"
+            android:gravity="center"
+            android:padding="8dp"
+            android:tag="C"
+            android:text="材质"
+            android:textColor="@color/grayDark" />
+
+        <com.widget.flowlayout.TagFlowLayout
+            android:id="@+id/flowLayout_caizhi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:max_select="5"
+            app:multi_suppout="true" >
+        </com.widget.flowlayout.TagFlowLayout>
+
+        <TextView
+            android:id="@+id/tv_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:drawableRight="@drawable/ic_add48_blue"
+            android:gravity="center"
+            android:padding="8dp"
+            android:tag="D"
+            android:text="厚度"
+            android:textColor="@color/grayDark" />
+
+        <com.widget.flowlayout.TagFlowLayout
+            android:id="@+id/flowLayout_houdu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:multi_suppout="false" >
+        </com.widget.flowlayout.TagFlowLayout>
+
+        <TextView
+            android:id="@+id/tv_e"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:drawableRight="@drawable/ic_add48_blue"
+            android:gravity="center"
+            android:padding="8dp"
+            android:tag="E"
+            android:text="适用人群"
+            android:textColor="@color/grayDark" />
+
+        <com.widget.flowlayout.TagFlowLayout
+            android:id="@+id/flowLayout_renqun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:max_select="5"
+            app:multi_suppout="true" >
+        </com.widget.flowlayout.TagFlowLayout>
+    </LinearLayout>
+
+</ScrollView>

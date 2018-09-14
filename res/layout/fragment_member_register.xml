@@ -39,22 +39,25 @@
             style="@style/Theme_ProdNum"
             android:layout_marginTop="16dp"
             android:hint="手机号"
-            android:inputType="number"
+            android:textColorHint="@color/primary"
+            android:inputType="number|phone"
             android:maxLength="11" />
-
-        <TextView
-            android:id="@+id/et_sex"
-            style="@style/Theme_ProdNum"
-            android:layout_marginTop="16dp"
-            android:hint="性别"
-            android:maxLength="30" />
 
         <EditText
             android:id="@+id/et_name"
             style="@style/Theme_ProdNum"
             android:layout_marginTop="16dp"
             android:hint="姓名"
-            android:maxLength="30" />
+            android:textColorHint="@color/primary"
+            android:maxLength="6" />
+        <TextView
+            android:id="@+id/et_sex"
+            style="@style/Theme_ProdNum"
+            android:layout_marginTop="16dp"
+            android:hint="性别"
+            android:textColorHint="@color/primary"
+            android:maxLength="1" />
+
 
         <TextView
             android:id="@+id/et_birthday"
@@ -88,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:padding="16dp"
+            android:padding="10dp"
             android:text="提交" />
     </LinearLayout>
 

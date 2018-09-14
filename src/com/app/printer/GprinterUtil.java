@@ -1,5 +1,6 @@
 package com.app.printer;
 
+import java.util.List;
 import java.util.Vector;
 
 import org.simple.eventbus.EventBus;
@@ -16,8 +17,15 @@ import android.os.RemoteException;
 import android.util.Base64;
 import android.widget.Toast;
 
+import com.app.model.JvbillsaleInfo;
+import com.app.model.JvbillsaledetailInfo;
+import com.app.model.JvbillsalepayInfo;
 import com.gprinter.aidl.GpService;
+import com.gprinter.command.EscCommand;
 import com.gprinter.command.EscCommand.ENABLE;
+import com.gprinter.command.EscCommand.FONT;
+import com.gprinter.command.EscCommand.HRI_POSITION;
+import com.gprinter.command.EscCommand.JUSTIFICATION;
 import com.gprinter.command.GpCom;
 import com.gprinter.command.GpUtils;
 import com.gprinter.command.LabelCommand;
@@ -33,6 +41,8 @@ import com.gprinter.service.GpPrintService;
 
 public class GprinterUtil {
 
+	private final int printerID=1;
+	private final int portType=4;//使用端口1，4代表模式为蓝牙模式，蓝牙地址，最后默认为0
 	public static final String EVENT_CONNECTING_PRINTER="connectingPriner";
 	public static final String EVENT_CONNECT_PRINTER_RESULT="connectPrinerResult";
 	
@@ -85,21 +95,21 @@ public class GprinterUtil {
     	int rel =0;
     	try{//使用端口1，4代表模式为蓝牙模式，蓝牙地址，最后默认为0
     		if(mGpService!=null){
-    			rel = mGpService.openPort(1,4,diviceName,0);
+    			rel = mGpService.openPort(printerID,portType,diviceName,0);
     		}
     	}catch(RemoteException e) {
     		e.printStackTrace();
     	}
-//	    	GpCom.ERROR_CODE r = GpCom.ERROR_CODE.values()[rel];
-//	    	if(r != GpCom.ERROR_CODE.SUCCESS) {
-//		    	if(r == GpCom.ERROR_CODE.DEVICE_ALREADY_OPEN) {
-//		    		Toast.makeText(context, "开启成功", Toast.LENGTH_SHORT).show();
-//		    	}else{
-//		    		Toast.makeText(context, GpCom.getErrorText(r), Toast.LENGTH_SHORT).show();
-//		    	}
-//	    	}else{
-//		    	Toast.makeText(context, "失败", Toast.LENGTH_SHORT).show();
-//	    	}
+    	GpCom.ERROR_CODE r = GpCom.ERROR_CODE.values()[rel];
+    	if(r != GpCom.ERROR_CODE.SUCCESS) {
+	    	if(r == GpCom.ERROR_CODE.DEVICE_ALREADY_OPEN) {
+	    		Toast.makeText(context, "开启成功", Toast.LENGTH_SHORT).show();
+	    	}else{
+	    		Toast.makeText(context, GpCom.getErrorText(r), Toast.LENGTH_SHORT).show();
+	    	}
+    	}else{
+	    	Toast.makeText(context, "失败", Toast.LENGTH_SHORT).show();
+    	}
     	
     }
 	 
@@ -124,7 +134,7 @@ public class GprinterUtil {
 	public boolean isPrinterConnected(){
     	try {
     		if(mGpService!=null){
-    			int status=mGpService.getPrinterConnectStatus(1);
+    			int status=mGpService.getPrinterConnectStatus(printerID);
     			if(status == GpDevice.STATE_CONNECTED){//3
     				return true;
     			}
@@ -141,7 +151,7 @@ public class GprinterUtil {
 	public void closePort() {
 		try {
 			if(mGpService!=null)
-				mGpService.closePort(1);
+				mGpService.closePort(printerID);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -184,7 +194,7 @@ public class GprinterUtil {
 	//获取打印机的命令类型，是ESC命令还是Label命令
 	public int getPrinterCommandType(){
 		try {
-			return mGpService.getPrinterCommandType(1);
+			return mGpService.getPrinterCommandType(printerID);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -196,6 +206,14 @@ public class GprinterUtil {
 		sendLabel("男休闲短袖","1234567890","白色","XXL","99");
 	}
 	
+	/**
+	 * 打印标签
+	 * @param name
+	 * @param sku
+	 * @param color
+	 * @param size
+	 * @param ls_price
+	 */
 	public void sendLabel(String name,String sku,String color,String size,String ls_price) {
 		int x=40;
 		int y=50;
@@ -242,12 +260,108 @@ public class GprinterUtil {
 		String str = Base64.encodeToString(bytes, Base64.DEFAULT);
 		int rel;
 		try {
-			rel = mGpService.sendLabelCommand(1, str);
+			rel = mGpService.sendLabelCommand(printerID, str);
 			GpCom.ERROR_CODE r = GpCom.ERROR_CODE.values()[rel];
 			if (r != GpCom.ERROR_CODE.SUCCESS) {
 				Toast.makeText(context, GpCom.getErrorText(r), Toast.LENGTH_SHORT).show();
 			}
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendReceipt(JvbillsaleInfo billSale,List<JvbillsaledetailInfo> billsaleDetailList,List<JvbillsalepayInfo> payList) {
+		EscCommand esc = new EscCommand();
+		esc.addInitializePrinter();
+		esc.addPrintAndFeedLines((byte) 3);
+		esc.addSelectJustification(JUSTIFICATION.CENTER);// 设置打印居中
+		esc.addSelectPrintModes(FONT.FONTA, ENABLE.OFF, ENABLE.ON, ENABLE.ON, ENABLE.OFF);// 设置为倍高倍宽
+		esc.addText("销售小票\n"); // 打印文字
+		esc.addPrintAndLineFeed();
+
+		/* 打印文字 */
+		esc.addSelectPrintModes(FONT.FONTA, ENABLE.OFF, ENABLE.OFF, ENABLE.OFF, ENABLE.OFF);// 取消倍高倍宽
+		esc.addSelectJustification(JUSTIFICATION.LEFT);// 设置打印左对齐
+		esc.addText("-----------------------------------------\n");
+		esc.addText("店名：\n"); // 打印文字
+		esc.addText("打印时间：\n"); // 打印文字
+		esc.addText("-----------------------------------------\n");
+
+		/* 打印繁体中文 需要打印机支持繁体字库 */
+		// esc.addText(message,"BIG5");
+		esc.addText("小票号：\n", "GB2312");
+		esc.addText("时间：\n");
+		esc.addText("交易类型：\n");
+		esc.addText("收银员：\n");
+		esc.addText("-----------------------------------------\n");
+		esc.addPrintAndLineFeed();
+
+		esc.addText("商品	数量	单价	折率	金额\n"); 
+
+		esc.addText("-----------------------------------------\n");
+		esc.addPrintAndLineFeed();
+		
+		esc.addText("总数量：\n");
+		esc.addText("应收金额：\n");
+		esc.addText("实收金额：\n");
+		esc.addText("找零：\n");
+		esc.addText("支付宝：\n");
+		esc.addText("微信：\n");
+		esc.addPrintAndLineFeed();
+		
+		/* 绝对位置 具体详细信息请查看GP58编程手册 */
+//		esc.addText("智汇");
+//		esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
+//		esc.addSetAbsolutePrintPosition((short) 6);
+//		esc.addText("网络");
+//		esc.addSetAbsolutePrintPosition((short) 10);
+//		esc.addText("设备");
+//		esc.addPrintAndLineFeed();
+
+		/* 打印图片 */
+//		esc.addText("Print bitmap!\n"); // 打印文字
+//		Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.gprinter);
+//		esc.addRastBitImage(b, 384, 0); // 打印图片
+
+		/* 打印一维条码 */
+//		esc.addText("Print code128\n"); // 打印文字
+//		esc.addSelectPrintingPositionForHRICharacters(HRI_POSITION.BELOW);//
+//		// 设置条码可识别字符位置在条码下方
+//		esc.addSetBarcodeHeight((byte) 60); // 设置条码高度为60点
+//		esc.addSetBarcodeWidth((byte) 1); // 设置条码单元宽度为1
+//		esc.addCODE128(esc.genCodeB("SMARNET")); // 打印Code128码
+//		esc.addPrintAndLineFeed();
+
+		/*
+		 * QRCode命令打印 此命令只在支持QRCode命令打印的机型才能使用。 在不支持二维码指令打印的机型上，则需要发送二维条码图片
+		 */
+//		esc.addText("Print QRcode\n"); // 打印文字
+//		esc.addSelectErrorCorrectionLevelForQRCode((byte) 0x31); // 设置纠错等级
+//		esc.addSelectSizeOfModuleForQRCode((byte) 3);// 设置qrcode模块大小
+//		esc.addStoreQRCodeData("www.smarnet.cc");// 设置qrcode内容
+//		esc.addPrintQRCode();// 打印QRCode
+//		esc.addPrintAndLineFeed();
+
+		/* 打印文字 */
+//		esc.addSelectJustification(JUSTIFICATION.LEFT);// 设置打印左对齐
+//		esc.addText("Completed!\r\n"); // 打印结束
+		// 开钱箱
+		esc.addGeneratePlus(LabelCommand.FOOT.F5, (byte) 255, (byte) 255);
+		esc.addPrintAndFeedLines((byte) 8);
+//		esc.addCutPaper();
+
+		Vector<Byte> datas = esc.getCommand(); // 发送数据
+		byte[] bytes = GpUtils.ByteTo_byte(datas);
+		String sss = Base64.encodeToString(bytes, Base64.DEFAULT);
+		int rs;
+		try {
+			rs = mGpService.sendEscCommand(printerID, sss);
+//			GpCom.ERROR_CODE r = GpCom.ERROR_CODE.values()[rs];
+//			if (r != GpCom.ERROR_CODE.SUCCESS) {
+//				Toast.makeText(getApplicationContext(), GpCom.getErrorText(r), Toast.LENGTH_SHORT).show();
+//			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -24,6 +24,28 @@ import com.app.xstore.shangpindangan.ProductDangAn;
 
 public class Pars {
 
+	String classification;
+	String property;
+	
+	public void setClassification(String classification) {
+		this.classification = classification;
+	}
+
+	public void setProperty(String property) {
+		this.property = property;
+	}
+
+	String goodsCode;
+	String labelCode;
+	
+	public void setGoodsCode(String goodsCode) {
+		this.goodsCode = goodsCode;
+	}
+
+	public void setLabelCode(String labelCode) {
+		this.labelCode = labelCode;
+	}
+
 	List<ProdColorGroup> groupInfos;
 	List<ProdColor> colorInfos;
 	
@@ -119,6 +141,12 @@ public class Pars {
 	List<String> goodsJldw;
 	List<String> goodsCw;
 	List<String> goodsOther;
+	List<String> goodsLabel;
+	
+	public void setGoodsLabel(List<String> goodsLabel) {
+		this.goodsLabel = goodsLabel;
+	}
+
 	public void setGoodsSn(String goodsSn) {
 		this.goodsSn = goodsSn;
 	}

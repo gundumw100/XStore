@@ -127,10 +127,10 @@
 			        android:singleLine="true"
                     android:background="@drawable/bg_edittext"
                     android:padding="8dp"
-                    android:hint="如:纯棉舒适短袖男T恤"
+                    android:hint="如:男短袖T恤"
                     android:textSize="@dimen/font_middle"
                     android:completionThreshold="1"
-                    android:maxLength="30"
+                    android:maxLength="10"
 			        />  
         
                 <EditText

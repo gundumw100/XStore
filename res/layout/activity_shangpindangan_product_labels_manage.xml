@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.app.xstore"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp" >
+
+        <EditText
+            android:id="@+id/et_desc"
+            style="@style/Theme_EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="请输入标签名称(不要重复)"
+            android:maxLength="4" />
+
+        <TextView
+            android:id="@+id/btn_add"
+            style="@style/text_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新增标签"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="可选商品标签(最多5个,长按可移动到禁用列表)"
+        android:textColor="@color/grayDark" />
+
+    <com.widget.flowlayout.TagFlowLayout
+        android:id="@+id/flowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:max_select="5"
+        app:multi_suppout="true" >
+    </com.widget.flowlayout.TagFlowLayout>
+
+    <Space
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="已禁用的标签(点击移动到启用列表)"
+        android:textColor="@color/grayDark" />
+
+    <com.widget.flowlayout.TagFlowLayout
+        android:id="@+id/flowLayout_unenable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:multi_suppout="false" >
+    </com.widget.flowlayout.TagFlowLayout>
+
+    <TextView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="暂无禁用标签"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textColor="@color/grayLight" />
+    
+</LinearLayout>

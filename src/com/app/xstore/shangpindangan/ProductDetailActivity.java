@@ -10,8 +10,8 @@ import java.util.TimerTask;
 
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
+import org.simple.eventbus.Subscriber;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,7 +34,6 @@ import com.app.net.Commands;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
-import com.base.util.D;
 import com.base.util.luban.Luban;
 import com.qq.cloud.PicCloud;
 import com.qq.cloud.UploadResult;
@@ -65,7 +64,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	private CheckBox btn_favorites;
 	private String goods_sn;
 	private List<ProductDangAn> beans=new ArrayList<ProductDangAn>();
-	private TagFlowLayout flowLayout_color,flowLayout_size;
+	private TagFlowLayout flowLayout_labels,flowLayout_color,flowLayout_size;
 	private TextView tv_name,tv_ls_price,tv_sn;
 	private ProductDangAn curBean;
 	
@@ -86,6 +85,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		doCommandGetGoodsStyleImageList();
 		//判断该商品是否收藏了
 		doCommandGetCollectGoodsBySKU(goods_sn);
+		//获取商品标签
+		doCommandGetProdLabelMappingList(goods_sn);
 	}
 
 	@Override
@@ -118,7 +119,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		tv_name=$(R.id.tv_name);
 		tv_ls_price=$(R.id.tv_ls_price);
 		tv_sn=$(R.id.tv_sn);
-		final TextView btn_save=$(R.id.btn_save);
+		final TextView btn_save_maidian=$(R.id.btn_save_maidian);
 		final TextView tv_maidian=$(R.id.tv_maidian);
 		final EditText et_maidian=$(R.id.et_maidian);
 		et_maidian.addTextChangedListener(new TextWatcher() {
@@ -127,7 +128,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			public void onTextChanged(CharSequence text, int start, int before, int count) {
 				// TODO Auto-generated method stub
 				int length=text.length();
-				btn_save.setVisibility(length==0?View.GONE:View.VISIBLE);
+				btn_save_maidian.setVisibility(length==0?View.GONE:View.VISIBLE);
 				tv_maidian.setText(length+"/100");
 			}
 			
@@ -143,19 +144,32 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 				
 			}
 		});
-		btn_save.setOnClickListener(new View.OnClickListener() {
+		btn_save_maidian.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				showToast(R.string.error_unknown_function);
 				String text=et_maidian.getText().toString().trim();
 				if(isEmpty(text)){
 					doShake(context, et_maidian);
 					return;
 				}
+				//debug
 				
 			}
 		});
+		
+		flowLayout_labels=(TagFlowLayout)findViewById(R.id.flowLayout_labels);
+		flowLayout_labels.setEnabled(false);
+//		flowLayout_labels.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+//			
+//			@Override
+//			public boolean onTagClick(FlowLayout parent, View view, int position) {
+//				// TODO Auto-generated method stub
+//				return true;
+//			}
+//		});
 		
 		flowLayout_color=(TagFlowLayout)findViewById(R.id.flowLayout_color);
 		flowLayout_size=(TagFlowLayout)findViewById(R.id.flowLayout_size);
@@ -246,6 +260,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		
 		$(R.id.btn_addToShoppingcart).setOnClickListener(this);
 		$(R.id.btn_print).setOnClickListener(this);
+		$(R.id.btn_labels).setOnClickListener(this);
 		
 	}
 	
@@ -491,7 +506,22 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			showToast("btn_addToShoppingcart");
 			break;
 		case R.id.btn_print:
-			showToast("btn_print");
+			if(curBean==null){
+				return;
+			}
+			String sku=curBean.getGoods_sn();
+			String name = curBean.getGoods_name();
+			String color = "00".equals(curBean.getGoods_color())?"均色":curBean.getGoods_color_desc();
+			String size = "00".equals(curBean.getGoods_spec())?"均码":curBean.getGoods_spec_desc();
+			String ls_price = curBean.getGoods_ls_price()+"";
+			doPrintLabel(name, sku, color, size, ls_price);
+			break;
+		case R.id.btn_labels://标签管理
+//			Intent intent=new Intent(context,ProductLabelsManageActivity.class);
+//			startActivityForResult(intent, 1111);
+			Intent intent=new Intent(context,ProductLabelsActivity.class);
+			intent.putExtra("goods_sn", goods_sn);
+			startActivity(intent);
 			break;
 
 		default:
@@ -776,6 +806,20 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 				}
 			}
 		}
+//		else if(requestCode == 1111){
+//			if(resultCode==1){
+//				//重新获取商品标签，刷新标签界面
+//				doCommandGetProdLabelMappingList(goods_sn);
+//			}
+//		}
+	}
+	
+	@Subscriber
+	void updateByEventBus(String event) {
+		if(event.equals(App.EVENT_REFRESH)){
+			//重新获取商品标签，刷新标签界面
+			doCommandGetProdLabelMappingList(goods_sn);
+		}
 	}
 	
 	private void loadImageByPicasso(ImageView iv,int width,File file){
@@ -887,7 +931,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", "response="+response.toString());
+//				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
 					styleImageList.add(curProdColorImage);
 					flowLayout_img.notifyDataChanged();
@@ -915,7 +959,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", "response="+response.toString());
+//				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
 					ProdColorImage curProdColorImage=styleImageList.get(curPosition);
 					curProdColorImage.setImgUrl(result.downloadUrl);
@@ -947,7 +991,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", "response="+response.toString());
+//				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
 //					showToast("操作成功");
 				}
@@ -955,6 +999,31 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		});
 	}
 	
+	private void doCommandGetProdLabelMappingList(String goodsCode){
+		Commands.doCommandGetProdLabelMappingList(context, goodsCode,new Listener<JSONObject>() {
+			
+			@Override
+			public void onResponse(JSONObject response) {
+				// TODO Auto-generated method stub
+//				Log.i("tag", "response="+response.toString());
+				if (isSuccess(response)) {
+					GetProdLabelListResponse obj=mapperToObject(response, GetProdLabelListResponse.class);
+					if(obj.getInfo()!=null){
+						flowLayout_labels.setAdapter(new TagAdapter<ProdLabel>(obj.getInfo()){
+							@Override
+							public View getView(FlowLayout parent, int position, ProdLabel item){
+								TextView tv = (TextView) LayoutInflater.from(context).inflate(R.layout.item_text_checked,flowLayout_labels, false);
+								tv.setText(item.getLabelDesc());
+								tv.setTag(item);
+								return tv;
+							}
+						});
+					}
+					
+				}
+			}
+		});
+	}
 	
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////

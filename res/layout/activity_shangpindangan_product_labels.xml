@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar_comm" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal" 
+        android:visibility="gone"
+        >
+
+        <RadioButton
+            android:id="@+id/btn_a"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_rb"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="8dp"
+            android:tag="A"
+            android:text="服装"
+            android:textColor="@color/textcolor_gray_white" />
+
+        <RadioButton
+            android:id="@+id/btn_b"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_rb"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="鞋帽"
+            android:textColor="@color/textcolor_gray_white" />
+
+        <RadioButton
+            android:id="@+id/btn_c"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_rb"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="饰品"
+            android:textColor="@color/textcolor_gray_white" />
+    </RadioGroup>
+
+    <FrameLayout 
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        
+    </FrameLayout>
+    
+</LinearLayout>

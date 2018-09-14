@@ -84,7 +84,7 @@ public class ProductDangAn extends DataSupport implements Parcelable{
 	private String sellerUser;//导购销售员
 	@Column(ignore=true)
 	private Discount discount;//折扣对象
-	
+
 	@Override
 	public String toString() {
 		return goods_name+goods_thumb;

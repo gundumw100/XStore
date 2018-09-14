@@ -101,12 +101,12 @@
                     android:background="@drawable/bg_edittext"
                     android:gravity="top|left"
                     android:hint="卖点描述"
-                    android:lines="5"
+                    android:lines="3"
                     android:maxLength="100"
                     android:padding="4dp" />
 
                 <TextView
-                    android:id="@+id/btn_save"
+                    android:id="@+id/btn_save_maidian"
                     style="@style/text_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -116,6 +116,13 @@
                     android:textSize="@dimen/font_small"
                     android:visibility="gone" />
 
+                <com.widget.flowlayout.TagFlowLayout
+                    android:id="@+id/flowLayout_labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:multi_suppout="true" >
+                </com.widget.flowlayout.TagFlowLayout>
+                
                 <TextView
                     style="@style/Theme_CommTextView"
                     android:layout_weight="1"
@@ -183,8 +190,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dp"
-            android:text="打印标签"
+            android:text="打印贴签"
             android:textSize="@dimen/font_middle" />
+        
+        <Space
+            android:layout_width="4dp"
+            android:layout_height="4dp" />
+
+        <TextView
+            android:id="@+id/btn_labels"
+            style="@style/text_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="标签管理"
+            android:textSize="@dimen/font_middle" />
+        
     </LinearLayout>
 
 </LinearLayout>

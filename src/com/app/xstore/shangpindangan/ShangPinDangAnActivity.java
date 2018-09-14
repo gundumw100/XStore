@@ -87,9 +87,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		context = this;
 		initActionBar("商品档案", null, null);
 		
-		//开启打印机服务监听
-		App.printerUtil.bindPrinterService();
-		
 		goodsSn=getIntent().getStringExtra("goodsSn");
 		initViews();
 		initScanner(new OnScannerResult() {
@@ -102,12 +99,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		});
 	}
 
-	@Override
-    protected void onDestroy() {
-        super.onDestroy();
-        App.printerUtil.closePrinterService();
-    }
-	
 	@Override
 	public void initViews() {
 		// TODO Auto-generated method stub
@@ -1814,18 +1805,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			String size = tv_size.getText().toString().length()==0?"均码":tv_size.getText().toString();
 			String ls_price = et_ls_price.getText().toString();
 			
-			
-			if(App.printerUtil.isBluetoothAvailable()){
-				if(App.printerUtil.isPrinterConnected()){
-					App.printerUtil.sendLabel( name, sku, color, size, ls_price);
-				}else{
-					showToast("未连接到打印机");
-					startActivity(new Intent(context,BluetoothDeviceListActivity.class));
-				}
-			}else{
-				showToast("蓝牙未开启");
-				startActivity(new Intent(context,BluetoothDeviceListActivity.class));
-			}
+			doPrintLabel(name, sku, color, size, ls_price);
 			break;
 		case R.id.btn_productSku_query:
 			startActivity(new Intent(context,ProductQueryBySkuActivity.class));

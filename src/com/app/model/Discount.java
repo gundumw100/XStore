@@ -13,8 +13,13 @@ public class Discount implements Parcelable{
 
 	int discountType;//0:折扣率;1:折扣价
 	float discountRate;//折扣率
-	float discountPrice;//折扣后的金额
+	float discountPrice;//折扣后的总金额
 	boolean wholeOrder;//是否整单打折
+	
+	@Override
+	public String toString() {
+		return discountType+":"+discountRate+":"+discountPrice+":"+wholeOrder;
+	};
 	
 	public float getDiscountRate() {
 		return discountRate;

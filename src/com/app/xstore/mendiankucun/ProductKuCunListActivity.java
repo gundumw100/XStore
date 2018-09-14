@@ -43,13 +43,14 @@ public class ProductKuCunListActivity extends BaseActivity {
 		ArrayList<String> goods_season=getIntent().getStringArrayListExtra("goods_season");
 		ArrayList<String> goods_sort=getIntent().getStringArrayListExtra("goods_sort");
 		ArrayList<String> goods_other=getIntent().getStringArrayListExtra("goods_other");
+		ArrayList<String> goods_label=getIntent().getStringArrayListExtra("goods_label");
 		ArrayList<String> goods_color=null;
 		ArrayList<String> goods_cs=null;
 		ArrayList<String> goods_spec=null;
 		ArrayList<String> goods_jldw=null;
 		ArrayList<String> goods_cw=null;
 		
-		doCommandGetStockByParamList(goods_brand,goods_color,goods_cs,goods_sort,goods_spec, goods_season, goods_jldw,goods_cw,goods_other);
+		doCommandGetStockByParamList(goods_brand,goods_color,goods_cs,goods_sort,goods_spec, goods_season, goods_jldw,goods_cw,goods_other,goods_label);
 	}
 
 	@Override
@@ -99,8 +100,8 @@ public class ProductKuCunListActivity extends BaseActivity {
 		}
 	}
 	
-	private void doCommandGetStockByParamList(List<String> goods_brand,List<String> goods_color,List<String> goods_cs,List<String> goods_sort,List<String> goods_spec,List<String> goods_season,List<String> goods_jldw,List<String> goods_cw,List<String> goods_other) {
-		Commands.doCommandGetStockByParamList(context, goods_brand, goods_color, goods_cs, goods_sort, goods_spec, goods_season, goods_jldw, goods_cw, goods_other, new Listener<JSONObject>() {
+	private void doCommandGetStockByParamList(List<String> goods_brand,List<String> goods_color,List<String> goods_cs,List<String> goods_sort,List<String> goods_spec,List<String> goods_season,List<String> goods_jldw,List<String> goods_cw,List<String> goods_other,List<String> goods_label) {
+		Commands.doCommandGetStockByParamList(context, goods_brand, goods_color, goods_cs, goods_sort, goods_spec, goods_season, goods_jldw, goods_cw, goods_other, goods_label,new Listener<JSONObject>() {
 			
 			@Override
 			public void onResponse(JSONObject response) {

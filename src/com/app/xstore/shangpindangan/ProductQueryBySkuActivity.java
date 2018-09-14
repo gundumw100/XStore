@@ -69,7 +69,6 @@ public class ProductQueryBySkuActivity extends BaseActivity {
 	public void initViews() {
 		// TODO Auto-generated method stub
 		et_productSku=$(R.id.et_productSku);
-		et_productSku.setText("180006");//debug
 		$(R.id.btn_ok).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
