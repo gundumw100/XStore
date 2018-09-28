@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
+import com.widget.effect.text.Spanny;
 
 /**
  * 信用卡支付
@@ -47,8 +49,16 @@ public class PayCreditActivity extends BaseActivity implements OnClickListener {
 	public void initViews() {
 		double ying=getIntent().getDoubleExtra("Need", 0.00);
 		yingfujine=formatMoney(ying);
+		
+		
+		Spanny s=new Spanny();
+		s.append("￥", new RelativeSizeSpan(1.0f));
+		s.append(yingfujine, new RelativeSizeSpan(2.0f));
+		
 		tv_needPay=(TextView)findViewById(R.id.tv_needPay);
-		tv_needPay.setText(yingfujine);
+		tv_needPay.setText(s);
+		
+		
 		et_daijinquan=(EditText)findViewById(R.id.et_daijinquan);
 		et_daijinquan.setText("0");
 		et_yingfujine=(EditText)findViewById(R.id.et_yingfujine);

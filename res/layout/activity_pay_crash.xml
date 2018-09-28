@@ -19,15 +19,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="尚需支付：￥"
-            android:textColor="@color/primary"
+            android:text="尚需支付："
+            android:textColor="@color/grayDark"
             android:textSize="@dimen/font_xbig" />
 
         <TextView
             android:id="@+id/tv_needPay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:textColor="@color/primary"
             android:textSize="@dimen/font_xbig" />
     </LinearLayout>
@@ -44,15 +43,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="抹零：￥"
-            android:textColor="@color/primary"
+            android:text="抹零："
+            android:textColor="@color/grayDark"
             android:textSize="@dimen/font_xbig" />
 
         <TextView
             android:id="@+id/tv_cutMoney"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:textColor="@color/primary"
             android:textSize="@dimen/font_xbig" />
     </LinearLayout>

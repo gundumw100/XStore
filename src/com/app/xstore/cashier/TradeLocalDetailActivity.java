@@ -18,14 +18,18 @@ import android.widget.TextView;
 import com.android.volley.Response.Listener;
 import com.app.model.JvbillsaleInfo;
 import com.app.model.JvbillsaledetailInfo;
+import com.app.model.JvbillsalepayInfo;
 import com.app.model.response.GetBillSaleByNumResponse;
 import com.app.net.Commands;
+import com.app.util.StringUtil;
+import com.app.widget.dialog.PrinterListDialog;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.GoodsDetailActivity;
 import com.app.xstore.R;
 import com.base.app.CommonAdapter;
 import com.base.app.ViewHolder;
+import com.base.util.D;
 
 /**
  * 
@@ -36,11 +40,12 @@ import com.base.app.ViewHolder;
 public class TradeLocalDetailActivity extends BaseActivity implements OnClickListener{
 
 	private Context context;
-	private TextView item_0,item_1,item_2,item_3,item_4,item_5;
+	private TextView item_0,item_1,item_2,item_3,item_4,item_5,item_6,item_7,item_8;
 	private ListView listView;
 	private CommonAdapter<JvbillsaledetailInfo> adapter;
 	private List<JvbillsaledetailInfo> beans=new ArrayList<JvbillsaledetailInfo>();
 	private GetBillSaleByNumResponse response;
+	private TextView btn_tuidan;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +53,12 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_trade_local_detail);
 		context = this;
-		initActionBar("交易详情",null,null);
+		initActionBar("交易详情","打印小票",null);
 		String chargeCode=getIntent().getStringExtra("TradeInfo");
 		if(isEmpty(chargeCode)){
 			return;
 		}
 		initViews();
-//		doSosopayTradeQueryRequestTask(chargeCode);
 		doCommandGetBillSaleByNum(chargeCode);
 	}
 
@@ -65,7 +69,7 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-//				Log.i("tag", "response="+response.toString());
+				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
 					GetBillSaleByNumResponse obj=mapperToObject(response, GetBillSaleByNumResponse.class);
 					updateViews(obj);
@@ -73,19 +77,6 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 			}
 		});
 	}
-	
-//	private void doSosopayTradeQueryRequestTask(String chargeCode){
-//		SosopayTradeQueryRequestTask task=new SosopayTradeQueryRequestTask(context,chargeCode,new SosopayTradeQueryRequestTask.OnResponseListener() {
-//			
-//			@Override
-//			public void onResponse(SosopayResponse res) {
-//				// TODO Auto-generated method stub
-//				SosopayTradeQueryResponse response=(SosopayTradeQueryResponse)res;
-//				updateViews(response);
-//			}
-//		});
-//		task.execute(1);
-//	}
 	
 	@Override
 	public void initViews() {
@@ -95,6 +86,10 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 		item_3 = (TextView) findViewById(R.id.item_3);
 		item_4 = (TextView) findViewById(R.id.item_4);
 		item_5 = (TextView) findViewById(R.id.item_5);
+		item_6 = (TextView) findViewById(R.id.item_6);
+		item_7 = (TextView) findViewById(R.id.item_7);
+		item_8 = (TextView) findViewById(R.id.item_8);
+		
 		listView = (ListView) findViewById(R.id.listView);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -107,6 +102,8 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 				startActivity(intent);
 			}
 		});
+		btn_tuidan=(TextView)findViewById(R.id.btn_tuidan);
+		btn_tuidan.setOnClickListener(this);
 	}
 
 	private void notifyDataSetChanged() {
@@ -118,10 +115,20 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 				public void setValues(ViewHolder helper,
 						final JvbillsaledetailInfo item, final int position) {
 					// TODO Auto-generated method stub
-					helper.setText(R.id.item_0, item.getProdNum()+"\n"+item.getSellerUser());
+					helper.setText(R.id.item_5, item.getProdName()+"	"+item.getSellerUser());
+					helper.setText(R.id.item_0, item.getProdNum());
 					helper.setText(R.id.item_1, item.getQty()+"件");
-					helper.setText(R.id.item_2, "￥"+item.getRetailPrice()+"    "+(item.getDivSaleRate()/10)+"折");
-					helper.setText(R.id.item_3, "￥"+item.getSalePrice());
+					
+					String divSaleRate = "无折扣";
+					if (item.getDivSaleRate() >= 100) {
+//						divSaleRate = "";
+					} else {
+						divSaleRate = StringUtil.formatNumber(item.getDivSaleRate() *10, "###0.##")+ "折";
+					}
+					
+					helper.setText(R.id.item_2, "￥"+StringUtil.formatMoney(item.getRetailPrice()));
+					helper.setText(R.id.item_3, divSaleRate);
+					helper.setText(R.id.item_4, "￥"+StringUtil.formatMoney(item.getSalePrice()));
 				}
 
 			});
@@ -130,43 +137,6 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 		}
 	}
 	
-//	private String convertStates(SosopayTradeQueryResponse item){
-//		switch (item.getState()) {
-//		case SosopayConstants.WAIT_PAY:
-//			return "待付款";
-//		case SosopayConstants.PAIED:
-//			return "已付款";
-//		case SosopayConstants.CANCELED:
-//			return "已撤单";
-//		case SosopayConstants.APPLY_REFUND:
-//			return "申请撤单";
-//		case SosopayConstants.PART_REFOUNDED:
-//			return "部分退款";
-//		case SosopayConstants.REFOUNDED:
-//			return "已退款";
-//		case SosopayConstants.TRADE_CLOSED:
-//			return "交易关闭";
-//		case SosopayConstants.QUERY_BACK:
-//			return "查询时预留，同时查询已退款和已撤单";
-//		case SosopayConstants.REFUND_ING:
-//			return "退款中";
-//		case SosopayConstants.REFOUNDED_FAIL:
-//			return "退款失败";
-//		case SosopayConstants.START_REFOUNDED_APPLY:
-//			return "待退款";
-//		case SosopayConstants.START_REFOUNDED_SUCCESS:
-//			return "退款成功";
-//		case SosopayConstants.START_REFOUNDED_FAIL:
-//			return "退款失败";
-//		case SosopayConstants.START_REFOUNDED_CANCELED:
-//			return "退款取消";
-//		case SosopayConstants.START_CANCELED_SUCCESS:
-//			return "撤单成功";
-//
-//		default:
-//			return "未知";
-//		}
-//	}
 	
 	@Override
 	public void updateViews(Object obj) {
@@ -178,31 +148,30 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 		JvbillsaleInfo billsale=response.getBillSale();
 		item_0.setText("交易单号："+billsale.getSaleNo());
 		item_1.setText("交易日期："+billsale.getCreatetimeStr());
-		item_2.setText("支付信息描述："+billsale.getRemark());
-		item_3.setText("交易金额：￥"+formatMoney(billsale.getTotalMoney())+"\n数量："+billsale.getTotalQty());
-		item_4.setText("交易状态：已付款");
-		item_5.setText("销售模式："+billsale.getSaleType());
+		item_2.setText("销售模式："+getSaleTypeStr(billsale.getSaleType()));
+		item_3.setText("交易金额：￥"+formatMoney(billsale.getTotalMoney()));
+		item_4.setText("商品数量："+billsale.getTotalQty());
+		item_5.setText("交易状态："+(billsale.getTotalQty()>0?"已支付":"已退单"));
 		
-//		if(response.getState()==SosopayConstants.WAIT_PAY){
-//			item_4.setTextColor(0xFFFF6633);
-//		}else{
-//			item_4.setTextColor(0xFF000000);
-//		}
-//		item_4.setText("交易状态："+convertStates(response));
+		item_6.setText("支付方式：");
+		List<JvbillsalepayInfo> payList=response.getPayList();
+		if(!isEmptyList(payList)){
+			for(JvbillsalepayInfo item:payList){
+				item_6.append(item.getPayCode());
+			}
+		}
 		
-//		if(response.getState()==SosopayConstants.PAIED){//已付款
-//			getRightButton().setText("退款");
-//			getRightButton().setOnClickListener(new View.OnClickListener() {
-//				
-//				@Override
-//				public void onClick(View view) {
-//					// TODO Auto-generated method stub
-//					doRightButtonClick(view);
-//				}
-//			});
-//		}else{
-//			getRightButton().setText("");
-//		}
+		item_7.setText("备        注："+billsale.getRemark());
+		
+		if(isEmpty(billsale.getVipId())){
+			item_8.setText("");
+		}else{
+			item_8.append("会  员  ID："+billsale.getVipId()+"\n");
+			item_8.append("会员卡号："+billsale.getVipCode()+"\n");
+			item_8.append("消费积分："+formatNumber(billsale.getVipConsumeValue(), "###0.#"));
+		}
+		
+		btn_tuidan.setVisibility(billsale.getTotalQty()>0?View.VISIBLE:View.GONE);
 		
 		List<JvbillsaledetailInfo> list = response.getDetailList();
 		if(isEmptyList(list)){
@@ -213,52 +182,57 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 		notifyDataSetChanged();
 	}
 
+	//销售模式:XS(销售)、TH(退货)、HH(换货)
+	private String getSaleTypeStr(String saleType){
+		if("XS".equals(saleType)){
+			return "销售";
+		}else if("TH".equals(saleType)){
+			return "退货";
+		}else if("HH".equals(saleType)){
+			return "换货";
+		}
+		return "未知";
+	}
+	
 	@Override
 	public void doRightButtonClick(View v) {
 		// TODO Auto-generated method stub
-//		RefundDialog d=new RefundDialog(context,formatMoney(response.getAmt()/100));
-//		d.setOnClickListener(new RefundDialog.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v, double refundFee, String refundSubject) {
-//				// TODO Auto-generated method stub
-//				String busiCode=SosopayRequest.BUSI_CODE;
-//				String operid=App.user.getUserInfo().getUser_code();//操作员编号
-//				String devid=App.config.getDeviceId();//设备编号
-//				String chargeCode=response.getChargeCode();
-//				String chargeDownCode=response.getChargeDownCode();
-//				String outRefundNo=null;
-//				SosopayTradeRefundRequestTask task=new SosopayTradeRefundRequestTask(context,busiCode,operid,devid,refundFee,refundSubject,chargeCode,chargeDownCode,outRefundNo,new OnResponseListener() {
-//					
-//					@Override
-//					public void onResponse(SosopayResponse res) {
-//						// TODO Auto-generated method stub
-////						SosopayTradeRefundResponse response=(SosopayTradeRefundResponse)res;
-////						Log.i("tag", "支付渠道:"+response.getChannelType());
-////						Log.i("tag", "退款渠道:"+response.getTradeFundBillList().getTradeFundBill().size());
-//						showToast("退款成功!");
-//						EventBus.getDefault().post(App.EVENT_REFRESH);
-//					}
-//				});
-//				task.execute(1);
-//			}
-//		});
-//		d.show();
+		PrinterListDialog d=new PrinterListDialog(context,response);
+		d.show();
+		
+//		doPrintReceipt(null,response);//蓝牙打印小票
 	}
 	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.btn_tuidan:
+			String message="确定要退单吗？";
+			D.showDialog(this, message, "确定", "取消", new D.OnPositiveListener() {
+				
+				@Override
+				public void onPositive() {
+					// TODO Auto-generated method stub
+//					doCommandSaveBillSaleTH(beans,response.getBillSale().getTotalMoney(),"0");
+					doCommandSaveBillSaleTH(response,"0");
+				}
+			});
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public void updateTheme(int color) {
 		super.updateTheme(color);
-//		updateTheme();
+		updateTheme();
 	}
 	
-//	private void updateTheme() {
-//		setThemeDrawable(context, R.id.btn_search);
-//	}
+	private void updateTheme() {
+		setThemeDrawable(context, R.id.btn_tuidan);
+	}
 	
 }

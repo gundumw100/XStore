@@ -32,18 +32,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp" 
-                app:multi_suppout="false"
-                >
+                android:layout_marginRight="8dp"
+                app:multi_suppout="false" >
 
-                <!-- 
+                <!--
                 <ImageView
                     android:id="@+id/iv_addImage"
                     android:layout_width="@dimen/match_img_width"
                     android:layout_height="@dimen/match_img_width"
                     android:padding="2dp"
-                    android:src="@drawable/add_image" />
-                 -->
+                    android:src="@drawable/add_image" />                -->
             </com.widget.flowlayout.TagFlowLayout>
 
             <LinearLayout
@@ -82,17 +80,16 @@
                         android:textColor="@color/grayMiddle" />
                 </LinearLayout>
 
-                
                 <TextView
                     android:id="@+id/tv_maidian"
+                    style="@style/Theme_CommTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Theme_CommTextView"
+                    android:layout_gravity="right"
                     android:layout_weight="1"
                     android:text="0/100"
-                    android:layout_gravity="right"
                     android:textColor="@color/grayMiddle" />
-                
+
                 <EditText
                     android:id="@+id/et_maidian"
                     style="@style/Theme_CommTextView"
@@ -122,7 +119,7 @@
                     android:layout_height="wrap_content"
                     app:multi_suppout="true" >
                 </com.widget.flowlayout.TagFlowLayout>
-                
+
                 <TextView
                     style="@style/Theme_CommTextView"
                     android:layout_weight="1"
@@ -155,58 +152,67 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:divider="@drawable/divider"
+        android:orientation="vertical"
+        android:showDividers="beginning" >
 
-        <CheckBox
-            android:id="@+id/btn_favorites"
-            style="@style/Theme_CommTextView"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:button="@null"
-            android:drawableTop="@drawable/btn_favorites48"
-            android:gravity="center"
-            android:textSize="@dimen/font_small"
-            android:text="收藏 " />
-
-        <TextView
-            android:id="@+id/btn_addToShoppingcart"
-            style="@style/text_btn"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:text="加入收银台"
-            android:textSize="@dimen/font_middle" />
+            android:divider="@drawable/divider"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:showDividers="middle" >
 
-        <Space
-            android:layout_width="4dp"
-            android:layout_height="4dp" />
+            <CheckBox
+                android:id="@+id/btn_favorites"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/btn_favorites48"
+                android:gravity="center"
+                android:text="收藏 "
+                android:padding="4dp"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_small" />
 
-        <TextView
-            android:id="@+id/btn_print"
-            style="@style/text_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:text="打印贴签"
-            android:textSize="@dimen/font_middle" />
-        
-        <Space
-            android:layout_width="4dp"
-            android:layout_height="4dp" />
+            <TextView
+                android:id="@+id/btn_addToShoppingcart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_shoppingcart48"
+                android:gravity="center"
+                android:text="加入收银台"
+                android:padding="4dp"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_small" />
 
-        <TextView
-            android:id="@+id/btn_labels"
-            style="@style/text_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:text="标签管理"
-            android:textSize="@dimen/font_middle" />
-        
+            <TextView
+                android:id="@+id/btn_print"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_print48"
+                android:gravity="center"
+                android:text="打印贴签"
+                android:padding="4dp"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_small" />
+
+            <TextView
+                android:id="@+id/btn_labels"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_label48"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="标签管理"
+                android:textColor="@color/grayDark"
+                android:textSize="@dimen/font_small" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

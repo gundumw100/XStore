@@ -7,11 +7,14 @@ import org.simple.eventbus.Subscriber;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.app.model.Member;
 import com.app.model.PaymentType;
 import com.app.widget.dialog.PaymentJiFenDialog;
 import com.app.widget.dialog.PaymentYongKaDialog;
@@ -21,6 +24,7 @@ import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
 import com.app.xstore.shangpindangan.ProductDangAn;
+import com.widget.effect.text.Spanny;
 
 /**
  * 支付类别界面
@@ -41,6 +45,9 @@ public class PaymentTypeActivity extends BaseActivity implements OnClickListener
 	private TextView item_pay_price,item_need_pay_price;
 	private TextView et_jifen,et_quan,et_ka,et_zhanghu;
 	
+	private Member member=null;
+	private String remark;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -54,6 +61,8 @@ public class PaymentTypeActivity extends BaseActivity implements OnClickListener
 		initActionBar("提交订单",null,null);
 		
 		beans=getIntent().getParcelableArrayListExtra("Products");
+		member=getIntent().getParcelableExtra("Member");
+		remark=getIntent().getStringExtra("Remark");
 		initViews();
 	}
 	
@@ -64,8 +73,12 @@ public class PaymentTypeActivity extends BaseActivity implements OnClickListener
 			ying+=bean.getGoods_price();
 			need+=bean.getGoods_price();
 		}
+		
+		Spanny s=new Spanny();
+		s.append("￥", new RelativeSizeSpan(1.0f));
+		s.append(formatMoney(ding), new RelativeSizeSpan(2.0f));
 		TextView item_price = (TextView) findViewById(R.id.item_price);
-		item_price.setText("订单金额: ￥"+formatMoney(ding));
+		item_price.setText(s);
 		
 		item_pay_price = (TextView) findViewById(R.id.item_pay_price);
 		item_need_pay_price = (TextView) findViewById(R.id.item_need_pay_price);
@@ -95,14 +108,19 @@ public class PaymentTypeActivity extends BaseActivity implements OnClickListener
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PaymentJiFenDialog d=new PaymentJiFenDialog(context);
+				if(member==null){
+					showToast("请在收银台验证会员");
+					return;
+				}
+				PaymentJiFenDialog d=new PaymentJiFenDialog(context,member);
 				d.setOnOkClickListener(new PaymentJiFenDialog.OnOkClickListener() {
 					
 					@Override
-					public void onOkClick(View v, float jifenJine) {
+					public void onOkClick(View v, int points) {
 						// TODO Auto-generated method stub
-						et_jifen.setText(""+jifenJine);
+						et_jifen.setText(""+points/100.00f);
 						updatePriceViews();
+						member.setVipConsumeValue(points);
 					}
 				});
 				d.show();
@@ -159,7 +177,15 @@ public class PaymentTypeActivity extends BaseActivity implements OnClickListener
 		item_pay_price.setText("应付金额:￥"+formatMoney(ying));
 		
 		need=need-f_jifen-f_quan;
-		item_need_pay_price.setText("￥"+formatMoney(need));
+		
+		if(need<0){
+			need=0;
+		}
+		
+		Spanny s=new Spanny();
+		s.append("￥", new RelativeSizeSpan(1.0f));
+		s.append(formatMoney(need), new RelativeSizeSpan(2.0f));
+		item_need_pay_price.setText(s);
 		
 		if(need<=0){//尚需支付为0，只显示现金支付
 			btns[0].setVisibility(View.GONE);
@@ -187,28 +213,23 @@ public class PaymentTypeActivity extends BaseActivity implements OnClickListener
 			break;
 		}
 		switchState(position);
+		Intent intent=null;
 		if(position==0){
-			Intent intent = new Intent(context, PayZFBActivity.class);
-			intent.putParcelableArrayListExtra("Products", beans);
-			intent.putExtra("Need", need);
-			startActivity(intent);
+			intent = new Intent(context, PayZFBActivity.class);
 		}else if(position==1){
-			Intent intent = new Intent(context, PayWXActivity.class);
-			intent.putParcelableArrayListExtra("Products", beans);
-			intent.putExtra("Need", need);
-			startActivity(intent);
+			intent = new Intent(context, PayWXActivity.class);
 		}
 		else if(position==2){
-			Intent intent =new Intent(context,PayCrashActivity.class);
-			intent.putParcelableArrayListExtra("Products", beans);
-			intent.putExtra("Need", need);
-			startActivity(intent);
+			intent =new Intent(context,PayCrashActivity.class);
 		}else if(position==3){
-			Intent intent =new Intent(context,PayCreditActivity.class);
-			intent.putParcelableArrayListExtra("Products", beans);
-			intent.putExtra("Need", need);
-			startActivity(intent);
+			intent =new Intent(context,PayCreditActivity.class);
 		}
+		
+		intent.putParcelableArrayListExtra("Products", beans);
+		intent.putExtra("Need", need);
+		intent.putExtra("Member", member);
+		intent.putExtra("Remark", remark);
+		startActivity(intent);
 	}
 
 	private void switchState(int position) {

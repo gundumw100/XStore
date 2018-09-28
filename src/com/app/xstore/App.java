@@ -13,6 +13,7 @@ import com.app.model.UserInfo;
 import com.app.model.WXYTImageServerInfo;
 import com.app.printer.GprinterUtil;
 import com.app.util.ScanUtil;
+import com.app.xstore.shangpindangan.ProductDangAn;
 import com.base.app.BaseApp;
 import com.widget.crash.CrashHelper;
 import com.widget.crash.CustomErrorActivity;
@@ -21,7 +22,8 @@ import com.widget.iconify.font.FontAwesomeModule;
 
 public class App extends BaseApp implements IWrapperCallBack {
 
-	public static boolean isLog=true;
+	// 是否打印请求返回后的解密数据，控制着Commands.java测试和正式地址，发布的时候必须false
+	public static boolean isLog=true;//
 	
 	//QQ万象优图参数
 	public static int APP_ID_V2 = 10009153;// 10000001
@@ -54,6 +56,8 @@ public class App extends BaseApp implements IWrapperCallBack {
 	public static final String KEY_CHECK_SETTING="checksetting";//校验设置
 	public static List<UserInfo> userInfos;
 	public static ArrayList<GuaDan> dans=new ArrayList<GuaDan>();//挂单列表
+	public static ArrayList<ProductDangAn> shoppingCartItems=new ArrayList<ProductDangAn>();//收银台预加载的商品
+	
 	public static WXYTImageServerInfo qqCloudInfo;//QQ云图相关信息
 	public static String KEY_HAS_DATA="HAS_DATA";
 	
@@ -85,12 +89,14 @@ public class App extends BaseApp implements IWrapperCallBack {
 		//只有G0550和n5000,Android才具有扫描功能
 		if(App.config.getModel().equals("M5")){
 			App.user.setPhoneType(0);
-		}else if(App.config.getModel().equals("G0550")){
+		}
+		else if(App.config.getModel().equals("G0550")){
 			App.user.setPhoneType(1);
 			scanUtil = new ScanUtil(this, false);
 		}else if(App.config.getModel().equals("Android")){
 			App.user.setPhoneType(2);
-		}else{
+		}
+		else{
 			App.user.setPhoneType(-1);//不支持扫描
 		}
 	}

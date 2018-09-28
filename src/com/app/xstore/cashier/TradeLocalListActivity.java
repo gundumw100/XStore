@@ -19,10 +19,10 @@ import android.widget.TextView;
 
 import com.android.volley.Response.Listener;
 import com.app.model.JvbillsaleInfo;
+import com.app.model.JvbillsalepayInfo;
 import com.app.model.response.GetBillSaleByDateResponse;
 import com.app.net.Commands;
 import com.app.widget.SimpleListDialog;
-import com.app.widget.SimpleListPopupWindow;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
@@ -46,8 +46,8 @@ public class TradeLocalListActivity extends BaseActivity implements OnClickListe
 	private CommonAdapter<JvbillsaleInfo> adapter;
 	private List<JvbillsaleInfo> beans=new ArrayList<JvbillsaleInfo>();
 	private JvbillsaleInfo curBean;
-	private int pageNum = 0;
-	private int pageSize = 10;
+	private int pageNum = 1;//startNum
+	private int pageSize = 20;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class TradeLocalListActivity extends BaseActivity implements OnClickListe
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-//				Log.i("tag", "response="+response.toString());
+				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
 					GetBillSaleByDateResponse obj=mapperToObject(response, GetBillSaleByDateResponse.class);
 					if(obj!=null){
@@ -99,7 +99,8 @@ public class TradeLocalListActivity extends BaseActivity implements OnClickListe
 
 			@Override
 			public void onLoadMore() {
-				pageNum+=pageSize;
+//				pageNum+=pageSize;
+				pageNum+=1;
 				doCommandGetBillSaleByDate();
 			}
 		});
@@ -174,17 +175,23 @@ public class TradeLocalListActivity extends BaseActivity implements OnClickListe
 						final JvbillsaleInfo item, final int position) {
 					// TODO Auto-generated method stub
 					helper.setText(R.id.item_0, "订单号："+item.getSaleNo());
-					helper.setText(R.id.item_4, item.getCreatetimeStr());
+					helper.setText(R.id.item_5, item.getCreatetimeStr());
 					helper.setText(R.id.item_1, item.getTotalQty()+"件");
 					helper.setText(R.id.item_2, "￥"+formatMoney(item.getTotalMoney()));
-//					if(item.getState()==SosopayConstants.WAIT_PAY){
-//						helper.setTextColor(R.id.item_3,0xFFFF6633);
-//					}else{
-//						helper.setTextColor(R.id.item_3,0xFF000000);
-//					}
-//					helper.setText(R.id.item_3,convertStates(item));
-					helper.setText(R.id.item_3,"已支付");
-					helper.setText(R.id.item_5,item.getRemark());
+					
+					if(item.getVipId()==null||item.getVipId().length()==0){
+						helper.setText(R.id.item_3,"");
+					}else{
+						helper.setText(R.id.item_3,"会员消费");
+					}
+					TextView item_4=helper.getView(R.id.item_4);
+					if(item.getTotalQty()>0){
+						item_4.setTextColor(getColorCompat(R.color.fittting_green));
+						item_4.setText("已支付");
+					}else{
+						item_4.setText("已退单");
+						item_4.setTextColor(getColorCompat(R.color.fittting_red));
+					}
 				}
 
 			});
@@ -192,44 +199,6 @@ public class TradeLocalListActivity extends BaseActivity implements OnClickListe
 			adapter.notifyDataSetChanged();
 		}
 	}
-	
-//	private String convertStates(TradeInfo item){
-//		switch (item.getState()) {
-//		case SosopayConstants.WAIT_PAY:
-//			return "待付款";
-//		case SosopayConstants.PAIED:
-//			return "已付款";
-//		case SosopayConstants.CANCELED:
-//			return "已撤单";
-//		case SosopayConstants.APPLY_REFUND:
-//			return "申请撤单";
-//		case SosopayConstants.PART_REFOUNDED:
-//			return "部分退款";
-//		case SosopayConstants.REFOUNDED:
-//			return "已退款";
-//		case SosopayConstants.TRADE_CLOSED:
-//			return "交易关闭";
-//		case SosopayConstants.QUERY_BACK:
-//			return "查询时预留，同时查询已退款和已撤单";
-//		case SosopayConstants.REFUND_ING:
-//			return "退款中";
-//		case SosopayConstants.REFOUNDED_FAIL:
-//			return "退款失败";
-//		case SosopayConstants.START_REFOUNDED_APPLY:
-//			return "待退款";
-//		case SosopayConstants.START_REFOUNDED_SUCCESS:
-//			return "退款成功";
-//		case SosopayConstants.START_REFOUNDED_FAIL:
-//			return "退款失败";
-//		case SosopayConstants.START_REFOUNDED_CANCELED:
-//			return "退款取消";
-//		case SosopayConstants.START_CANCELED_SUCCESS:
-//			return "撤单成功";
-//
-//		default:
-//			return "未知";
-//		}
-//	}
 	
 	@Override
 	public void updateViews(Object obj) {
@@ -253,7 +222,7 @@ public class TradeLocalListActivity extends BaseActivity implements OnClickListe
 
 	private void refreshListView() {
 		listView.resetLoadMoreListener();
-		pageNum = 0;
+		pageNum = 1;
 		beans.clear();
 		notifyDataSetChanged();
 	}
@@ -277,41 +246,6 @@ public class TradeLocalListActivity extends BaseActivity implements OnClickListe
 		}
 	}
 
-//	private void showSimplePopupWindow(final View v){
-//		ArrayList<Pair<Integer, String>> items = new ArrayList<Pair<Integer, String>>();
-//		items.add(new Pair<Integer, String>(-1, "全部状态"));
-//		items.add(new Pair<Integer, String>(SosopayConstants.WAIT_PAY, "待付款"));
-//		items.add(new Pair<Integer, String>(SosopayConstants.PAIED, "已付款"));
-////		items.add(new Pair<Integer, String>(SosopayConstants.CANCELED, "已撤单"));
-////		items.add(new Pair<Integer, String>(SosopayConstants.APPLY_REFUND, "申请撤单"));
-////		items.add(new Pair<Integer, String>(SosopayConstants.PART_REFOUNDED, "部分退款"));
-//		items.add(new Pair<Integer, String>(SosopayConstants.REFOUNDED, "已退款"));
-//		items.add(new Pair<Integer, String>(SosopayConstants.TRADE_CLOSED, "交易关闭"));
-////		items.add(new Pair<Integer, String>(SosopayConstants.QUERY_BACK, "查询时预留，同时查询已退款和已撤单"));
-////		items.add(new Pair<Integer, String>(SosopayConstants.REFUND_ING, "退款中"));
-////		items.add(new Pair<Integer, String>(SosopayConstants.REFOUNDED_FAIL, "退款失败"));
-////		items.add(new Pair<Integer, String>(SosopayConstants.START_REFOUNDED_APPLY, "待退款"));
-//		items.add(new Pair<Integer, String>(SosopayConstants.START_REFOUNDED_SUCCESS, "退款成功"));
-////		items.add(new Pair<Integer, String>(SosopayConstants.START_REFOUNDED_FAIL, "退款失败"));
-////		items.add(new Pair<Integer, String>(SosopayConstants.START_REFOUNDED_CANCELED, "退款取消"));
-////		items.add(new Pair<Integer, String>(SosopayConstants.START_CANCELED_SUCCESS, "撤单成功"));
-//		
-//		View view = LayoutInflater.from(context).inflate(R.layout.popupwindow_simple, null);
-//		final SimplePairListPopupWindow<Integer, String> popupWindow = new SimplePairListPopupWindow<Integer, String>(context,view, v.getWidth(), items);
-//		popupWindow.showAsDropDown(v, 0, 0);
-//		popupWindow.setOnItemClickListener(new SimplePairListPopupWindow.OnItemClickListener<Integer, String>() {
-//
-//			@Override
-//			public void onItemClick(int position, Pair<Integer, String> pair) {
-//				// TODO Auto-generated method stub
-//				refreshListView();
-//				((TextView)v).setText(pair.second);
-//				((TextView)v).setTag(pair.first);
-//				doSosopayTradeBatchQueryRequestTask();
-//			}
-//		});
-//	}
-	
 	private void showDatePickerDialog(final TextView tv){
 		DatePickerDialog dialog = new DatePickerDialog(context, R.style.Theme_Dialog, tv.getText().toString());
 		 dialog.setOnButtonClickListener(new DatePickerDialog.OnButtonClickListener() {

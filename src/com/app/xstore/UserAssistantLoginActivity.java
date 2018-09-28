@@ -98,16 +98,23 @@ public class UserAssistantLoginActivity extends BaseActivity implements OnClickL
 		findViewById(R.id.btn_right).setOnClickListener(this);
 		findViewById(R.id.btn_scan).setOnClickListener(this);
 //		et_shopCode = (EditText) findViewById(R.id.et_shopCode);
+//		et_shopCode.setText((String) SPUtils.get(context, KEY_SHOP_CODE, ""));
 		et_userCode = (EditText) findViewById(R.id.et_userCode);
 		et_password = (EditText) findViewById(R.id.et_password);
 		checkBox = (CheckBox) findViewById(R.id.checkBox);
-//		et_shopCode.setText((String) SPUtils.get(context, KEY_SHOP_CODE, ""));
 		et_userCode.setText((String) SPUtils.get(context, KEY_USER_CODE, ""));
 		et_password.setText((String) SPUtils.get(context, KEY_USER_PWD, ""));
 		checkBox.setChecked((Boolean) SPUtils.get(context, KEY_REMEMBER_USER, false));
 		
 		TextView tv_versionName = (TextView) findViewById(R.id.tv_versionName);
 		tv_versionName.setText(App.config.getVersionName());
+		
+		TextView tv_ip = (TextView) findViewById(R.id.tv_ip);
+		if(App.isLog){
+			tv_ip.setText(Commands.BASE_URL);
+		}else{
+			tv_ip.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

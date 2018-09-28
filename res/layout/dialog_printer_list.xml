@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打印机列表"
+        android:textColor="@color/grayDark"
+        android:background="@color/grayWhite"
+        android:gravity="center"
+        android:padding="16dp"
+        />
+    
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@android:color/transparent" 
+        />
+    
+    <!-- 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btn_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_for_dialog"
+            android:text="取消"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+
+        <Button
+            android:id="@+id/btn_right"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_for_dialog"
+            android:text="确定"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle" />
+    </LinearLayout>
+     -->
+
+</LinearLayout>

@@ -30,11 +30,11 @@
             android:layout_weight="1" >
 
             <EditText
-                android:id="@+id/tv_scan_result"
+                android:id="@+id/et_scan_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
-                android:hint="会员号或手机号"
+                android:hint="会员号|手机号"
                 android:padding="8dp"
                 android:singleLine="true"
                 android:textColor="@color/grayDark"
@@ -43,7 +43,19 @@
                 tools:text="13524802105;0101000008621" 
                 android:layout_margin="8dp"
                 />
+            <TextView
+            android:id="@+id/iv_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/bg_btn_gray"
+            android:padding="8dp"
+            android:text="查询"
+            android:textColor="@android:color/white"
+            android:layout_gravity="right|center_vertical"
+            android:textSize="@dimen/font_middle" />
 
+            <!-- 
             <com.widget.iconify.IconTextView
                 android:id="@+id/iv_ok"
                 android:layout_width="wrap_content"
@@ -54,6 +66,7 @@
                 android:text="{fa-check}"
                 android:textColor="@color/grayDark"
                 android:textSize="@dimen/font_4xbig" />
+             -->
         </FrameLayout>
 
         <TextView
@@ -80,6 +93,31 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_middle" />
     </LinearLayout>
+    <FrameLayout
+        android:id="@+id/container_member"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grayWhite"
+        >
+        <TextView 
+            android:id="@+id/tv_member"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="8dp"
+            android:textColor="@color/grayDark"
+            android:textSize="@dimen/font_middle"
+            android:layout_gravity="left|center_vertical"
+            />
+        <ImageView 
+            android:id="@+id/btn_delete_member"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:src="@drawable/ic_delete48"
+            android:padding="4dp"
+            />
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

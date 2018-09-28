@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
+import com.widget.effect.text.Spanny;
 
 /**
  * 现金支付
@@ -49,11 +51,16 @@ public class PayCrashActivity extends BaseActivity implements OnClickListener {
 	public void initViews() {
 		ying=getIntent().getDoubleExtra("Need", 0.00);
 		ying=Math.floor(ying);//尚需支付金额,取整
+		
+		Spanny s=new Spanny();
+		s.append("￥", new RelativeSizeSpan(1.0f));
+		s.append(formatMoney(ying), new RelativeSizeSpan(2.0f));
+		
 		tv_needPay=(TextView)findViewById(R.id.tv_needPay);//尚需支付
-		tv_needPay.setText(formatMoney(ying));
+		tv_needPay.setText(s);
 		
 		tv_cutMoney=(TextView)findViewById(R.id.tv_cutMoney);//抹零
-		tv_cutMoney.setText(formatMoney(getIntent().getDoubleExtra("Need", 0.00)-ying));
+		tv_cutMoney.setText("￥"+formatMoney(getIntent().getDoubleExtra("Need", 0.00)-ying));
 		
 		et_shishouxianjin=(EditText)findViewById(R.id.et_shishouxianjin);
 		et_daijinquan=(EditText)findViewById(R.id.et_daijinquan);

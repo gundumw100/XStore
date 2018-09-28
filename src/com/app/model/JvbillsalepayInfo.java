@@ -7,6 +7,7 @@ public class JvbillsalepayInfo {
 	String payValue;
 	String change;
 	String actPayValue;
+	
 	public String getShopCode() {
 		return shopCode;
 	}

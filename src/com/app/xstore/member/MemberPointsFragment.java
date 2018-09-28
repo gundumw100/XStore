@@ -1,36 +1,24 @@
 package com.app.xstore.member;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Response.Listener;
 import com.app.fragment.BaseFragment;
 import com.app.model.Member;
-import com.app.model.ProdCheckDtl;
 import com.app.model.response.GetVipInfoResponse;
 import com.app.net.Commands;
 import com.app.xstore.App;
-import com.app.xstore.GoodsDetailActivity;
 import com.app.xstore.R;
-import com.base.app.CommonAdapter;
-import com.base.app.ViewHolder;
 
 /**
  * 会员积分
@@ -288,7 +276,7 @@ public class MemberPointsFragment extends BaseFragment implements
 //					"可抵扣金额："+bean.getTotalValue()+"\n"+
 					"手机号：     "+bean.getMobile()+"\n"+
 					"姓名：          "+bean.getName()+"\n"+
-					"性别：          "+bean.getSex()+"	"+
+					"性别：          "+bean.getSex()+"\n"+
 					"出生年月："+bean.getBirth()+"\n"+
 					"地址：          "+bean.getAddress()+"\n"+
 					"注册时间： "+bean.getCreatetimeStr()+"\n"

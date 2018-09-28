@@ -38,9 +38,9 @@ import com.google.gson.Gson;
  */
 public final class Commands {
 
-	public static String IP = "http://139.196.53.136:8080";
-	public static String BASE_URL = "http://www.app.z-sh.com:8091/handler/user_handler.ashx";
+	public static String BASE_URL = "http://www.app.z-sh.com:8091/handler/user_handler.ashx";// 测试
 
+	public static String IP = "http://139.196.53.136:8080";
 	public static String PORT_Upload = "8078";
 	public static final String UPLOAD_ZIP_URL="http://"+IP+":"+PORT_Upload+"/UploadFile/zipSave.ashx";
 	
@@ -48,7 +48,7 @@ public final class Commands {
 		if(App.isLog){
 			BASE_URL = "http://www.app.z-sh.com:8091/handler/user_handler.ashx";// 测试
 		}else{
-			BASE_URL = "";
+			BASE_URL = "http://www.fig.z-sh.com:8091/handler/user_handler.ashx";// 正式
 		}
 	}
 	

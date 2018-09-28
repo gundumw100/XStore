@@ -1,10 +1,13 @@
 package com.app.util;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import android.text.TextUtils;
 
 public class StringUtil {
 
@@ -109,5 +112,45 @@ public class StringUtil {
 		currentDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 		return currentDate.getTimeInMillis();
 	}
+	
+	/**
+	 * 格式化Money，结构为0.00，传入的是Number
+	 * @param money
+	 * @return
+	 */
+	public static String formatMoney(Number money){
+    	return formatNumber(money,"###0.##");
+    }
+	
+	/**
+	 * 格式化Money，结构为0.00，传入的是String
+	 * @param money
+	 * @return
+	 */
+	public static String formatMoney(String money){
+		if(TextUtils.isEmpty(money)){
+			return "0.00";
+		}
+		return formatMoney(Double.parseDouble(money));
+	}
+	
+	public static String formatRate(Number rate){
+		return formatNumber(rate,"###0.#");
+	}
+	/**
+	 * 格式化数字，格式通过formatString自定义
+	 * @param money
+	 * @return
+	 */
+	public static String formatNumber(Number number,String formatString){
+    	if(number==null){
+    		return null;
+    	}
+    	if(TextUtils.isEmpty(formatString)){
+    		return String.valueOf(number);
+    	}
+    	DecimalFormat format = new DecimalFormat(formatString);
+    	return format.format(number);
+    }
 	
 }

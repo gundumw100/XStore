@@ -13,6 +13,13 @@ public class Printer {
 	String updater;
 	String updatedate;
 	int type;
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return printerip+";"+description+";"+type;
+	}
+	
 	public int getId() {
 		return id;
 	}

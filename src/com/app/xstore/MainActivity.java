@@ -17,6 +17,9 @@ import com.app.model.City;
 import com.app.model.Weather;
 import com.app.model.response.WeatherResponse;
 import com.app.util.WeatherUtil;
+import com.app.widget.dialog.PrinterListDialog;
+import com.postek.cdf.CDFPTKAndroid;
+import com.postek.cdf.CDFPTKAndroidImpl;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
 
@@ -42,6 +45,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 		initWeather();
 		//开启打印机服务监听
 		App.printerUtil.bindPrinterService();
+		
 	}
 
 	private String getShopCode(){

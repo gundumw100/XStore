@@ -4,6 +4,7 @@ public class JvbillsaledetailInfo {
 
 	String shopCode;
 	String prodNum;
+	String prodName;
 	String sellerUser;
 	String saleMode;
 	double divAmount;
@@ -13,6 +14,13 @@ public class JvbillsaledetailInfo {
 	int qty;
 	String remarkCode;
 	String remark;
+	
+	public String getProdName() {
+		return prodName;
+	}
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
+	}
 	public String getShopCode() {
 		return shopCode;
 	}

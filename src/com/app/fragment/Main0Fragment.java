@@ -16,6 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.app.model.MenuItem;
 import com.app.xstore.R;
 import com.app.xstore.cashier.ShoppingCartActivity;
+import com.app.xstore.fitting.FittingActivity;
 import com.app.xstore.inventory.InventoryActivity;
 import com.app.xstore.member.MemberActivity;
 import com.app.xstore.mendiancaigouruku.CaiGouRuKuCreateActivity;
@@ -74,11 +75,11 @@ public class Main0Fragment extends BaseFragment{
 
 		final ArrayList<MenuItem> list = new ArrayList<MenuItem>();
 		list.add(new MenuItem(7,R.drawable.ic_product48, "商品档案",ShangPinDangAnActivity.class));
-		list.add(new MenuItem(8,R.drawable.ic_mendian_diaoru48, "采购入库",CaiGouRuKuActivity.class));
-		list.add(new MenuItem(9,R.drawable.ic_mendian_diaoru48, "门店调入",MenDianDiaoRuActivity.class));
-		list.add(new MenuItem(10,R.drawable.ic_mendian_chuku48, "门店调出",MenDianDiaoChuActivity.class));
+		list.add(new MenuItem(8,R.drawable.ic_mendian_caigou64, "采购入库",CaiGouRuKuActivity.class));
+		list.add(new MenuItem(9,R.drawable.ic_mendian_diaoru64, "门店调入",MenDianDiaoRuActivity.class));
+		list.add(new MenuItem(10,R.drawable.ic_mendian_diaochu64, "门店调出",MenDianDiaoChuActivity.class));
 		list.add(new MenuItem(0,R.drawable.icon_main_pandian, "盘点",InventoryActivity.class));
-		list.add(new MenuItem(11,R.drawable.ic_mendian_chuku48, "查库存",KuCunQueryBySkuActivity.class));
+		list.add(new MenuItem(11,R.drawable.ic_mendian_chakucun64, "查库存",KuCunQueryBySkuActivity.class));
 		
 		BaseRecyclerAdapter<MenuItem> adapter;
 		
@@ -126,11 +127,11 @@ public class Main0Fragment extends BaseFragment{
 		recyclerView.setLayoutManager(manager);
 
 		final ArrayList<MenuItem> list = new ArrayList<MenuItem>();
-        list.add(new MenuItem(2,R.drawable.icon_main_match, "收银台",ShoppingCartActivity.class));
-        list.add(new MenuItem(4,R.drawable.icon_main_fitting, "会员",MemberActivity.class));
+        list.add(new MenuItem(2,R.drawable.icon_main_shoppingcart, "收银台",ShoppingCartActivity.class));
+        list.add(new MenuItem(4,R.drawable.icon_main_huiyuan64, "会员",MemberActivity.class));
         list.add(new MenuItem(12,R.drawable.icon_main_product, "调价",null));
         list.add(new MenuItem(13,R.drawable.icon_main_product, "充值",null));
-        list.add(new MenuItem(14,R.drawable.icon_main_product, "试穿登记",null));
+        list.add(new MenuItem(14,R.drawable.icon_main_match, "试穿登记",FittingActivity.class));
         list.add(new MenuItem(15,R.drawable.icon_main_product, "分析报表",null));
         list.add(new MenuItem(16,R.drawable.icon_main_product, "销售指标",null));
 

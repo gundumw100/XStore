@@ -80,7 +80,7 @@ public class SpaceDetailActivity extends BaseActivity implements View.OnClickLis
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", "response="+response.toString());
+//				Log.i("tag", "response="+response.toString());
 				if(isSuccess(response)){
 					obj=mapperToObject(response, GetClerkSpaceInfoResponse.class);
 					JvclerkspaceInfo clerkSpaceInfo=obj.getClerkspaceInfo();

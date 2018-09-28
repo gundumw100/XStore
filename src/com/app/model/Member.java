@@ -1,8 +1,13 @@
 package com.app.model;
 
-public class Member {
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
 
-	String vipNo;
+public class Member implements Parcelable{
+
+	String vipNo;//会员ID
+	String vipCode;//卡号
 	String shopCode;
 	String birth;
 	String sex;
@@ -10,10 +15,17 @@ public class Member {
 	String address;
 	String createtimeStr;
 	String name;
-	String vipCode;
 	String totalValue;
 	String totalPoints;
 	String mobile;
+	int vipConsumeValue;//本次消费积分
+	
+	public int getVipConsumeValue() {
+		return vipConsumeValue;
+	}
+	public void setVipConsumeValue(int vipConsumeValue) {
+		this.vipConsumeValue = vipConsumeValue;
+	}
 	public String getVipNo() {
 		return vipNo;
 	}
@@ -87,5 +99,57 @@ public class Member {
 		this.mobile = mobile;
 	}
 		
+	public static Parcelable.Creator<Member> getCreator()
+    {
+        return CREATOR;
+    }
+
+    public int describeContents()
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        // TODO Auto-generated method stub
+    	dest.writeString(vipNo);
+    	dest.writeString(vipCode);
+    	dest.writeString(birth);
+    	dest.writeString(sex);
+    	dest.writeString(address);
+    	dest.writeString(createtimeStr);
+    	dest.writeString(name);
+    	dest.writeString(totalValue);
+    	dest.writeString(totalPoints);
+    	dest.writeString(mobile);
+    	dest.writeInt(vipConsumeValue);
+    }
+
+    public static final Parcelable.Creator<Member> CREATOR = new Creator<Member>()
+    {
+        public Member createFromParcel(Parcel source)
+        {
+        	Member instance = new Member();
+        	instance.vipNo = source.readString();
+        	instance.vipCode  = source.readString();
+        	instance.birth  = source.readString();
+        	instance.sex  = source.readString();
+        	instance.address  = source.readString();
+        	instance.createtimeStr  = source.readString();
+        	instance.name  = source.readString();
+        	instance.totalValue  = source.readString();
+        	instance.totalPoints  = source.readString();
+        	instance.mobile  = source.readString();
+        	instance.vipConsumeValue  = source.readInt();
+            return instance;
+        }
+
+        public Member[] newArray(int size)
+        {
+            // TODO Auto-generated method stub
+            return new Member[size];
+        }
+    };
 	
 }

@@ -34,6 +34,8 @@ import com.app.net.Commands;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
+import com.app.xstore.mendiancaigouruku.GetGoodsListBySKUsResponse;
+import com.base.util.D;
 import com.base.util.luban.Luban;
 import com.qq.cloud.PicCloud;
 import com.qq.cloud.UploadResult;
@@ -67,6 +69,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	private TagFlowLayout flowLayout_labels,flowLayout_color,flowLayout_size;
 	private TextView tv_name,tv_ls_price,tv_sn;
 	private ProductDangAn curBean;
+	private boolean isUpdateMaiDian=false;//卖点是否有改变
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +133,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 				int length=text.length();
 				btn_save_maidian.setVisibility(length==0?View.GONE:View.VISIBLE);
 				tv_maidian.setText(length+"/100");
+				isUpdateMaiDian=true;
 			}
 			
 			@Override
@@ -503,7 +507,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 				showToast("未找到颜色尺码匹配的商品");
 				return;
 			}
-			showToast("btn_addToShoppingcart");
+			doCommandGetGoodsListBySKUs(curBean.getGoods_sn());
 			break;
 		case R.id.btn_print:
 			if(curBean==null){
@@ -634,7 +638,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		dialog.show();
 	}
 	
-	
+	private final String defaultUrl="http://";//虚拟图片地址
 	private void doCommandGetGoodsStyleImageList(){
 		String styleCode=goods_sn.substring(0,6);
 		Commands.doCommandGetGoodsStyleImageList(context, styleCode, new Listener<JSONObject>() {
@@ -647,32 +651,38 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 					GetGoodsStyleImageListResponse obj=mapperToObject(response, GetGoodsStyleImageListResponse.class);
 					if(obj!=null&&obj.getInfo()!=null){
 						styleImageList=obj.getInfo().getImageInfo();
-						if(styleImageList!=null){
-							flowLayout_img.setAdapter(new TagAdapter<ProdColorImage>(styleImageList){
-								@Override
-								public View getView(FlowLayout parent, int position, ProdColorImage item){
-									ImageView iv = (ImageView) LayoutInflater.from(context).inflate(R.layout.item_image_for_product_detail,flowLayout_img, false);
-									loadImageByPicasso(item.getImgUrl(), iv);
-									iv.setTag(item);
-									return iv;
-								}
-							});
-							
-							//
-							listViews.clear();
-							for(int i=0;i<styleImageList.size();i++){
-								View view=LayoutInflater.from(context).inflate(R.layout.item_product_img, null);
-								listViews.add(view);
-							}
-							if(myPagerAdapter==null){
-								myPagerAdapter=new MyPagerAdapter(listViews);
-								viewPager.setAdapter(myPagerAdapter);
-							}else{
-								myPagerAdapter.setViews(listViews);
-								myPagerAdapter.notifyDataSetChanged();
-							}
-							viewPager.setCurrentItem(curPosition);
+						if(styleImageList==null){//确保styleImageList不为null
+							styleImageList=new ArrayList<ProdColorImage>();
 						}
+						if(styleImageList.size()==0){//虚拟插入一张图片
+							ProdColorImage img=new ProdColorImage();
+							img.setImgUrl(defaultUrl);//
+							styleImageList.add(img);
+						}
+						flowLayout_img.setAdapter(new TagAdapter<ProdColorImage>(styleImageList){
+							@Override
+							public View getView(FlowLayout parent, int position, ProdColorImage item){
+								ImageView iv = (ImageView) LayoutInflater.from(context).inflate(R.layout.item_image_for_product_detail,flowLayout_img, false);
+								loadImageByPicasso(item.getImgUrl(), iv);
+								iv.setTag(item);
+								return iv;
+							}
+						});
+						
+						//
+						listViews.clear();
+						for(int i=0;i<styleImageList.size();i++){
+							View view=LayoutInflater.from(context).inflate(R.layout.item_product_img, null);
+							listViews.add(view);
+						}
+						if(myPagerAdapter==null){
+							myPagerAdapter=new MyPagerAdapter(listViews);
+							viewPager.setAdapter(myPagerAdapter);
+						}else{
+							myPagerAdapter.setViews(listViews);
+							myPagerAdapter.notifyDataSetChanged();
+						}
+						viewPager.setCurrentItem(curPosition);
 						
 						//保存最近浏览
 						if(curBean!=null){
@@ -694,18 +704,22 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	
 	private String mode=null;
 	private void showDialogItems2() {
-		String[] items=new String[]{"修改图片","新增图片","删除图片"};
+		ProdColorImage img=styleImageList.get(curPosition);
+		String[] items=new String[]{"新增图片","修改图片","删除图片"};
+		if(defaultUrl.equals(img.getImgUrl())){//当选中的是虚拟图片时，只能新增图片
+			items=new String[]{"新增图片"};
+		}
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setItems(items, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				if(which==0){
-					mode="updateStyleImage";
-					openImageSelector();
-				}else if(which==1){//新增
+				if(which==0){//新增
 					mode="addStyleImage";
+					openImageSelector();
+				}else if(which==1){//修改
+					mode="updateStyleImage";
 					openImageSelector();
 				}else if(which==2){//删除
 					mode="deleteStyleImage";
@@ -1026,6 +1040,65 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	}
 	
 	
+	private void doCommandGetGoodsListBySKUs(String goods_sn){
+		List<String> goodsSns=new ArrayList<String>();
+		goodsSns.add(goods_sn);
+		Commands.doCommandGetGoodsListBySKUs(context, goodsSns, new Listener<JSONObject>() {
+			
+			@Override
+			public void onResponse(JSONObject response) {
+				// TODO Auto-generated method stub
+//				Log.i("tag", response.toString());
+				if(isSuccess(response)){
+					GetGoodsListBySKUsResponse obj=mapperToObject(response, GetGoodsListBySKUsResponse.class);
+					List<ProductDangAn> products=obj.getGoodsInfo();
+					if(!isEmptyList(products)){
+						
+						for(ProductDangAn bean:products){
+							bean.setGoods_price(bean.getGoods_ls_price());//实际售价预置成零售价
+							bean.setGoods_discountRate(100);//不打折
+						}
+						
+						App.shoppingCartItems.addAll(products);
+						showToast("已加入收银台");
+					}else{
+						showToast("查不到商品");
+					}
+				}
+			}
+		});
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if(isUpdateMaiDian){
+			String message="您更新的卖点尚未保存，是否要保存？";
+			D.showDialog(this, message, "是"	, "否", new D.OnPositiveListener() {
+				
+				@Override
+				public void onPositive() {
+					// TODO Auto-generated method stub
+					
+				}
+			}, new D.OnNegativeListener() {
+				
+				@Override
+				public void onNegative() {
+					// TODO Auto-generated method stub
+					finish();
+				}
+			});
+		}else{
+			super.onBackPressed();
+		}
+	}
+	
+	@Override
+	public void doLeftButtonClick(View v) {
+		// TODO Auto-generated method stub
+		onBackPressed();
+	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	public class MyPagerAdapter extends PagerAdapter {

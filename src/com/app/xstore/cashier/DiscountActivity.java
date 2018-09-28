@@ -3,6 +3,7 @@ package com.app.xstore.cashier;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -87,6 +88,8 @@ public class DiscountActivity extends BaseActivity implements OnClickListener{
 				}
 				discount.setDiscountType(0);
 				
+//				String rateStr=formatNumber(value/100, "###0.00");
+//				float rate=Float.parseFloat(rateStr);
 				float rate=value/100;
 				discount.setDiscountRate(rate);
 				discount.setDiscountPrice(rate*totalPrice);//整单折扣时该值需要从新计算
@@ -98,8 +101,10 @@ public class DiscountActivity extends BaseActivity implements OnClickListener{
 				}
 				discount.setDiscountType(1);
 				
-				float rate=value/totalPrice;
-				discount.setDiscountRate(rate);
+//				String rateStr=formatNumber(value/totalPrice, "###0.00");
+//				float rate=Float.parseFloat(rateStr);
+				
+				discount.setDiscountRate(value/totalPrice);
 				discount.setDiscountPrice(value);//整单折扣时该值需要从新计算
 			}
 			discount.setWholeOrder(wholeOrder);//整单打折

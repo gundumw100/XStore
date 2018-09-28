@@ -11,9 +11,9 @@ public class JvbillsaleInfo {
 	double totalMoney;
 	int totalQty;
 	String userId;
-	String vipCode;
-	String vipId;
-	double vipConsumeValue;
+	String vipId;//会员ID
+	String vipCode;//卡号
+	double vipConsumeValue;//消费积分
 	String remark;
 	String createtimeStr;
 	

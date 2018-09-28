@@ -39,6 +39,7 @@ import com.sosopay.vo.GoodsInfo;
  * @author pythoner
  * 
  */
+@Deprecated
 public class TradeDetailActivity extends BaseActivity implements OnClickListener{
 
 	private Context context;

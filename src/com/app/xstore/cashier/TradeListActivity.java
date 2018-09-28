@@ -41,6 +41,7 @@ import com.widget.view.LoadMoreListView;
  * @author pythoner
  * 
  */
+@Deprecated
 public class TradeListActivity extends BaseActivity implements OnClickListener{
 
 	private Context context;

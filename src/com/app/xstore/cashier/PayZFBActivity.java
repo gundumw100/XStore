@@ -6,6 +6,7 @@ import org.simple.eventbus.Subscriber;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.app.xstore.BaseActivity;
 import com.app.xstore.R;
 import com.base.util.comm.SPUtils;
 import com.squareup.picasso.Picasso;
+import com.widget.effect.text.Spanny;
 import com.widget.imagepicker.ImageConfig;
 import com.widget.imagepicker.ImageSelector;
 import com.widget.imagepicker.ImageSelectorActivity;
@@ -45,8 +47,13 @@ public class PayZFBActivity extends BaseActivity {
 	@Override
 	public void initViews() {
 		double need = getIntent().getDoubleExtra("Need", 0.00);
+		
+		Spanny s=new Spanny();
+		s.append("￥", new RelativeSizeSpan(1.0f));
+		s.append(formatMoney(need), new RelativeSizeSpan(2.0f));
+		
 		TextView tv_need_pay = (TextView) findViewById(R.id.tv_need_pay);
-		tv_need_pay.setText("尚需支付： ￥" + need);
+		tv_need_pay.setText(s);
 
 		iv_qr = (ImageView) findViewById(R.id.iv_qr);
 		btn_add_qr = (TextView) findViewById(R.id.btn_add_qr);

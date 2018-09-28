@@ -2190,6 +2190,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == ImageSelector.IMAGE_REQUEST_CODE) {
 			if (data != null) {
 				if(mode==0){

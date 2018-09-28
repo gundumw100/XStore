@@ -20,7 +20,7 @@
             android:textSize="@dimen/font_small" />
 
         <TextView
-            android:id="@+id/item_4"
+            android:id="@+id/item_5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -50,14 +50,14 @@
             android:gravity="right"
             android:textSize="@dimen/font_small" />
         <TextView
-            android:id="@+id/item_5"
+            android:id="@+id/item_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
             android:textSize="@dimen/font_small" />
         <TextView
-            android:id="@+id/item_3"
+            android:id="@+id/item_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -54,19 +54,24 @@ import com.app.model.JvbillsaleInfo;
 import com.app.model.JvbillsalebankInfo;
 import com.app.model.JvbillsaledetailInfo;
 import com.app.model.JvbillsalepayInfo;
+import com.app.model.Member;
 import com.app.model.UserInfo;
+import com.app.model.response.GetBillSaleByNumResponse;
 import com.app.model.response.GetShopUserListResponse;
+import com.app.model.response.SaveBillSaleResponse;
 import com.app.net.Commands;
 import com.app.printer.BluetoothDeviceListActivity;
 import com.app.util.ScannerInterface;
 import com.app.util.ThemeManager;
 import com.app.util.ThimfoneScanUtil;
 import com.app.widget.SimpleListDialog;
+import com.app.widget.dialog.PrintTicketDialog;
 import com.app.xstore.shangpindangan.ProductDangAn;
 import com.app.xstore.shangpindangan.ProductDetailActivity;
 import com.app.xstore.space.ImageActivity;
 import com.app.xstore.space.ImageGalleryActivity;
 import com.base.app.BaseAppActivity;
+import com.base.util.D;
 import com.base.util.comm.DisplayUtils;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -676,10 +681,6 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 	public Handler resultHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			String message = (String) msg.obj;
-			if(message.equalsIgnoreCase("time out")){
-				showToast(R.string.alert_no_barcode_found);
-				return;
-			}
 			String prodID = getProdID(message);
 			if (TextUtils.isEmpty(prodID)) {
 				showToast(R.string.alert_no_barcode_found);
@@ -693,15 +694,12 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 	 * 初始化resultHandler专用
 	 * 凡是使用了扫描的界面都需要重写该方法
 	 */
+	@Deprecated
 	public void initHandler(){
 //		resultHandler = new Handler(){...};
 		resultHandler = new Handler(){
 			public void handleMessage(android.os.Message msg) {
 				String message = (String) msg.obj;
-				if(message.equalsIgnoreCase("time out")){
-					showToast(R.string.alert_no_barcode_found);
-					return;
-				}
 				String prodID = getProdID(message);
 				if (TextUtils.isEmpty(prodID)) {
 					showToast(R.string.alert_no_barcode_found);
@@ -720,14 +718,9 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 		resultHandler = new Handler(){
 			public void handleMessage(android.os.Message msg) {
 				String data = (String) msg.obj;
-				if(data.equalsIgnoreCase("time out")||data.equalsIgnoreCase("user canceled")){
-					showToast(R.string.alert_no_barcode_found);
-					return;
-				}
 				if(onScannerResult!=null){
 					onScannerResult.onResult(data);
 				}
-				
 			}
 		};
 	}
@@ -753,10 +746,8 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 		} else if (App.user.getPhoneType()==1){
 			App.scanUtil.doScan(resultHandler);
 		}else if (App.user.getPhoneType()==2){
-//			showToast("该机型暂不支持扫描");
 			initScannerInterface();
 		}else{
-//			showToast("该机型不支持扫描");
 			Intent intent=new Intent(context,CaptureActivity.class);
 			startActivityForResult(intent, BaseActivity.REQUEST_CODE_SCAN);
 		}
@@ -766,7 +757,7 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.i("tag", "requestCode="+requestCode+";resultCode="+resultCode);
+//		Log.i("tag", "requestCode="+requestCode+";resultCode="+resultCode);
 		if(requestCode==REQUEST_CODE_SCAN){//扫描
 			if (resultCode == RESULT_OK) {
 				if(data!=null){
@@ -958,7 +949,7 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 	}
 	
 	/**
-	 * 支付
+	 * 支付生成小票
 	 * @param payMode {"0支付宝","1微信","2现金","3刷卡"};
 	 * @param actPayValue 实付金额(需要去掉代金券？)
 	 * @param zhaoLin 找零金额
@@ -966,20 +957,32 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 	public void doCommandSaveBillSale(int payMode,String actPayValue,String zhaoLin){
 		double need=getIntent().getDoubleExtra("Need", 0.00);
 		ArrayList<ProductDangAn> beans=getIntent().getParcelableArrayListExtra("Products");
+		Member member=getIntent().getParcelableExtra("Member");
+		String remark=getIntent().getStringExtra("Remark");
 		if(isEmptyList(beans)){
 			showToast("缺少商品数据");
 			return;
 		}
+		String needStr=formatMoney(need);
+		double totalMoney=Double.parseDouble(needStr);
+		
 		String[] modes={"支付宝","微信","现金","刷卡"};
 		final JvbillsaleInfo billSale=new JvbillsaleInfo();
 		billSale.setShopCode(App.user.getShopInfo().getShop_code());
 		billSale.setCreateuser(App.user.getUserInfo().getUser_code());
 		billSale.setCurrencyCode("RMB");
 		billSale.setSaleType("XS");//销售模式:XS(销售)、TH(退货)、HH(换货)
-		billSale.setTotalMoney(need);//总金额60
+		billSale.setTotalMoney(totalMoney);//总金额60
 		billSale.setTotalQty(beans.size());//
 		billSale.setUserId(App.user.getUserInfo().getUser_code());//
-		billSale.setRemark(modes[payMode]);//
+		
+		billSale.setRemark(remark);//备注
+		
+		if(member!=null){
+//			billSale.setVipId(member.getVipNo());//会员ID
+			billSale.setVipCode(member.getVipNo());// 卡号
+			billSale.setVipConsumeValue(member.getVipConsumeValue());//消费积分
+		}
 		
 		final List<JvbillsaledetailInfo> billsaleDetailList=new ArrayList<JvbillsaledetailInfo>();
 		for(ProductDangAn bean:beans){
@@ -996,37 +999,62 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 			if(bean.getDiscount()==null){//(不打折)
 				item.setDivAmount(0.00);//折扣金额(不打折)
 				item.setDivSaleRate(100.00);//折扣率(不打折)
-				item.setRetailPrice(bean.getGoods_price());//零售价
-				item.setSalePrice(bean.getGoods_price());//折扣价(不打折)
+				
+				String goods_priceStr=formatMoney(bean.getGoods_price());
+				double goods_price=Double.parseDouble(goods_priceStr);
+				
+				item.setRetailPrice(goods_price);//零售价
+				item.setSalePrice(goods_price);//折扣价(不打折)
 			}else{
 //				item.setDivAmount(bean.getGoods_price_discount_off());//折扣金额
 //				item.setDivSaleRate(bean.getDiscount().getDiscountValue());//折扣率
 //				item.setRetailPrice(bean.getGoods_price());//零售价
 //				item.setSalePrice(bean.getGoods_price_discount());//折扣价
-				item.setDivAmount(bean.getDiscount().getDiscountPrice()*item.getQty());//折扣金额
-				item.setDivSaleRate(bean.getDiscount().getDiscountRate());//折扣率
+				
+				String rateStr=formatNumber(bean.getDiscount().getDiscountRate(), "###0.00");
+				double rate=Double.parseDouble(rateStr);
+				
+				item.setDivSaleRate(rate);//折扣率
 				item.setRetailPrice(bean.getGoods_ls_price());//零售价
-				item.setSalePrice(bean.getDiscount().getDiscountPrice());//折扣价
+				
+//				item.setDivAmount(bean.getDiscount().getDiscountPrice()*item.getQty());//折扣金额
+//				item.setSalePrice(bean.getDiscount().getDiscountPrice());//折扣价
+				
+				//debug
+				String divAmountStr=formatMoney(bean.getGoods_price()*item.getQty());
+				double divAmount=Double.parseDouble(divAmountStr);
+				item.setDivAmount(divAmount);//折扣金额
+				
+				String goods_priceStr=formatMoney(bean.getGoods_price());
+				double goods_price=Double.parseDouble(goods_priceStr);
+				item.setSalePrice(goods_price);//折扣价
 			}
 			billsaleDetailList.add(item);
 		}
 		
 		final List<JvbillsalepayInfo> payList=new ArrayList<JvbillsalepayInfo>();
 		JvbillsalepayInfo item=new JvbillsalepayInfo();
-		if(payMode==0||payMode==1){//支付宝||微信
-			item.setPayCode(null);
+		if(payMode==0){
+			item.setPayCode(modes[payMode]);
 			item.setShopCode(App.user.getShopInfo().getShop_code());
 			item.setChange("0.00");//找零金额
 			item.setPayValue(formatMoney(need));//应付金额
 			item.setActPayValue(formatMoney(need));//实付金额(需要去掉代金券？)
-		}else if(payMode==2){//现金
-			item.setPayCode(null);
+		}else if(payMode==1){
+			item.setPayCode(modes[payMode]);
+			item.setShopCode(App.user.getShopInfo().getShop_code());
+			item.setChange("0.00");//找零金额
+			item.setPayValue(formatMoney(need));//应付金额
+			item.setActPayValue(formatMoney(need));//实付金额(需要去掉代金券？)
+		}
+		else if(payMode==2){//现金
+			item.setPayCode(modes[payMode]);
 			item.setShopCode(App.user.getShopInfo().getShop_code());
 			item.setChange(zhaoLin);//找零金额
 			item.setPayValue(formatMoney(need));//应付金额
 			item.setActPayValue(actPayValue);//实付金额(需要去掉代金券？)
 		}else if(payMode==3){//刷卡
-			item.setPayCode(null);
+			item.setPayCode(modes[payMode]);
 			item.setShopCode(App.user.getShopInfo().getShop_code());
 			item.setChange("0.00");//找零金额
 			item.setPayValue(formatMoney(need));//应付金额
@@ -1041,38 +1069,126 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", "response="+response.toString());
+//				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
-					showPaySuccessDialog(billSale,billsaleDetailList,payList);
+					SaveBillSaleResponse obj=mapperToObject(response, SaveBillSaleResponse.class);
+					showPaySuccessDialog(obj.getSaleNo());
 				}
 			}
 		});
 	}
 	
-	private void showPaySuccessDialog(final JvbillsaleInfo billSale,final List<JvbillsaledetailInfo> billsaleDetailList,final List<JvbillsalepayInfo> payList) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("支付成功，打印小票");
-		builder.setPositiveButton("打印小票",new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				doPrintReceipt( billSale, billsaleDetailList, payList);//打印小票
-				finishAndClearShoppingCart();
-			}
-		});
-		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				finishAndClearShoppingCart();
-			}
-		});
-		builder.setCancelable(false);
-		builder.show();
+	private void showPaySuccessDialog(String saleNo) {
+		PrintTicketDialog d=new PrintTicketDialog(this,saleNo);
+		d.show();
 	}
 	
-	private void finishAndClearShoppingCart(){
-		EventBus.getDefault().post(App.EVENT_FINISH);//关闭PaymentTypeActivity界面
-		EventBus.getDefault().post(App.EVENT_CLEAR);//清理ShoppingCartActivity数据
-		finish();
+	/**
+	 * 退货支付生成小票，退货只能现金
+	 * @param payMode {"0支付宝","1微信","2现金","3刷卡"};
+	 * @param actPayValue 实付金额(需要去掉代金券？)
+	 * @param zhaoLin 找零金额
+	 */
+	public void doCommandSaveBillSaleTH(GetBillSaleByNumResponse response,String zhaoLin){
+		int payMode=2;
+//		double need=getIntent().getDoubleExtra("Need", 0.00);
+//		ArrayList<ProductDangAn> beans=getIntent().getParcelableArrayListExtra("Products");
+		List<JvbillsaledetailInfo> beans=response.getDetailList();
+		double actPayValue=response.getBillSale().getTotalMoney();
+		if(isEmptyList(beans)){
+			showToast("缺少商品数据");
+			return;
+		}
+		String[] modes={"支付宝","微信","现金","刷卡"};
+		final JvbillsaleInfo billSale=new JvbillsaleInfo();
+		
+		billSale.setSaleNo(response.getBillSale().getSaleNo());//原单号
+		
+		billSale.setShopCode(App.user.getShopInfo().getShop_code());
+		billSale.setCreateuser(App.user.getUserInfo().getUser_code());
+		billSale.setCurrencyCode("RMB");
+		billSale.setSaleType("TH");//销售模式:XS(销售)、TH(退货)、HH(换货)
+		billSale.setTotalMoney(-1*actPayValue);//总金额60
+		billSale.setTotalQty(-1*beans.size());//
+		billSale.setUserId(App.user.getUserInfo().getUser_code());//
+		billSale.setRemark("");//退货理由?
+		if(response.getBillSale().getVipId()!=null){
+//			billSale.setVipId(member.getVipNo());//会员ID
+			billSale.setVipCode(response.getBillSale().getVipId());// 卡号
+			billSale.setVipConsumeValue(response.getBillSale().getVipConsumeValue());//消费积分
+		}
+		
+		final List<JvbillsaledetailInfo> billsaleDetailList=new ArrayList<JvbillsaledetailInfo>();
+		for(JvbillsaledetailInfo bean:beans){
+			JvbillsaledetailInfo item=new JvbillsaledetailInfo();
+			item.setShopCode(App.user.getShopInfo().getShop_code());
+			item.setProdNum(bean.getProdNum());
+//			item.setProdName(bean.getGoods_name());
+			item.setSellerUser(isEmpty(bean.getSellerUser())?App.user.getUserInfo().getUser_code():bean.getSellerUser());//导购
+			item.setSaleMode("TH");//销售模式:XS(销售)、TH(退货)、HH(换货)
+			item.setQty(-1);
+			item.setRemarkCode(modes[payMode]);//注释编码
+			item.setRemark(modes[payMode]);//注释
+			
+//			if(bean.getDiscount()==null){//(不打折)
+//				item.setDivAmount(0.00);//折扣金额(不打折)
+//				item.setDivSaleRate(100.00);//折扣率(不打折)
+//				item.setRetailPrice(bean.getGoods_price());//零售价
+//				item.setSalePrice(-1*bean.getGoods_price());//折扣价(不打折)
+//			}else{
+//				item.setDivAmount(bean.getDiscount().getDiscountPrice()*item.getQty());//折扣金额
+//				item.setDivSaleRate(bean.getDiscount().getDiscountRate());//折扣率
+//				item.setRetailPrice(bean.getGoods_ls_price());//零售价
+//				item.setSalePrice(-1*bean.getDiscount().getDiscountPrice());//折扣价
+//			}
+			item.setDivAmount(bean.getDivAmount());//折扣金额
+			item.setDivSaleRate(bean.getDivSaleRate());//折扣率
+			item.setRetailPrice(bean.getRetailPrice());//零售价
+			item.setSalePrice(-1*bean.getSalePrice());//折扣价
+			billsaleDetailList.add(item);
+		}
+		
+		final List<JvbillsalepayInfo> payList=new ArrayList<JvbillsalepayInfo>();
+		JvbillsalepayInfo item=new JvbillsalepayInfo();
+//		if(payMode==0||payMode==1){//支付宝||微信
+//			item.setPayCode(null);
+//			item.setShopCode(App.user.getShopInfo().getShop_code());
+//			item.setChange("0.00");//找零金额
+//			item.setPayValue(formatMoney(need));//应付金额
+//			item.setActPayValue(formatMoney(need));//实付金额(需要去掉代金券？)
+//		}else 
+			if(payMode==2){//现金
+			item.setPayCode(modes[payMode]);
+			item.setShopCode(App.user.getShopInfo().getShop_code());
+			item.setChange(zhaoLin);//找零金额
+			item.setPayValue("-"+actPayValue);//应付金额
+			item.setActPayValue("-"+actPayValue);//实付金额(需要去掉代金券？)
+		}
+//		else if(payMode==3){//刷卡
+//			item.setPayCode(null);
+//			item.setShopCode(App.user.getShopInfo().getShop_code());
+//			item.setChange("0.00");//找零金额
+//			item.setPayValue(formatMoney(need));//应付金额
+//			item.setActPayValue(formatMoney(need));//实付金额(需要去掉代金券？)
+//		}
+		payList.add(item);
+		
+		List<JvbillsalebankInfo> bankList=new ArrayList<JvbillsalebankInfo>();
+		
+		Commands.doCommandSaveBillSale(context,billSale,billsaleDetailList,payList,bankList,new Listener<JSONObject>() {
+			
+			@Override
+			public void onResponse(JSONObject response) {
+				// TODO Auto-generated method stub
+				Log.i("tag", "response="+response.toString());
+				if (isSuccess(response)) {
+//					SaveBillSaleResponse obj=mapperToObject(response, SaveBillSaleResponse.class);
+//					showPaySuccessDialog(obj.getSaleNo());
+					showToast("退单成功");
+					finish();
+				}
+			}
+		});
 	}
 	
 	/** 
@@ -1302,10 +1418,18 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 		}
 	}
 	
-	public void doPrintReceipt(JvbillsaleInfo billSale,List<JvbillsaledetailInfo> billsaleDetailList,List<JvbillsalepayInfo> payList){
+	/**
+	 * 打印小票或者打开蓝牙界面连接打印机
+	 * @param d 打印后关闭的Dialog，如果没有就填null
+	 * @param obj
+	 */
+	public void doPrintReceipt(Dialog d,GetBillSaleByNumResponse obj){
 		if(App.printerUtil.isBluetoothAvailable()){
 			if(App.printerUtil.isPrinterConnected()){
-				App.printerUtil.sendReceipt( billSale, billsaleDetailList, payList);
+				App.printerUtil.sendReceipt(obj);
+				if(d!=null&&d.isShowing()){
+					d.dismiss();
+				}
 			}else{
 				showToast("未连接到打印机");
 				startActivity(new Intent(context,BluetoothDeviceListActivity.class));
@@ -1315,5 +1439,6 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 			startActivity(new Intent(context,BluetoothDeviceListActivity.class));
 		}
 	}
+	
 	
 }

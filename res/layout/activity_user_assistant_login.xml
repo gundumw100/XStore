@@ -126,6 +126,16 @@
             android:textSize="@dimen/font_middle" />
     </LinearLayout>
 
+
+    <TextView
+        android:id="@+id/tv_ip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_middle" />
+    
     <TextView
         android:id="@+id/tv_versionName"
         android:layout_width="wrap_content"
@@ -134,5 +144,4 @@
         android:padding="8dp"
         android:textColor="@android:color/white"
         android:textSize="@dimen/font_middle" />
-
 </FrameLayout>

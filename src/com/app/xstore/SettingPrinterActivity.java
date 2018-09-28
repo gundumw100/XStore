@@ -14,7 +14,7 @@ import com.android.volley.Response.Listener;
 import com.app.model.Printer;
 import com.app.model.response.GetPrinterInfoResponse;
 import com.app.net.Commands;
-import com.app.widget.SettingPrinterDialog;
+import com.app.widget.dialog.SettingPrinterDialog;
 import com.app.xstore.R;
 import com.base.app.CommonAdapter;
 import com.base.app.ViewHolder;
@@ -102,8 +102,9 @@ public class SettingPrinterActivity extends BaseActivity{
 					public void setValues(ViewHolder helper, final Printer item, int position) {
 						// TODO Auto-generated method stub
 						helper.setText(R.id.item_0, item.getDescription());
+						helper.setText(R.id.item_1, item.getPrinterip());
 						//修改
-						helper.getView(R.id.item_1).setOnClickListener(new View.OnClickListener() {
+						helper.getView(R.id.item_2).setOnClickListener(new View.OnClickListener() {
 							
 							@Override
 							public void onClick(View v) {
@@ -121,7 +122,7 @@ public class SettingPrinterActivity extends BaseActivity{
 							}
 						});
 						//删除
-						helper.getView(R.id.item_2).setOnClickListener(new View.OnClickListener() {
+						helper.getView(R.id.item_3).setOnClickListener(new View.OnClickListener() {
 															
 							@Override
 							public void onClick(View v) {
