@@ -69,7 +69,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	private TagFlowLayout flowLayout_labels,flowLayout_color,flowLayout_size;
 	private TextView tv_name,tv_ls_price,tv_sn;
 	private ProductDangAn curBean;
-	private boolean isUpdateMaiDian=false;//卖点是否有改变
+//	private boolean isUpdateMaiDian=false;//卖点是否有改变
+	private EditText et_maidian;
+	private String maidian="";//卖点原始文本
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +126,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		tv_sn=$(R.id.tv_sn);
 		final TextView btn_save_maidian=$(R.id.btn_save_maidian);
 		final TextView tv_maidian=$(R.id.tv_maidian);
-		final EditText et_maidian=$(R.id.et_maidian);
+		et_maidian=$(R.id.et_maidian);
 		et_maidian.addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -133,7 +135,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 				int length=text.length();
 				btn_save_maidian.setVisibility(length==0?View.GONE:View.VISIBLE);
 				tv_maidian.setText(length+"/100");
-				isUpdateMaiDian=true;
+//				isUpdateMaiDian=true;
 			}
 			
 			@Override
@@ -153,14 +155,12 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				showToast(R.string.error_unknown_function);
 				String text=et_maidian.getText().toString().trim();
 				if(isEmpty(text)){
 					doShake(context, et_maidian);
 					return;
 				}
-				//debug
-				
+				doCommandUpdateProdStyleSellingPoint(text);
 			}
 		});
 		
@@ -320,6 +320,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 //			//保存最近浏览
 //			saveProductDangAnRecentlyBrowse(bean);
 		}
+		if(curBean!=null){
+			et_maidian.setText(curBean.getSellingPoint());
+			maidian=curBean.getSellingPoint();
+		}
 		
 //		//主图
 //		HashMap<String,ProductDangAn> imgMap=new HashMap<String,ProductDangAn>();
@@ -464,7 +468,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-//				Log.i("tag", "response="+response.toString());
+				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
 					GetGoodsListResponse obj=mapperToObject(response, GetGoodsListResponse.class);
 					if(obj!=null&&obj.getGoodsInfo()!=null){
@@ -1073,14 +1077,15 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-		if(isUpdateMaiDian){
+		if(!et_maidian.getText().toString().trim().equals(maidian)){
 			String message="您更新的卖点尚未保存，是否要保存？";
 			D.showDialog(this, message, "是"	, "否", new D.OnPositiveListener() {
 				
 				@Override
 				public void onPositive() {
 					// TODO Auto-generated method stub
-					
+					String text=et_maidian.getText().toString().trim();
+					doCommandUpdateProdStyleSellingPoint(text);
 				}
 			}, new D.OnNegativeListener() {
 				
@@ -1099,6 +1104,24 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 	public void doLeftButtonClick(View v) {
 		// TODO Auto-generated method stub
 		onBackPressed();
+	}
+	
+	private void doCommandUpdateProdStyleSellingPoint(final String text){
+		String sellingPoint=text;
+		String styleCode=goods_sn.substring(2,6);
+		String dateCode=goods_sn.substring(0,2);
+		Commands.doCommandUpdateProdStyleSellingPoint(context, sellingPoint, styleCode, dateCode, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject response) {
+				// TODO Auto-generated method stub
+				if (isSuccess(response)) {
+//					isUpdateMaiDian=false;
+					maidian=text;//
+					showToast("保存成功");
+				}
+			}
+		});
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////

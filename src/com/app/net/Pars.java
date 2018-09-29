@@ -24,6 +24,12 @@ import com.app.xstore.shangpindangan.ProductDangAn;
 
 public class Pars {
 
+	String sellingPoint;
+	
+	public void setSellingPoint(String sellingPoint) {
+		this.sellingPoint = sellingPoint;
+	}
+
 	String classification;
 	String property;
 	

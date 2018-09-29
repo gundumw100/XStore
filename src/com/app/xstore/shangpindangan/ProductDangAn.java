@@ -20,6 +20,9 @@ public class ProductDangAn extends DataSupport implements Parcelable{
 	private String goods_thumb;//原厂货号
 	
 	@Column(ignore=true)
+	private String sellingPoint;//卖点
+	
+	@Column(ignore=true)
 	private String goods_sn;//": "GS000",
 	@Column(ignore=true)
 	private String goods_desc;//": "GD000",
@@ -88,6 +91,14 @@ public class ProductDangAn extends DataSupport implements Parcelable{
 	@Override
 	public String toString() {
 		return goods_name+goods_thumb;
+	}
+
+	public String getSellingPoint() {
+		return sellingPoint;
+	}
+
+	public void setSellingPoint(String sellingPoint) {
+		this.sellingPoint = sellingPoint;
 	}
 
 	public String getGoods_thumb() {

@@ -72,6 +72,24 @@ public final class Commands {
 	}
 	
 	/**
+	 * 更新款卖点
+	 * @param context
+	 * @param sellingPoint
+	 * @param styleCode
+	 * @param dateCode
+	 * @param onSuccessListener
+	 */
+	public static void doCommandUpdateProdStyleSellingPoint(Context context,String sellingPoint,String styleCode,String dateCode,Listener<JSONObject> onSuccessListener) {
+		Pars pars = new Pars();
+		pars.setCompanyCode(getCompanyCode());
+//		pars.setShopCode(getShopCode());
+		pars.setSellingPoint(sellingPoint);
+		pars.setStyleCode(styleCode);
+		pars.setDateCode(dateCode);
+		doCommand(context, "UpdateProdStyleSellingPoint", pars, onSuccessListener);
+	}
+	
+	/**
 	 * 请求一组商品的商品详情（可用于校验，主图，颜色图.....）
 	 * @param context
 	 * @param goodsSns
