@@ -70,9 +70,11 @@ public class MenDianSizeDialog extends BaseDialog {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				String groupName=et_group.getText().toString().trim();
-				if(!context.isEmpty(groupName)){
-					doCommandAddSpecGroup(groupName);
+				if(context.isEmpty(groupName)){
+					context.doShake(context, et_group);
+					return;
 				}
+				doCommandAddSpecGroup(groupName);
 			}
 		});
 		

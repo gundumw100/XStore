@@ -474,7 +474,7 @@ public class PrintUtil {
 			if(billsale.getVipId()==null||billsale.getVipId().length()==0){
 			}else{
 				printer.PrintText("会 员 ID："+billsale.getVipId()+"\n", ZQPrinter.ALIGNMENT_LEFT,ZQPrinter.FT_DEFAULT, 0);
-				printer.PrintText("会员卡号："+billsale.getVipCode()+"\n", ZQPrinter.ALIGNMENT_LEFT,ZQPrinter.FT_DEFAULT, 0);
+				printer.PrintText("会员卡号："+"\n", ZQPrinter.ALIGNMENT_LEFT,ZQPrinter.FT_DEFAULT, 0);
 				printer.PrintText("消费积分："+formatNumber(billsale.getVipConsumeValue(), "###0.#")+"\n", ZQPrinter.ALIGNMENT_LEFT,ZQPrinter.FT_DEFAULT, 0);
 				printer.PrintText("-----------------------------------------\n", ZQPrinter.ALIGNMENT_LEFT, ZQPrinter.FT_DEFAULT,0);
 			}
@@ -548,7 +548,7 @@ public class PrintUtil {
 				if(billsale.getVipId()==null||billsale.getVipId().length()==0){
 				}else{
 					mPrinter.printText("会 员 ID："+billsale.getVipId()+"\n");
-					mPrinter.printText("会员卡号："+billsale.getVipCode()+"\n");
+					mPrinter.printText("会员卡号："+"\n");
 					mPrinter.printText("消费积分："+formatNumber(billsale.getVipConsumeValue(), "###0.#")+"\n");
 					mPrinter.printText("-----------------------------------------\n");
 				}
@@ -633,7 +633,7 @@ public class PrintUtil {
 			if(billsale.getVipId()==null||billsale.getVipId().length()==0){
 			}else{
 				t90.PrintString(out,"会 员 ID："+billsale.getVipId()+"\n");
-				t90.PrintString(out,"会员卡号："+billsale.getVipCode()+"\n");
+				t90.PrintString(out,"会员卡号："+"\n");
 				t90.PrintString(out,"消费积分："+formatNumber(billsale.getVipConsumeValue(), "###0.#")+"\n");
 				t90.PrintString(out,"-----------------------------------------\n");
 			}
@@ -713,7 +713,7 @@ public class PrintUtil {
 		if(billsale.getVipId()==null||billsale.getVipId().length()==0){
 		}else{
 			sb.append("会 员 ID："+billsale.getVipId()+"\n");
-			sb.append("会员卡号："+billsale.getVipCode()+"\n");
+			sb.append("会员卡号："+"\n");
 			sb.append("消费积分："+formatNumber(billsale.getVipConsumeValue(), "###0.#")+"\n");
 			sb.append("-----------------------------------------\n");
 		}

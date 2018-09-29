@@ -8,6 +8,7 @@ public class Member implements Parcelable{
 
 	String vipNo;//会员ID
 	String vipCode;//卡号
+	
 	String shopCode;
 	String birth;
 	String sex;
@@ -16,8 +17,8 @@ public class Member implements Parcelable{
 	String createtimeStr;
 	String name;
 	String totalValue;
-	String totalPoints;
 	String mobile;
+	int totalPoints;
 	int vipConsumeValue;//本次消费积分
 	
 	public int getVipConsumeValue() {
@@ -86,10 +87,10 @@ public class Member implements Parcelable{
 	public void setTotalValue(String totalValue) {
 		this.totalValue = totalValue;
 	}
-	public String getTotalPoints() {
+	public int getTotalPoints() {
 		return totalPoints;
 	}
-	public void setTotalPoints(String totalPoints) {
+	public void setTotalPoints(int totalPoints) {
 		this.totalPoints = totalPoints;
 	}
 	public String getMobile() {
@@ -121,7 +122,7 @@ public class Member implements Parcelable{
     	dest.writeString(createtimeStr);
     	dest.writeString(name);
     	dest.writeString(totalValue);
-    	dest.writeString(totalPoints);
+    	dest.writeInt(totalPoints);
     	dest.writeString(mobile);
     	dest.writeInt(vipConsumeValue);
     }
@@ -139,7 +140,7 @@ public class Member implements Parcelable{
         	instance.createtimeStr  = source.readString();
         	instance.name  = source.readString();
         	instance.totalValue  = source.readString();
-        	instance.totalPoints  = source.readString();
+        	instance.totalPoints  = source.readInt();
         	instance.mobile  = source.readString();
         	instance.vipConsumeValue  = source.readInt();
             return instance;

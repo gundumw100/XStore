@@ -6,7 +6,6 @@ import java.util.List;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +24,6 @@ import com.app.util.StringUtil;
 import com.app.widget.dialog.PrinterListDialog;
 import com.app.xstore.App;
 import com.app.xstore.BaseActivity;
-import com.app.xstore.GoodsDetailActivity;
 import com.app.xstore.R;
 import com.base.app.CommonAdapter;
 import com.base.app.ViewHolder;
@@ -97,9 +95,7 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 			public void onItemClick(AdapterView<?> pearnt, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				Intent intent =new Intent(context, GoodsDetailActivity.class);
-				intent.putExtra("ProdNum", beans.get(position).getProdNum());
-				startActivity(intent);
+				startProductDetailActivity(beans.get(position).getProdNum());
 			}
 		});
 		btn_tuidan=(TextView)findViewById(R.id.btn_tuidan);
@@ -167,7 +163,7 @@ public class TradeLocalDetailActivity extends BaseActivity implements OnClickLis
 			item_8.setText("");
 		}else{
 			item_8.append("会  员  ID："+billsale.getVipId()+"\n");
-			item_8.append("会员卡号："+billsale.getVipCode()+"\n");
+			item_8.append("会员卡号："+"\n");
 			item_8.append("消费积分："+formatNumber(billsale.getVipConsumeValue(), "###0.#"));
 		}
 		

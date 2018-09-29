@@ -35,13 +35,6 @@
                 android:layout_marginRight="8dp"
                 app:multi_suppout="false" >
 
-                <!--
-                <ImageView
-                    android:id="@+id/iv_addImage"
-                    android:layout_width="@dimen/match_img_width"
-                    android:layout_height="@dimen/match_img_width"
-                    android:padding="2dp"
-                    android:src="@drawable/add_image" />                -->
             </com.widget.flowlayout.TagFlowLayout>
 
             <LinearLayout

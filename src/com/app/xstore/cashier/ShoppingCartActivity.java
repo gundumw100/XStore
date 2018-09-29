@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -121,7 +122,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 				case 0://
 					String test="";
 					if(App.isLog){
-						test="1800691706";
+						test="1800711009";
 					}
 					ProductCodeDialog d=new ProductCodeDialog(context,test,"请输入商品号或扫描");
 					d.setOnClickListener(new ProductCodeDialog.OnClickListener() {
@@ -142,8 +143,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 						@Override
 						public void onPositive() {
 							// TODO Auto-generated method stub
-							clearData();
-							updateViews(beans);
+							clearAll();
 						}
 					});
 					break;
@@ -208,11 +208,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 					public void setValues(ViewHolder helper,final ProductDangAn item, final int position) {
 						// TODO Auto-generated method stub
 						View convertView=helper.getConvertView();
-//						if(isExist.get(position)==null){
-							convertView.setBackgroundColor(0xFFF2F2F2);//Color.TRANSPARENT
-//						}else{
-//							convertView.setBackgroundColor(isExist.get(position)?0xFFCCFFCC:0xFFF2F2F2);
-//						}
+						convertView.setBackgroundColor(0xFFF2F2F2);//Color.TRANSPARENT
 						convertView.setOnLongClickListener(new View.OnLongClickListener() {
 
 							@Override
@@ -249,8 +245,30 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 							
 						});
 
-						helper.setText(R.id.item_name, item.getGoods_name());
-						helper.setText(R.id.item_sn, "编码  "+item.getGoods_sn());
+						ImageView item_img=helper.getView(R.id.item_img);
+						loadImageByPicasso(item.getGoods_img(), item_img);
+						
+						TextView item_name=helper.getView(R.id.item_name);
+						item_name.setText(item.getGoods_name());
+						item_name.setOnClickListener(new View.OnClickListener() {//商品详情
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								curProduct=item;
+								startProductDetailActivity(item.getGoods_sn());
+							}
+						});
+						
+						TextView item_sn=helper.getView(R.id.item_sn);
+						item_sn.setText("编码  "+item.getGoods_sn());
+						item_sn.setOnClickListener(new View.OnClickListener() {//商品详情
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								curProduct=item;
+								startProductDetailActivity(item.getGoods_sn());
+							}
+						});
 						
 						String color_desc=item.getGoods_color_desc();
 						if(context.isEmpty(color_desc)){
@@ -313,15 +331,6 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 								intent.putExtra("TotalPrice", item.getGoods_ls_price());//
 								intent.putExtra("WholeOrder", false);
 								startActivityForResult(intent, REQUEST_CODE_DISCOUNT);
-							}
-						});
-						//商品详情
-						helper.getView(R.id.item_detail).setOnClickListener(new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								// TODO Auto-generated method stub
-								curProduct=item;
-								startProductDetailActivity(item.getGoods_sn());
 							}
 						});
 					}
@@ -467,7 +476,7 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-//				Log.i("tag", response.toString());
+				Log.i("tag", response.toString());
 				if(context.isSuccess(response)){
 					GetVipInfoResponse obj=context.mapperToObject(response, GetVipInfoResponse.class);
 					List<Member> list=obj.getHeadInfo();
@@ -512,8 +521,11 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 							bean.setGoods_discountRate(100);//不打折
 						}
 						
-						beans.addAll(products);
-						updateViews(beans);
+						//请求缩略图
+						doCommandGetGoodsListBySKUs(products);
+						
+//						beans.addAll(products);
+//						updateViews(beans);
 					}else{
 						showToast("查不到商品");
 					}
@@ -525,6 +537,38 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void onScanProductHandleMessage(String prodID){
 		doCommandGetGoodsListBySKUs(prodID);
+	}
+	
+	private void doCommandGetGoodsListBySKUs(final List<ProductDangAn> products){
+		List<String> goodsSns=new ArrayList<String>();
+		for(ProductDangAn bean:products){
+			goodsSns.add(bean.getGoods_sn());
+		}
+		
+		Commands.doCommandGetGoodsListBySKUs(context, goodsSns, new Listener<JSONObject>() {
+			
+			@Override
+			public void onResponse(JSONObject response) {
+				// TODO Auto-generated method stub
+//				Log.i("tag", "response="+response.toString());
+				if (isSuccess(response)) {
+					GetGoodsListBySKUsResponse obj=mapperToObject(response, GetGoodsListBySKUsResponse.class);
+					if(obj!=null&&obj.getGoodsInfo()!=null){
+						up:for(ProductDangAn bean:products){
+							for(ProductDangAn item:obj.getGoodsInfo()){
+								if(!isEmpty(item.getGoods_sn())&&bean.getGoods_sn().equals(item.getGoods_sn())){
+									bean.setGoods_img(item.getGoods_img());
+									continue up;
+								}
+							}
+						}
+//						notifyDataSetChanged();
+					}
+				}
+				beans.addAll(products);
+				updateViews(beans);
+			}
+		});
 	}
 	
 	@Override
@@ -593,12 +637,16 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 	@Subscriber
 	void updateByEventBus(String event) {
 		if (event.equals(App.EVENT_CLEAR)) {
-			member=null;
-			memo="";
-			updateMemberViews();
-			beans.clear();
-			updateViews(beans);
+			clearAll();
 		}
+	}
+	
+	private void clearAll(){
+		member=null;
+		memo="";
+		updateMemberViews();
+		beans.clear();
+		updateViews(beans);
 	}
 	
 	@Override

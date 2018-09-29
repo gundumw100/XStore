@@ -71,9 +71,11 @@ public class MenDianColorDialog extends BaseDialog {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				String groupName=et_group.getText().toString().trim();
-				if(!context.isEmpty(groupName)){
-					doCommandAddColorGroup(groupName);
+				if(context.isEmpty(groupName)){
+					context.doShake(context, et_group);
+					return;
 				}
+				doCommandAddColorGroup(groupName);
 			}
 		});
 		

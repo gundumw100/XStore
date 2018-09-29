@@ -18,6 +18,7 @@ import android.widget.TextView;
  * @author pythoner
  * 
  */
+@Deprecated
 public class GoodsDetailActivity extends BaseActivity{
 
 	private Context context;

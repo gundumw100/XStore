@@ -1893,8 +1893,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 				return;
 			}
 		}
-		
-		
 		if(isEmpty(tv_productSku)){
 			showToast("尚未生成款号");
 			return;
@@ -1903,7 +1901,6 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			showToast("编码长度不正确");
 			return;
 		}
-		
 		List<ProductDangAn> goodsInfo=new ArrayList<ProductDangAn>();
 		ProductDangAn bean=new ProductDangAn();
 		bean.setGoods_sn(tv_productSku.getText().toString());//10位码
@@ -1951,7 +1948,7 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", "response="+response.toString());
+//				Log.i("tag", "response="+response.toString());
 				if (isSuccess(response)) {
 					ProdColorImage colorImage=new ProdColorImage();
 					colorImage.setCompanyCode(App.user.getShopInfo().getCompany_code());

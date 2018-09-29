@@ -979,7 +979,7 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 		billSale.setRemark(remark);//备注
 		
 		if(member!=null){
-//			billSale.setVipId(member.getVipNo());//会员ID
+			billSale.setVipId(member.getVipNo());//会员ID
 			billSale.setVipCode(member.getVipNo());// 卡号
 			billSale.setVipConsumeValue(member.getVipConsumeValue());//消费积分
 		}
@@ -1113,7 +1113,7 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 		billSale.setUserId(App.user.getUserInfo().getUser_code());//
 		billSale.setRemark("");//退货理由?
 		if(response.getBillSale().getVipId()!=null){
-//			billSale.setVipId(member.getVipNo());//会员ID
+			billSale.setVipId(response.getBillSale().getVipId());//会员ID
 			billSale.setVipCode(response.getBillSale().getVipId());// 卡号
 			billSale.setVipConsumeValue(response.getBillSale().getVipConsumeValue());//消费积分
 		}

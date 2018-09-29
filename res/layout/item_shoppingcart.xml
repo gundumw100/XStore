@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="8dp"
-    android:paddingTop="8dp" >
+    android:padding="8dp" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,21 +12,19 @@
         android:orientation="horizontal" >
 
         <ImageView
-            android:id="@+id/item_10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/item_img"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:padding="8dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/icon_order_check"
-            android:visibility="invisible" />
+            android:layout_marginRight="8dp"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/item_10"
+            android:layout_toRightOf="@id/item_img"
             android:orientation="vertical" >
 
             <TextView
@@ -41,8 +38,6 @@
                 android:id="@+id/item_sn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/font_middle" />
 
@@ -59,37 +54,27 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:orientation="vertical" >
+            android:orientation="vertical" 
+            >
 
             <TextView
                 android:id="@+id/item_ls_price"
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="right"
                 android:singleLine="true"
                 android:textColor="@color/primary"
+                android:layout_gravity="right"
                 android:textSize="@dimen/font_middle" />
 
             <TextView
                 android:id="@+id/item_discount_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_gravity="right"
+                android:gravity="right"
                 android:singleLine="true"
                 android:textColor="@color/primary"
-                android:textSize="@dimen/font_middle" />
-
-            <TextView
-                android:id="@+id/item_seller"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_btn_primary"
-                android:gravity="center"
-                android:paddingBottom="4dp"
-                android:paddingTop="4dp"
-                android:singleLine="true"
-                android:text="导购"
-                android:textColor="@android:color/white"
                 android:textSize="@dimen/font_middle" />
         </LinearLayout>
     </RelativeLayout>
@@ -108,11 +93,27 @@
         android:orientation="horizontal" >
 
         <TextView
+            android:id="@+id/item_seller"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_btn_primary"
+            android:gravity="center"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:singleLine="true"
+            android:text="导购"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_middle" />
+
+        <Space
+            android:layout_width="4dp"
+            android:layout_height="4dp" />
+
+        <TextView
             android:id="@+id/item_discount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="8dp"
             android:background="@drawable/bg_btn_gray_light"
             android:paddingBottom="4dp"
             android:paddingLeft="8dp"
@@ -120,21 +121,6 @@
             android:paddingTop="4dp"
             android:singleLine="true"
             android:text="单件折扣"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/font_middle" />
-
-        <TextView
-            android:id="@+id/item_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:background="@drawable/bg_btn_gray_light"
-            android:paddingBottom="4dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="4dp"
-            android:singleLine="true"
-            android:text="商品详情"
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_middle" />
     </LinearLayout>

@@ -93,24 +93,23 @@ public class PaymentJiFenDialog extends BaseDialog {
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						String text = et_jifen.getText().toString().trim();
-						
+						if (text.length() > 0) {
+							doShake(et_jifen);
+							return;
+						}
 						int points=Integer.parseInt(text);
-						int totalPoints=Integer.parseInt(member.getTotalPoints());
+//						int totalPoints=Integer.parseInt(member.getTotalPoints());
+						int totalPoints=member.getTotalPoints();
 						if(points>totalPoints){
 							showToast("超过可用积分");
 							doShake(et_jifen);
 							return;
 						}
 						
-						if (text.length() > 0) {
-//							float jifenJine=points/100.00f;
-							if (onOkClickListener != null) {
-								onOkClickListener.onOkClick(v, points);
-							}
-							dismiss();
-						} else {
-							doShake(et_jifen);
+						if (onOkClickListener != null) {
+							onOkClickListener.onOkClick(v, points);
 						}
+						dismiss();
 					}
 				});
 	}

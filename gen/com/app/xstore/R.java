@@ -2209,7 +2209,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f0801a2;
-        public static final int action_settings=0x7f080212;
+        public static final int action_settings=0x7f080211;
         /**  ActionBar 
          */
         public static final int actionbar=0x7f080000;
@@ -2219,11 +2219,11 @@ containing a value of this type.
         public static final int auto_focus=0x7f080006;
         public static final int back=0x7f0801ef;
         public static final int background=0x7f08003b;
-        public static final int ball_five=0x7f080208;
-        public static final int ball_four=0x7f080207;
-        public static final int ball_one=0x7f080204;
-        public static final int ball_three=0x7f080206;
-        public static final int ball_two=0x7f080205;
+        public static final int ball_five=0x7f080207;
+        public static final int ball_four=0x7f080206;
+        public static final int ball_one=0x7f080203;
+        public static final int ball_three=0x7f080205;
+        public static final int ball_two=0x7f080204;
         public static final int baseline=0x7f080026;
         public static final int black=0x7f080031;
         public static final int bottom=0x7f080044;
@@ -2490,7 +2490,6 @@ containing a value of this type.
         public static final int invisible=0x7f080039;
         public static final int item_0=0x7f08016a;
         public static final int item_1=0x7f08016b;
-        public static final int item_10=0x7f0801f7;
         public static final int item_2=0x7f08016c;
         public static final int item_3=0x7f08016d;
         public static final int item_4=0x7f08016e;
@@ -2502,10 +2501,10 @@ containing a value of this type.
         public static final int item_colorSize=0x7f0801fa;
         public static final int item_container=0x7f0801f5;
         public static final int item_delete=0x7f0801f2;
-        public static final int item_detail=0x7f0801ff;
         public static final int item_discount=0x7f0801fe;
         public static final int item_discount_price=0x7f0801fc;
-        public static final int item_iv=0x7f08020d;
+        public static final int item_img=0x7f0801f7;
+        public static final int item_iv=0x7f08020c;
         public static final int item_ls_price=0x7f0801fb;
         public static final int item_name=0x7f0801f8;
         public static final int item_need_pay_price=0x7f0800e2;
@@ -2513,7 +2512,7 @@ containing a value of this type.
         public static final int item_price=0x7f0800d8;
         public static final int item_seller=0x7f0801fd;
         public static final int item_sn=0x7f0801f9;
-        public static final int item_tv=0x7f08020c;
+        public static final int item_tv=0x7f08020b;
         public static final int iv_addImage=0x7f080117;
         public static final int iv_code=0x7f080195;
         public static final int iv_help_productName=0x7f0800fe;
@@ -2524,7 +2523,7 @@ containing a value of this type.
         public static final int iv_scan=0x7f080078;
         public static final int launch_product_query=0x7f08000c;
         public static final int layout_image=0x7f08014d;
-        public static final int layout_item=0x7f08020b;
+        public static final int layout_item=0x7f08020a;
         public static final int layout_order=0x7f080153;
         public static final int layout_ppt=0x7f08014f;
         public static final int layout_sale=0x7f080150;
@@ -2538,8 +2537,8 @@ containing a value of this type.
         public static final int line=0x7f0801b7;
         public static final int listView=0x7f080060;
         public static final int listview=0x7f0801b8;
-        public static final int load_more_pb=0x7f080202;
-        public static final int load_more_tv=0x7f080203;
+        public static final int load_more_pb=0x7f080201;
+        public static final int load_more_tv=0x7f080202;
         public static final int lvNewDevices=0x7f08005c;
         public static final int lvPairedDevices=0x7f08005a;
         public static final int medium=0x7f080036;
@@ -2597,7 +2596,7 @@ containing a value of this type.
         public static final int search_book_contents_failed=0x7f080010;
         public static final int search_book_contents_succeeded=0x7f080011;
         public static final int select_panel=0x7f080169;
-        public static final int separator=0x7f080201;
+        public static final int separator=0x7f080200;
         public static final int slow=0x7f080037;
         public static final int space_around=0x7f080024;
         public static final int space_between=0x7f080025;
@@ -2617,18 +2616,18 @@ containing a value of this type.
         public static final int style_scale=0x7f080043;
         public static final int swipeRefreshLayout=0x7f08013e;
         public static final int tagLayout=0x7f08008d;
-        public static final int tagsCategory=0x7f08020a;
-        public static final int tagsOrders=0x7f080209;
+        public static final int tagsCategory=0x7f080209;
+        public static final int tagsOrders=0x7f080208;
         public static final int textView1=0x7f0801a1;
         public static final int textView_with_textView_desc=0x7f0801c1;
         public static final int textView_with_textView_sticky_footer=0x7f0801c2;
-        public static final int text_view=0x7f080200;
+        public static final int text_view=0x7f0801ff;
         public static final int thumbnail=0x7f0801a3;
         public static final int time_text=0x7f0801eb;
         public static final int title=0x7f0801a9;
         public static final int title_right=0x7f0801f1;
         public static final int title_text=0x7f0801f0;
-        public static final int toggle_switches_container=0x7f080211;
+        public static final int toggle_switches_container=0x7f080210;
         public static final int top=0x7f080050;
         public static final int tvCommentSize=0x7f080155;
         public static final int tvNewDevices=0x7f08005b;
@@ -2670,8 +2669,8 @@ containing a value of this type.
         public static final int tv_kuaidi=0x7f0800b8;
         public static final int tv_kuan=0x7f0800be;
         public static final int tv_kucun=0x7f08009e;
-        public static final int tv_list_search_param=0x7f08020f;
-        public static final int tv_list_total_info=0x7f080210;
+        public static final int tv_list_search_param=0x7f08020e;
+        public static final int tv_list_total_info=0x7f08020f;
         public static final int tv_locID=0x7f080066;
         public static final int tv_local_ip=0x7f0801e0;
         public static final int tv_ls_price=0x7f080119;
@@ -2728,7 +2727,7 @@ containing a value of this type.
         public static final int tv_zaitu=0x7f0800a0;
         public static final int tvfavoriteSize=0x7f080157;
         public static final int unCheckContainer=0x7f0800bc;
-        public static final int update_progress=0x7f08020e;
+        public static final int update_progress=0x7f08020d;
         public static final int view1=0x7f0801b2;
         public static final int viewPager=0x7f080096;
         public static final int view_0=0x7f0800c3;

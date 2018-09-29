@@ -82,8 +82,8 @@ public class DiscountActivity extends BaseActivity implements OnClickListener{
 			
 			Discount discount=new Discount();
 			if(discountType.getSelectedItemPosition()==0){//折扣率
-				if(value>100){
-					showToast("折扣率不能大于100");
+				if(value<=0||value>=100){
+					showToast("折扣率[1,99]之间");
 					return;
 				}
 				discount.setDiscountType(0);

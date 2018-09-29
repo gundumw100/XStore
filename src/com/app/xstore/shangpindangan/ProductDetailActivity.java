@@ -404,7 +404,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 //			flowLayout_color.setCheckedAt(curColorIndex);
 //		}
 		
-		//尺码
+		//尺码,需要去掉重复的
 		HashMap<String,ProductDangAn> sizesMap=new HashMap<String,ProductDangAn>();
 		List<ProductDangAn> sizesList=new ArrayList<ProductDangAn>();
 		for(ProductDangAn item:beans){
@@ -504,13 +504,14 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 		switch (v.getId()) {
 		case R.id.btn_addToShoppingcart:
 			if(curBean==null){
-				showToast("未找到颜色尺码匹配的商品");
+				showToast("请选择相应的颜色尺码");
 				return;
 			}
 			doCommandGetGoodsListBySKUs(curBean.getGoods_sn());
 			break;
 		case R.id.btn_print:
 			if(curBean==null){
+				showToast("请选择相应的颜色尺码");
 				return;
 			}
 			String sku=curBean.getGoods_sn();
