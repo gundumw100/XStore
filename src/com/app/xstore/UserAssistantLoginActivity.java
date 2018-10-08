@@ -212,6 +212,8 @@ public class UserAssistantLoginActivity extends BaseActivity implements OnClickL
 			App.user.setShopInfo(shop_Info);
 		}
 
+		App.user.setCompanyShop(instance.getCompanyShop());
+		
 		// bug at:
 		// http://zmywly8866.github.io/2014/12/26/android-do-not-store-data-in-the-application-object.html
 		// SharedPreferencesUtils u=new

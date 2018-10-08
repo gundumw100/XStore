@@ -1,6 +1,7 @@
 package com.app.xstore;
 
-import android.content.Context;
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -14,16 +15,14 @@ import com.app.fragment.Main1Fragment;
 import com.app.fragment.Main2Fragment;
 import com.app.fragment.Main3Fragment;
 import com.app.model.City;
+import com.app.model.ShopInfo;
 import com.app.model.Weather;
 import com.app.model.response.WeatherResponse;
 import com.app.util.WeatherUtil;
-import com.app.widget.dialog.PrinterListDialog;
-import com.postek.cdf.CDFPTKAndroid;
-import com.postek.cdf.CDFPTKAndroidImpl;
+import com.app.widget.SimpleListDialog;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
 
-	private Context context;
 	private TextView tv_temperature,tv_city;
 	private WeatherUtil weather;
 	
@@ -39,8 +38,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		context = this;
-		initActionBar(null, getDrawableCompat(R.drawable.ic_user), getShopCode(), "设置", null);
+		initActionBar(null, getDrawableCompat(R.drawable.ic_user), getShop(), "设置", null);
 		initViews();
 		initWeather();
 		//开启打印机服务监听
@@ -48,11 +46,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 		
 	}
 
-	private String getShopCode(){
+	private String getShop(){
 		if(App.user==null||App.user.getShopInfo()==null){
 			return "";
 		}
-		return App.user.getShopInfo().getShop_code();
+		return App.user.getShopInfo().getShop_name();
 	}
 	
 	private void initWeather(){
@@ -79,11 +77,43 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 	@Override
 	public void initViews() {
 		// TODO Auto-generated method stub
+		if(App.user.getUserInfo().getCompanyUser()==1){//商户用户
+			setCompoundDrawable(R.drawable.arrow_down40, getTitleView(), 2);
+			getTitleView().setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					showCompanyShopsDialog();
+				}
+			});
+		}
+		
 		tv_temperature=(TextView)findViewById(R.id.tv_temperature);
 		tv_city=(TextView)findViewById(R.id.tv_city);
 		initIndicators();
 	}
 
+	private void showCompanyShopsDialog(){
+		ArrayList<ShopInfo> companyShop=App.user.getCompanyShop();
+		if(companyShop==null){
+			return;
+		}
+		SimpleListDialog<ShopInfo> d=new SimpleListDialog<ShopInfo>(context, companyShop);
+		d.setOnItemClickListener(new SimpleListDialog.OnItemClickListener<ShopInfo>() {
+
+			@Override
+			public void onItemClick(View v, ShopInfo item,
+					int position) {
+				// TODO Auto-generated method stub
+				//商户用户切换门店后，赋值新门店
+				App.user.setShopInfo(item);
+				getTitleView().setText(getShop());
+			}
+		});
+		d.show();
+	}
+	
 	@Override
 	public void doRightButtonClick(View v) {
 		// TODO Auto-generated method stub

@@ -15,6 +15,15 @@ public class UserInfo {
 	String creater;
 	Integer user_id;
 	String password;
+	int companyUser;//1表示是商户用户
+
+	public int getCompanyUser() {
+		return companyUser;
+	}
+
+	public void setCompanyUser(int companyUser) {
+		this.companyUser = companyUser;
+	}
 
 	public String getCompany_code() {
 		return company_code;
