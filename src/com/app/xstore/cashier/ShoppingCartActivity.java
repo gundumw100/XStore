@@ -469,14 +469,12 @@ public class ShoppingCartActivity extends BaseActivity implements OnClickListene
 	}
 	
 	private void doCommandGetVipInfo(String vipCode,String mobile,String name){
-		String shopCode= App.user.getShopInfo().getShop_code();
-		
-		Commands.doCommandGetVipInfo(context, shopCode, vipCode, mobile,name, new Listener<JSONObject>() {
+		Commands.doCommandGetVipInfo(context, vipCode, mobile,name, new Listener<JSONObject>() {
 
 			@Override
 			public void onResponse(JSONObject response) {
 				// TODO Auto-generated method stub
-				Log.i("tag", response.toString());
+//				Log.i("tag", response.toString());
 				if(context.isSuccess(response)){
 					GetVipInfoResponse obj=context.mapperToObject(response, GetVipInfoResponse.class);
 					List<Member> list=obj.getHeadInfo();

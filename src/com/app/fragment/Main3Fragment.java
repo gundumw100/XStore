@@ -41,7 +41,6 @@ public class Main3Fragment extends BaseFragment{
 	@Override
 	public void initViews(View view){
 		
-		
 	}
 	
 	

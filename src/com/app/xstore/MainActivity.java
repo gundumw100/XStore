@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 	@Override
 	public void initViews() {
 		// TODO Auto-generated method stub
-		if(App.user.getUserInfo().getCompanyUser()==1){//商户用户
+		if(isCompanyUser()){
 			setCompoundDrawable(R.drawable.arrow_down40, getTitleView(), 2);
 			getTitleView().setOnClickListener(new View.OnClickListener() {
 				

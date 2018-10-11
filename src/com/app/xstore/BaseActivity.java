@@ -668,6 +668,14 @@ public abstract class BaseActivity extends BaseAppActivity implements ThemeManag
 		Matcher matcher = regex.matcher(text);
 		return matcher.matches();
 	}
+	
+	/**
+	 * 是否是商户用户
+	 * @return
+	 */
+	public boolean isCompanyUser(){
+		return App.user.getUserInfo().getCompanyUser()==1;
+	}
 	////////////////////////////////////////////////////////////////////////////
 	// Thimfone 机型扫描相关
 	/////////////////////////////////////////////////////////////////////////////

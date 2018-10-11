@@ -1042,41 +1042,6 @@ public final class Commands {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * 销售数据单号查询
 	 * @param context
@@ -1272,9 +1237,9 @@ public final class Commands {
 	 * @param mobile
 	 * @param onSuccessListener
 	 */
-	public static void doCommandGetVipInfo(Context context,String shopCode,String vipCode,String mobile,String name,Listener<JSONObject> onSuccessListener) {
+	public static void doCommandGetVipInfo(Context context,String vipCode,String mobile,String name,Listener<JSONObject> onSuccessListener) {
 		Pars pars = new Pars();
-		pars.setShopCode(shopCode);
+		pars.setShopCode(getShopCode());
 		pars.setVipCode(vipCode);
 		pars.setMobile(mobile);
 		pars.setName(name);

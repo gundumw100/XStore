@@ -181,6 +181,7 @@
                     android:textColor="@android:color/white" />
 
                 <TextView
+                    android:id="@+id/tv_brand_tip"
                     style="@style/text_tip"
                     android:layout_width="48dp"
                     android:gravity="center"
@@ -210,6 +211,7 @@
                 android:padding="4dp" >
 
                 <TextView
+                    android:id="@+id/tv_color_tip"
                     style="@style/text_tip"
                     android:textColor="@color/primary"
                     android:text="颜色" />
@@ -275,6 +277,7 @@
                 android:padding="4dp" >
 
                 <TextView
+                    android:id="@+id/tv_size_tip"
                     style="@style/text_tip"
                     android:textColor="@color/primary"
                     android:text="尺码" />
@@ -293,6 +296,7 @@
                     android:textColor="@android:color/white" />
                 
                 <TextView
+                    android:id="@+id/tv_season_tip"
                     android:layout_width="48dp"
                     style="@style/text_tip"
                     android:gravity="center"

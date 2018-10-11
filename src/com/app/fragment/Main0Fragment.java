@@ -30,7 +30,7 @@ import com.widget.common.recycler.SpacesItemDecoration;
 
 
 /**
- * 试衣
+ * 首页
  * @author pythoner
  *
  */
@@ -132,8 +132,10 @@ public class Main0Fragment extends BaseFragment{
         list.add(new MenuItem(12,R.drawable.icon_main_product, "调价",null));
         list.add(new MenuItem(13,R.drawable.icon_main_product, "充值",null));
         list.add(new MenuItem(14,R.drawable.icon_main_match, "试穿登记",FittingActivity.class));
-        list.add(new MenuItem(15,R.drawable.icon_main_product, "分析报表",null));
-        list.add(new MenuItem(16,R.drawable.icon_main_product, "销售指标",null));
+        if(context.isCompanyUser()){
+	        list.add(new MenuItem(15,R.drawable.icon_main_product, "分析报表",null));
+	        list.add(new MenuItem(16,R.drawable.icon_main_product, "销售指标",null));
+        }
 
 		BaseRecyclerAdapter<MenuItem> adapter;
 		
@@ -162,7 +164,7 @@ public class Main0Fragment extends BaseFragment{
 				// TODO Auto-generated method stub
 				Class clazz=list.get(position).clazz;
 				if(clazz!=null){
-					Intent intent=new Intent(context,list.get(position).clazz);
+					Intent intent=new Intent(context,clazz);
 					startActivity(intent);
 				}else{
 					showToast(list.get(position).text);

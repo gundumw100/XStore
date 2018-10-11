@@ -1,33 +1,54 @@
-<com.widget.refreshlayout.SmoothRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/refreshLayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
-    app:sr_content="@+id/textView_with_textView_desc"
-    app:sr_footerBackgroundColor="@android:color/holo_orange_light"
-    app:sr_headerBackgroundColor="@android:color/holo_green_light"
-    app:sr_stickyFooter="@+id/textView_with_textView_sticky_footer"
-    >
+     >
 
-    <TextView
-        android:id="@+id/textView_with_textView_desc"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#E8E8E8"
-        android:gravity="center"
-        android:text="SmoothRefreshLayout"
-        android:textColor="#333333"
-        android:textSize="28sp"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:padding="8dp"
+        >
 
-    <TextView
-        android:id="@id/textView_with_textView_sticky_footer"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <EditText
+                android:id="@+id/et_cardNo"
+                style="@style/Theme_ProdNum"
+                android:hint="卡号|手机号"
+                android:inputType="number"
+                android:maxLength="50" />
+
+            <TextView
+                android:id="@+id/btn_scan"
+                style="@style/Theme_Button"
+                android:layout_gravity="end|center_vertical"
+                android:text="扫描" />
+        </FrameLayout>
+
+        <Space
+            android:layout_width="4dp"
+            android:layout_height="4dp" />
+
+        <TextView
+            android:id="@+id/btn_search"
+            style="@style/Theme_Button"
+            android:layout_gravity="end|center_vertical"
+            android:text="查询" />
+    </LinearLayout>
+
+    <ListView 
+        android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:background="@android:color/holo_orange_dark"
-        android:gravity="center"
-        android:text="sticky_footer"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"/>
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@android:color/transparent"
+        />
     
-</com.widget.refreshlayout.SmoothRefreshLayout>
+</LinearLayout>

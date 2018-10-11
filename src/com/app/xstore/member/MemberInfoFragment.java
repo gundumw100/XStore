@@ -71,9 +71,7 @@ public class MemberInfoFragment extends BaseFragment implements OnClickListener 
 	}
 
 	private void doCommandGetVipInfo(String vipCode,String mobile,String name){
-		String shopCode= App.user.getShopInfo().getShop_code();
-		
-		Commands.doCommandGetVipInfo(context, shopCode, vipCode, mobile,name, new Listener<JSONObject>() {
+		Commands.doCommandGetVipInfo(context, vipCode, mobile,name, new Listener<JSONObject>() {
 
 			@Override
 			public void onResponse(JSONObject response) {

@@ -102,6 +102,11 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 	@Override
 	public void initViews() {
 		// TODO Auto-generated method stub
+		TextView tv_color_tip = $(R.id.tv_color_tip);
+		TextView tv_size_tip = $(R.id.tv_size_tip);
+		TextView tv_brand_tip = $(R.id.tv_brand_tip);
+		TextView tv_season_tip = $(R.id.tv_season_tip);
+		
 		final TextView btn_generateCode=$(R.id.btn_generateCode);
 		btn_generateCode.setOnClickListener(this);
 		$(R.id.btn_query).setOnClickListener(this);
@@ -574,6 +579,22 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		//////////////////////////////////////////////////////////////////////////
 		
 		initFlowLayout();
+		
+		//不同行业显示不同文字
+		tv_color_tip.setText("颜色");
+		tv_size_tip.setText("尺码");
+		tv_brand_tip.setText("品牌");
+		tv_season_tip.setText("季节");
+		tv_color.setHint("均色");
+		tv_size.setHint("均码");
+		tv_brand.setHint("无");
+		tv_season.setHint("全年");
+
+//		tv_color_tip.setText("材质");
+//		tv_size_tip.setText("形状");
+//		tv_brand_tip.setText("颜色");
+//		tv_season_tip.setText("工艺");
+		
 	}
 
 	@Override

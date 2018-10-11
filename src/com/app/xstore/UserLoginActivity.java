@@ -35,7 +35,7 @@ import com.base.util.comm.SPUtils;
  * @author pythoner
  *
  */
-public class UserAssistantLoginActivity extends BaseActivity implements OnClickListener {
+public class UserLoginActivity extends BaseActivity implements OnClickListener {
 
 	private Context context;
 	private EditText et_userCode, et_password;

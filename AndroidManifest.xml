@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.xstore"
-    android:versionCode="2018100802"
+    android:versionCode="2018101101"
     android:versionName="V1.1.0" >
 
     <uses-sdk
@@ -60,7 +60,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.app.xstore.UserAssistantLoginActivity"
+            android:name="com.app.xstore.UserLoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -100,6 +100,7 @@
         <activity android:name="com.app.xstore.fitting.SimpleCreateDocumentActivity" android:screenOrientation="portrait" />
         
         <activity android:name="com.app.xstore.member.MemberActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.member.MemberDetailActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.member.MemberRegisterActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.member.MemberInfoActivity" android:screenOrientation="portrait" />
         
