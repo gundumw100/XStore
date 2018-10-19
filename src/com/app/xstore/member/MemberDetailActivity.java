@@ -54,6 +54,7 @@ public class MemberDetailActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		Intent intent=null;
 		switch (v.getId()) {
 		case R.id.btn_call:
 			if(isEmpty(member.getMobile())){
@@ -63,7 +64,7 @@ public class MemberDetailActivity extends BaseActivity implements OnClickListene
 			doDial(member.getMobile());
 			break;
 		case R.id.btn_wx:
-			Intent intent=new Intent(Intent.ACTION_SEND);                            
+			intent=new Intent(Intent.ACTION_SEND);                            
 			intent.setType("text/plain");                            
 			intent.setPackage("com.tencent.mm");//intent.setPackage("com.sina.weibo");                            
 			intent.putExtra(Intent.EXTRA_TEXT,  "测试消息");                            
@@ -74,6 +75,8 @@ public class MemberDetailActivity extends BaseActivity implements OnClickListene
 		case R.id.btn_recharge:
 			break;
 		case R.id.btn_label:
+			intent=new Intent(context,MemberLabelsActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.btn_archive:
 			break;

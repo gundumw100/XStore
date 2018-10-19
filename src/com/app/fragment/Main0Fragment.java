@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.app.model.MenuItem;
 import com.app.xstore.R;
+import com.app.xstore.caigoukanhuo.CaiGouKanHuoActivity;
 import com.app.xstore.cashier.ShoppingCartActivity;
 import com.app.xstore.fitting.FittingActivity;
 import com.app.xstore.inventory.InventoryActivity;
@@ -132,9 +133,10 @@ public class Main0Fragment extends BaseFragment{
         list.add(new MenuItem(12,R.drawable.icon_main_product, "调价",null));
         list.add(new MenuItem(13,R.drawable.icon_main_product, "充值",null));
         list.add(new MenuItem(14,R.drawable.icon_main_match, "试穿登记",FittingActivity.class));
+        list.add(new MenuItem(15,R.drawable.icon_main_product, "分析报表",null));
+        list.add(new MenuItem(16,R.drawable.icon_main_product, "销售指标",null));
         if(context.isCompanyUser()){
-	        list.add(new MenuItem(15,R.drawable.icon_main_product, "分析报表",null));
-	        list.add(new MenuItem(16,R.drawable.icon_main_product, "销售指标",null));
+	        list.add(new MenuItem(16,R.drawable.icon_main_caigoukanhuo64, "采购看货",CaiGouKanHuoActivity.class));
         }
 
 		BaseRecyclerAdapter<MenuItem> adapter;

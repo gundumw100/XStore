@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.xstore"
-    android:versionCode="2018101401"
+    android:versionCode="2018101701"
     android:versionName="V1.2.0" >
 
     <uses-sdk
@@ -103,6 +103,7 @@
         <activity android:name="com.app.xstore.member.MemberDetailActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.member.MemberRegisterActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.member.MemberInfoActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.member.MemberLabelsActivity" android:screenOrientation="portrait" />
         
         <activity android:name="com.app.xstore.cashier.ShoppingCartActivity" android:screenOrientation="portrait" />
         <activity android:name="com.app.xstore.cashier.DiscountActivity" android:screenOrientation="portrait" />
@@ -166,6 +167,8 @@
         
         <activity android:name="com.app.printer.BluetoothDeviceListActivity" android:screenOrientation="portrait" />
         
+        <activity android:name="com.app.xstore.caigoukanhuo.CaiGouKanHuoActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.app.xstore.caigoukanhuo.CaiGouKanHuoCreateActivity" android:screenOrientation="portrait" />
         <service
                 android:name="com.gprinter.service.GpPrintService"
 

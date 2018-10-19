@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response.Listener;
 import com.app.net.Commands;
@@ -99,6 +100,17 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		});
 	}
 
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+	
 	@Override
 	public void initViews() {
 		// TODO Auto-generated method stub
@@ -581,19 +593,41 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		initFlowLayout();
 		
 		//不同行业显示不同文字
-		tv_color_tip.setText("颜色");
-		tv_size_tip.setText("尺码");
-		tv_brand_tip.setText("品牌");
-		tv_season_tip.setText("季节");
-		tv_color.setHint("均色");
-		tv_size.setHint("均码");
-		tv_brand.setHint("无");
-		tv_season.setHint("全年");
+		String companyTrade=App.user.getShopInfo().getCompanyTrade();
+		if("Clothing".equalsIgnoreCase(companyTrade)){
+			tv_color_tip.setText("颜色");
+			tv_size_tip.setText("尺码");
+			tv_brand_tip.setText("品牌");
+			tv_season_tip.setText("季节");
+			
+			et_productName.setHint("如:男短袖T恤");
+			tv_color.setHint("均色");
+			tv_size.setHint("均码");
+			tv_brand.setHint("无");
+			tv_season.setHint("全年");
+		}else if("HomeFurnishing".equalsIgnoreCase(companyTrade)){
+			tv_color_tip.setText("材质");
+			tv_size_tip.setText("形状");
+			tv_brand_tip.setText("颜色");
+			tv_season_tip.setText("工艺");
+			
+			et_productName.setHint("");
+			tv_color.setHint("");
+			tv_size.setHint("");
+			tv_brand.setHint("");
+			tv_season.setHint("");
+		}else{
+			tv_color_tip.setText("行业");
+			tv_size_tip.setText("行业");
+			tv_brand_tip.setText("行业");
+			tv_season_tip.setText("行业");
+			et_productName.setHint("");
+			tv_color.setHint("");
+			tv_size.setHint("");
+			tv_brand.setHint("");
+			tv_season.setHint("");
+		}
 
-//		tv_color_tip.setText("材质");
-//		tv_size_tip.setText("形状");
-//		tv_brand_tip.setText("颜色");
-//		tv_season_tip.setText("工艺");
 		
 	}
 
@@ -1770,7 +1804,8 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		String productSku=tv_productSku.getText().toString();
 		if(productSku.length()>=6){
 			Spanny spanny = new Spanny();
-			spanny.append(productSku.substring(0, 6));
+			spanny.append(productSku.substring(0, 2));
+			spanny.append(productSku.substring(2, 6),new ForegroundColorSpan(Color.BLUE));
 			spanny.append(color+size,new ForegroundColorSpan(Color.RED));
 			tv_productSku.setText(spanny);//2+4+2+2
 		}
@@ -2295,6 +2330,27 @@ public class ShangPinDangAnActivity extends BaseActivity implements View.OnClick
 		t.schedule(task, 5);
 	}
 	
+	private long exitTime = 0;
+	private void exitApp() {
+		if ((System.currentTimeMillis() - exitTime) > 2000) {
+			Toast.makeText(context, "再按一次退出该界面", Toast.LENGTH_SHORT).show();
+			exitTime = System.currentTimeMillis();
+		} else {
+			finish();
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		exitApp();
+		// moveTaskToBack(true);
+	}
+	
+	@Override
+	public void doLeftButtonClick(View v) {
+		// TODO Auto-generated method stub
+		onBackPressed();
+	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 }

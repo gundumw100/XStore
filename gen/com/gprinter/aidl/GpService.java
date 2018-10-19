@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: E:\\XStore\\src\\com\\gprinter\\aidl\\GpService.aidl
+ * Original file: F:\\XStore\\XStore\\src\\com\\gprinter\\aidl\\GpService.aidl
  */
 package com.gprinter.aidl;
 public interface GpService extends android.os.IInterface

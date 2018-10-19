@@ -83,6 +83,9 @@ public class Main1Fragment extends BaseFragment implements View.OnClickListener{
 		btn_search=$(view,R.id.btn_search);
 		btn_search.setOnClickListener(this);
 		
+		$(view,R.id.btn_xiaofeiriqi).setOnClickListener(this);
+		$(view,R.id.btn_kaikariqi).setOnClickListener(this);
+		
 		listView=$(view,R.id.listView);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -130,20 +133,9 @@ public class Main1Fragment extends BaseFragment implements View.OnClickListener{
 						item_sex.setImageResource(R.drawable.ic_member_male48);
 					}
 					
-					ImageView item_mobile=helper.getView(R.id.item_mobile);
-					if(context.isEmpty(item.getMobile())){
-						item_mobile.setVisibility(View.GONE);
-					}else{
-						item_mobile.setVisibility(View.VISIBLE);
-						item_mobile.setImageResource(R.drawable.ic_member_mobile48);
-					}
-					
-					helper.setText(R.id.item_vipNo, "会员ID："+item.getVipNo());
-					helper.setText(R.id.item_vipCode, "会员卡号："+item.getVipCode());
+					helper.setText(R.id.item_mobile, "手机号码："+item.getMobile());
 					helper.setText(R.id.item_createtimeStr, "注册日期："+item.getCreatetimeStr());
 					helper.setText(R.id.item_totalPoints, "可用积分："+item.getTotalPoints());
-					helper.setText(R.id.item_totalValue, "可抵金额：￥"+item.getTotalValue());
-					
 				}
 
 			});
@@ -195,6 +187,10 @@ public class Main1Fragment extends BaseFragment implements View.OnClickListener{
 		switch (v.getId()) {
 		case R.id.btn_scan:
 			context.doScan(context.resultHandler);
+			break;
+		case R.id.btn_xiaofeiriqi:
+			break;
+		case R.id.btn_kaikariqi:
 			break;
 		case R.id.btn_search:
 			String cardNo=et_cardNo.getText().toString().trim();

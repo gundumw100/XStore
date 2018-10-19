@@ -141,7 +141,6 @@
                     android:hint="原厂货号"
                     android:padding="8dp"
                     android:maxLength="13"
-                    android:inputType="number"
                     android:layout_marginLeft="4dp"
                     android:textSize="@dimen/font_middle" />
                 

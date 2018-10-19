@@ -10,29 +10,23 @@
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/item_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_big" />
-
-        <Space
-            android:layout_width="8dp"
-            android:layout_height="8dp" />
 
         <ImageView
             android:id="@+id/item_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <Space
+        
+         <Space
             android:layout_width="8dp"
             android:layout_height="8dp" />
-
-        <ImageView
-            android:id="@+id/item_mobile"
+        
+        <TextView
+            android:id="@+id/item_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_big" />
+       
+
     </LinearLayout>
 
     <LinearLayout
@@ -41,13 +35,7 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/item_vipNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_middle" />
-
-        <TextView
-            android:id="@+id/item_vipCode"
+            android:id="@+id/item_mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_middle" />
@@ -60,11 +48,6 @@
 
         <TextView
             android:id="@+id/item_totalPoints"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_middle" />
-        <TextView
-            android:id="@+id/item_totalValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_middle" />

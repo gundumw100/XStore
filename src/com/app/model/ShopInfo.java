@@ -19,6 +19,7 @@ public class ShopInfo implements Parcelable{
 	String creater;
 	String linkman;
 	String shop_name;
+	String companyTrade;//行业	Clothing服装；HomeFurnishing家居
 
 	@Override
 	public String toString() {
@@ -26,6 +27,14 @@ public class ShopInfo implements Parcelable{
 		return shop_name+"("+shop_code+")";
 	}
 	
+	public String getCompanyTrade() {
+		return companyTrade;
+	}
+
+	public void setCompanyTrade(String companyTrade) {
+		this.companyTrade = companyTrade;
+	}
+
 	public String getShop_addr() {
 		return shop_addr;
 	}

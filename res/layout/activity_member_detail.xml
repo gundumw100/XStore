@@ -148,7 +148,7 @@
                 android:drawableLeft="@drawable/blue_block"
                 android:drawablePadding="4dp"
                 android:padding="8dp"
-                android:gravity="center"
+                android:gravity="start"
                 android:text="会员权益" />
 
             <LinearLayout
@@ -228,7 +228,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/blue_block"
-                android:gravity="center"
+                android:gravity="start"
                 android:drawablePadding="4dp"
                 android:padding="8dp"
                 android:text="会员贡献" />
